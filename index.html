@@ -6,7 +6,7 @@
     <title>Fluence 🎙️ | Privacy-First AI Voice Dictation for Windows & Android</title>
     <meta name="description" content="Fluence is an open-source, system-wide voice dictation and AI assistant for Windows and Android. Powered by Groq Whisper, with fully offline modes available.">
     
-    <!-- Google Fonts: Sora (Headings), Hanken Grotesk (Body), Geist Mono (Labels) -->
+    <!-- Google Fonts: Sora (Display), Hanken Grotesk (Body), Geist Mono (Mono) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Sora:wght@600;700;800&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -46,13 +46,12 @@
                 <a href="windows.html" class="nav-item">Windows</a>
                 <a href="docs.html" class="nav-item">Docs</a>
                 <a href="index.html#faq-sec" class="nav-item">FAQ</a>
-                <a href="https://github.com/raviumeshkulkarni-web/Fluence-Website" class="nav-item github-nav-link" id="link-github" target="_blank" rel="noopener">
-                    <svg class="github-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <a href="https://github.com/raviumeshkulkarni-web" class="btn-nav-download" id="btn-nav-dl" target="_blank" rel="noopener">
+                    <svg class="github-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width: 16px; height: 16px; fill: currentColor; margin-right: 6px; vertical-align: middle; transition: transform 0.2s ease;">
                         <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.137 20.162 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
                     </svg>
                     GitHub
                 </a>
-                <a href="#download-hub-sec" class="btn-nav-download" id="btn-nav-dl">Download</a>
             </nav>
         </div>
     </header>
@@ -61,7 +60,8 @@
     <main>
 
         <!-- Hero Section -->
-        <section class="hero" id="hero-sec">
+        <section class="hero hero-bg" id="hero-sec">
+            <div class="hero-noise"></div>
             <div class="hero-badges">
                 <div class="status-live-tag">
                     <span class="live-dot"></span>
@@ -80,19 +80,16 @@
             </div>
         </section>
 
-
-
+        <hr class="section-divider" />
 
         <!-- Problem & Solution Section -->
         <section class="problem-solution-container" id="problem-sec">
             <div class="problem-solution-stack">
                 <div class="glass-panel problem-card">
-                    <div class="card-badge badge-red">The Problem</div>
                     <h2 class="problem-title">The Dictation Bottleneck</h2>
                     <p>Traditional dictation systems are either slow, unpunctuated, or restricted to a specific custom keyboard. Google's streaming STT dictates word-by-word and frequently gets homophones wrong because it lacks contextual sentence-level comprehension. Furthermore, closed-source keyboards pose a massive telemetry and data privacy risk.</p>
                 </div>
                 <div class="glass-panel solution-card">
-                    <div class="card-badge badge-green">The Solution</div>
                     <h2 class="solution-title">The Flu<span>ence</span> Approach</h2>
                     <p>Fluence waits for you to finish your sentence/phrase, transcribes it using OpenAI's Whisper Large v3 model on Groq's LPU inference hardware in less than a second, and automatically injects fully-punctuated, context-aware text directly at your cursor.</p>
                 </div>
@@ -105,46 +102,52 @@
                         <thead>
                             <tr>
                                 <th>Feature</th>
-                                <th class="highlight-header">Fluence (Groq Whisper v3)</th>
-                                <th class="highlight-header-offline">Fluence (SenseVoice Offline)</th>
+                                <th class="highlight-header col-fluence-groq">
+                                    Fluence (Groq Whisper v3)
+                                    <span class="winner-badge">★ Best in class</span>
+                                </th>
+                                <th class="highlight-header-offline col-fluence-offline">
+                                    Fluence (SenseVoice Offline)
+                                    <span class="winner-badge">★ Best in class</span>
+                                </th>
                                 <th>Google Speech-to-Text</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr class="comparison-row">
                                 <td class="feature-title">Accuracy</td>
-                                <td class="highlight-cell"><strong>92% – 97.9%</strong> (Human level)</td>
-                                <td class="highlight-cell-offline"><strong>85% – 93%</strong> (On-device)</td>
-                                <td>79% – 88%</td>
+                                <td class="highlight-cell col-fluence-groq"><strong><code>92% - 97.9%</code></strong> (Human level)</td>
+                                <td class="highlight-cell-offline col-fluence-offline"><strong><code>85% - 93%</code></strong> (On-device)</td>
+                                <td><code>79% - 88%</code></td>
                             </tr>
-                            <tr>
+                            <tr class="comparison-row">
                                 <td class="feature-title">Punctuation</td>
-                                <td class="highlight-cell"><strong>Automatic &amp; Intelligent</strong></td>
-                                <td class="highlight-cell-offline"><strong>Automatic &amp; Intelligent</strong></td>
+                                <td class="highlight-cell col-fluence-groq"><strong>Automatic &amp; Intelligent</strong></td>
+                                <td class="highlight-cell-offline col-fluence-offline"><strong>Automatic &amp; Intelligent</strong></td>
                                 <td>Rigid / Word-by-word</td>
                             </tr>
-                            <tr>
+                            <tr class="comparison-row">
                                 <td class="feature-title">Privacy</td>
-                                <td class="highlight-cell"><strong>Open Source (Zero Telemetry)</strong></td>
-                                <td class="highlight-cell-offline"><strong>100% On-Device (Zero Egress)</strong></td>
+                                <td class="highlight-cell col-fluence-groq"><strong>Open Source (Zero Telemetry)</strong></td>
+                                <td class="highlight-cell-offline col-fluence-offline"><strong>100% On-Device (Zero Egress)</strong></td>
                                 <td>Closed Source (Data collected)</td>
                             </tr>
-                            <tr>
+                            <tr class="comparison-row">
                                 <td class="feature-title">System-wide Overlay</td>
-                                <td class="highlight-cell"><strong>Yes (Floating Bubble)</strong></td>
-                                <td class="highlight-cell-offline"><strong>Yes (Floating Bubble)</strong></td>
+                                <td class="highlight-cell col-fluence-groq"><strong>Yes (Floating Bubble)</strong></td>
+                                <td class="highlight-cell-offline col-fluence-offline"><strong>Yes (Floating Bubble)</strong></td>
                                 <td>No (Restricted to keyboard)</td>
                             </tr>
-                            <tr>
+                            <tr class="comparison-row">
                                 <td class="feature-title">Accent &amp; Jargon Handling</td>
-                                <td class="highlight-cell"><strong>Excellent (680k hr dataset)</strong></td>
-                                <td class="highlight-cell-offline"><strong>Good (Industrial dataset)</strong></td>
+                                <td class="highlight-cell col-fluence-groq"><strong>Excellent (<code>680k hr</code> dataset)</strong></td>
+                                <td class="highlight-cell-offline col-fluence-offline"><strong>Good (Industrial dataset)</strong></td>
                                 <td>Average (Often stumbles)</td>
                             </tr>
-                            <tr>
+                            <tr class="comparison-row">
                                 <td class="feature-title">Internet Required</td>
-                                <td class="highlight-cell"><strong>Cloud only</strong></td>
-                                <td class="highlight-cell-offline"><strong>No. Fully Offline.</strong></td>
+                                <td class="highlight-cell col-fluence-groq"><strong>Cloud only</strong></td>
+                                <td class="highlight-cell-offline col-fluence-offline"><strong>No. Fully Offline.</strong></td>
                                 <td>Cloud only</td>
                             </tr>
                         </tbody>
@@ -153,44 +156,56 @@
             </div>
         </section>
 
+        <hr class="section-divider" />
 
-
-        <!-- Core Features Section: 2x2 vertical card grid -->
+        <!-- Core Features Section: bento card grid -->
         <section class="features-container" id="features-sec">
-            <h2>Engineered for Perfection</h2>
+            <h2>Built for people who think faster than they type</h2>
+            <p class="features-subheading">Every feature exists because a workaround wasn't good enough.</p>
             <div class="features-grid">
 
                 <!-- Card 1: Voice Dictation -->
                 <div class="glass-panel feature-card-vertical" id="feat-voice">
-                    <div class="feature-icon-box">
-                        <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <linearGradient id="icon-grad-voice" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
-                                    <stop offset="0%" stop-color="#A855F7"/>
-                                    <stop offset="100%" stop-color="#00f2fe"/>
-                                </linearGradient>
-                                <filter id="glow-voice">
-                                    <feGaussianBlur stdDeviation="1.5" result="blur"/>
-                                    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                                </filter>
-                            </defs>
-                            <!-- Microphone body -->
-                            <rect x="22" y="10" width="12" height="20" rx="6" stroke="url(#icon-grad-voice)" stroke-width="2" fill="none" filter="url(#glow-voice)"/>
-                            <!-- Microphone arc -->
-                            <path d="M14 28c0 7.732 6.268 14 14 14s14-6.268 14-14" stroke="url(#icon-grad-voice)" stroke-width="2" stroke-linecap="round" fill="none"/>
-                            <!-- Stand -->
-                            <line x1="28" y1="42" x2="28" y2="47" stroke="url(#icon-grad-voice)" stroke-width="2" stroke-linecap="round"/>
-                            <line x1="22" y1="47" x2="34" y2="47" stroke="url(#icon-grad-voice)" stroke-width="2" stroke-linecap="round"/>
-                            <!-- Waveform bars beside mic -->
-                            <rect x="8" y="23" width="2.5" height="10" rx="1.25" fill="url(#icon-grad-voice)" opacity="0.6"/>
-                            <rect x="12" y="19" width="2.5" height="18" rx="1.25" fill="url(#icon-grad-voice)" opacity="0.8"/>
-                            <rect x="41.5" y="23" width="2.5" height="10" rx="1.25" fill="url(#icon-grad-voice)" opacity="0.6"/>
-                            <rect x="45.5" y="19" width="2.5" height="18" rx="1.25" fill="url(#icon-grad-voice)" opacity="0.8"/>
-                        </svg>
+                    <div class="feature-bento-content">
+                        <div class="feature-icon-box">
+                            <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="icon-grad-voice" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+                                        <stop offset="0%" stop-color="#A855F7"/>
+                                        <stop offset="100%" stop-color="#00f2fe"/>
+                                    </linearGradient>
+                                    <filter id="glow-voice">
+                                        <feGaussianBlur stdDeviation="1.5" result="blur"/>
+                                        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                    </filter>
+                                </defs>
+                                <!-- Microphone body -->
+                                <rect x="22" y="10" width="12" height="20" rx="6" stroke="url(#icon-grad-voice)" stroke-width="2" fill="none" filter="url(#glow-voice)"/>
+                                <!-- Microphone arc -->
+                                <path d="M14 28c0 7.732 6.268 14 14 14s14-6.268 14-14" stroke="url(#icon-grad-voice)" stroke-width="2" stroke-linecap="round" fill="none"/>
+                                <!-- Stand -->
+                                <line x1="28" y1="42" x2="28" y2="47" stroke="url(#icon-grad-voice)" stroke-width="2" stroke-linecap="round"/>
+                                <line x1="22" y1="47" x2="34" y2="47" stroke="url(#icon-grad-voice)" stroke-width="2" stroke-linecap="round"/>
+                                <!-- Waveform bars beside mic -->
+                                <rect x="8" y="23" width="2.5" height="10" rx="1.25" fill="url(#icon-grad-voice)" opacity="0.6"/>
+                                <rect x="12" y="19" width="2.5" height="18" rx="1.25" fill="url(#icon-grad-voice)" opacity="0.8"/>
+                                <rect x="41.5" y="23" width="2.5" height="10" rx="1.25" fill="url(#icon-grad-voice)" opacity="0.6"/>
+                                <rect x="45.5" y="19" width="2.5" height="18" rx="1.25" fill="url(#icon-grad-voice)" opacity="0.8"/>
+                            </svg>
+                        </div>
+                        <div class="feature-text">
+                            <h3>Voice Dictation</h3>
+                            <p>Powered by Groq-accelerated Whisper Large v3. Transcribes in under a second with up to 97.9% word accuracy, handling complex jargon and heavy accents with ease.</p>
+                        </div>
                     </div>
-                    <div class="feature-text">
-                        <h3>Voice Dictation</h3>
-                        <p>Powered by Groq-accelerated Whisper Large v3. Transcribes in under a second with up to 97.9% word accuracy, handling complex jargon and heavy accents with ease.</p>
+                    <div class="feature-bento-visual">
+                        <div class="bento-wave">
+                            <span class="wave-bar bar-1"></span>
+                            <span class="wave-bar bar-2"></span>
+                            <span class="wave-bar bar-3"></span>
+                            <span class="wave-bar bar-4"></span>
+                            <span class="wave-bar bar-5"></span>
+                        </div>
                     </div>
                 </div>
 
@@ -300,7 +315,7 @@
             </div>
         </section>
 
-
+        <hr class="section-divider" />
 
         <!-- Collapsible FAQ Section -->
         <section class="faq-section" id="faq-sec">
@@ -338,6 +353,21 @@
                 </details>
             </div>
         </section>
+
+        <hr class="section-divider" />
+
+        <!-- Founder Note Section -->
+        <section class="founder-note">
+            <div class="founder-note-inner">
+                <span class="founder-label">Why Fluence Exists</span>
+                <blockquote class="founder-quote">
+                    "I built Fluence because I was tired of closed-source keyboards harvesting every word I dictated. So I made something  that doesn't. No telemetry. No keyloggers. No compromise."
+                </blockquote>
+                <span class="founder-attribution">The Fluence Project</span>
+            </div>
+        </section>
+
+        <hr class="section-divider" />
 
         <!-- Download Hub Section -->
         <section class="download-hub-container" id="download-hub-sec">
@@ -417,13 +447,15 @@
                 <div class="logo-text" style="font-size: 18px;">flu<span>ence</span></div>
             </div>
             <div class="footer-copyright">© 2026 Fluence. Open source under Apache 2.0.</div>
+            <span class="footer-stack">Built with Groq · SenseVoice · Tauri · Jetpack Compose · Open Apache 2.0</span>
+            <span class="footer-privacy">Zero telemetry. Zero data collection. Always.</span>
         </div>
         <div class="footer-right">
             <a href="https://github.com/raviumeshkulkarni-web/Fluence/releases" class="footer-link" target="_blank" rel="noopener">Android APK</a>
             <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop/releases" class="footer-link" target="_blank" rel="noopener">Windows Release</a>
             <a href="https://github.com/raviumeshkulkarni-web/Fluence" class="footer-link" target="_blank" rel="noopener">Android GitHub</a>
             <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop" class="footer-link" target="_blank" rel="noopener">Windows GitHub</a>
-            <a href="https://github.com/raviumeshkulkarni-web/Fluence-Website" class="footer-link" target="_blank" rel="noopener">Website GitHub</a>
+            <a href="https://github.com/raviumeshkulkarni-web/Fluence-Official-Website" class="footer-link" target="_blank" rel="noopener">Website GitHub</a>
         </div>
     </footer>
 

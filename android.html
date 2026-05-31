@@ -6,7 +6,7 @@
     <title>Fluence for Android 🎙️ | System-Wide Voice Dictation & Offline STT</title>
     <meta name="description" content="Fluence for Android is an open-source, system-wide voice dictation and AI assistant. Easily configure local-to-cloud Whisper or 100% local offline transcription.">
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts: Sora (Display), Hanken Grotesk (Body), Geist Mono (Mono) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Sora:wght@600;700;800&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -46,20 +46,20 @@
                 <a href="windows.html" class="nav-item">Windows</a>
                 <a href="docs.html" class="nav-item">Docs</a>
                 <a href="index.html#faq-sec" class="nav-item">FAQ</a>
-                <a href="https://github.com/raviumeshkulkarni-web/Fluence-Website" class="nav-item github-nav-link" id="link-github" target="_blank" rel="noopener">
-                    <svg class="github-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <a href="https://github.com/raviumeshkulkarni-web" class="btn-nav-download" id="btn-nav-dl" target="_blank" rel="noopener">
+                    <svg class="github-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width: 16px; height: 16px; fill: currentColor; margin-right: 6px; vertical-align: middle; transition: transform 0.2s ease;">
                         <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.137 20.162 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
                     </svg>
                     GitHub
                 </a>
-                <a href="#setup-sec" class="btn-nav-download" id="btn-nav-dl">Get Started</a>
             </nav>
         </div>
     </header>
 
     <main>
         <!-- Dedicated Android Hero Section -->
-        <section class="hero" id="hero-sec" style="padding-top: 140px; padding-bottom: 60px;">
+        <section class="hero hero-bg" id="hero-sec" style="padding-top: 140px; padding-bottom: 60px;">
+            <div class="hero-noise"></div>
             <div class="hero-badges">
                 <div class="status-live-tag">
                     <span class="live-dot" style="background-color: var(--accent-red);"></span>
@@ -80,6 +80,8 @@
                 </a>
             </div>
         </section>
+
+        <hr class="section-divider" />
 
         <!-- Live Demo Showcase Section -->
         <section class="showcase-container" id="showcase-sec" style="margin-top: 20px; padding-bottom: 40px;">
@@ -118,7 +120,7 @@
                                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
                             </button>
                             <div class="overlay-waveform-container">
-                                <svg class="overlay-waveform-svg">
+                                <svg class="overlay-waveform-svg" viewBox="0 0 160 32">
                                     <path class="waveform-path" id="sim-waveform-path-bg" opacity="0.25" d="M 0 16 L 160 16"></path>
                                     <path class="waveform-path" id="sim-waveform-path" d="M 0 16 L 160 16"></path>
                                 </svg>
@@ -157,6 +159,8 @@
             </div>
         </section>
 
+        <hr class="section-divider" />
+
         <!-- Setup & Install Section -->
         <section class="setup-wizard-section" id="setup-sec" style="margin-top: 20px;">
             <div class="setup-header">
@@ -184,7 +188,7 @@
 
                 <!-- Quick Install & Setup -->
                 <div class="quick-install-box glass-panel">
-                    <h3>⚡ Installation Checklist</h3>
+                    <h3>Installation Checklist</h3>
                     <ul class="quick-install-list">
                         <li><strong>Download APK:</strong> Get the latest `.apk` installer from <a href="https://github.com/raviumeshkulkarni-web/Fluence/releases/latest" target="_blank" rel="noopener">GitHub Releases</a>. You may need to authorize "Install from Unknown Sources" on your browser/file manager.</li>
                         <li><strong>Configure API:</strong> Input your Groq API Key under the Cloud STT provider settings. Groq Whisper v3 provides instant, sub-second transcription.</li>
@@ -298,13 +302,15 @@
                 <div class="logo-text" style="font-size: 18px;">flu<span>ence</span></div>
             </div>
             <div class="footer-copyright">© 2026 Fluence. Open source under Apache 2.0.</div>
+            <span class="footer-stack">Built with Groq · SenseVoice · Tauri · Jetpack Compose · Open Apache 2.0</span>
+            <span class="footer-privacy">Zero telemetry. Zero data collection. Always.</span>
         </div>
         <div class="footer-right">
             <a href="https://github.com/raviumeshkulkarni-web/Fluence/releases" class="footer-link" target="_blank" rel="noopener">Android APK</a>
             <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop/releases" class="footer-link" target="_blank" rel="noopener">Windows Release</a>
             <a href="https://github.com/raviumeshkulkarni-web/Fluence" class="footer-link" target="_blank" rel="noopener">Android GitHub</a>
             <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop" class="footer-link" target="_blank" rel="noopener">Windows GitHub</a>
-            <a href="https://github.com/raviumeshkulkarni-web/Fluence-Website" class="footer-link" target="_blank" rel="noopener">Website GitHub</a>
+            <a href="https://github.com/raviumeshkulkarni-web/Fluence-Official-Website" class="footer-link" target="_blank" rel="noopener">Website GitHub</a>
         </div>
     </footer>
 

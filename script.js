@@ -200,9 +200,14 @@ function initSimulator() {
         if (voiceStatusText) voiceStatusText.textContent = 'Transcribing...';
         waveTargetAmplitude = 1.5; // low wiggle for processing state
         
+        if (overlayPill) overlayPill.classList.add('success');
+        
         setTimeout(() => {
             // Hide bar and overlay
-            if (overlayPill) overlayPill.classList.remove('active');
+            if (overlayPill) {
+                overlayPill.classList.remove('active');
+                overlayPill.classList.remove('success');
+            }
             if (bottomVoiceBar) bottomVoiceBar.classList.remove('active');
             if (floatingBubble) floatingBubble.classList.remove('active');
             
@@ -285,10 +290,15 @@ function initSimulator() {
             setTimeout(() => {
                 // Transition to transcribing wiggle
                 waveTargetAmplitude = 1.5; 
+                
+                if (desktopOverlayPill) desktopOverlayPill.classList.add('success');
 
                 // Hide overlay pill
                 setTimeout(() => {
-                    if (desktopOverlayPill) desktopOverlayPill.classList.remove('active');
+                    if (desktopOverlayPill) {
+                        desktopOverlayPill.classList.remove('active');
+                        desktopOverlayPill.classList.remove('success');
+                    }
                     
                     // Stop animation loop
                     setTimeout(() => {
@@ -298,8 +308,7 @@ function initSimulator() {
 
                     // Start typewriter text injection
                     startWindowsTyping();
-                }, 1000);
-
+                }, 1500);
             }, 2500);
 
         }, 1200); // Display shortcut keys overlay for 1.2 seconds

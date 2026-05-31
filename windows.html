@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluence for Windows 🎙️ | System-Wide Voice Dictation & AI Assistant</title>
+    <meta name="description" content="Fluence for Windows is an open-source, system-wide voice dictation and AI assistant. Configure global hotkeys, customize positions, and test connection locally.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Sora:wght@600;700;800&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
+    
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="styles.css?v=2">
+</head>
+<body>
+
+    <!-- AMOLED Ambient Morphing Blobs -->
+    <div class="ambient-blob blob-1"></div>
+    <div class="ambient-blob blob-2"></div>
+    <div class="ambient-blob blob-3"></div>
+
+    <!-- Header Navigation -->
+    <header id="site-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo-link" id="nav-logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="13" stroke="url(#logo-grad)" stroke-width="2.2" stroke-dasharray="1.8 3" stroke-linecap="round"/>
+                    <circle cx="16" cy="16" r="9" stroke="url(#logo-grad)" stroke-width="2.2" stroke-dasharray="2 3" stroke-linecap="round"/>
+                    <circle cx="16" cy="16" r="5" stroke="url(#logo-grad)" stroke-width="2.2" stroke-dasharray="2 2" stroke-linecap="round"/>
+                    <circle cx="16" cy="16" r="1.5" fill="url(#logo-grad)"/>
+                    <defs>
+                        <linearGradient id="logo-grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#A855F7"/>
+                            <stop offset="100%" stop-color="#00f2fe"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div class="logo-text">flu<span>ence</span></div>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-item">Home</a>
+                <a href="index.html#features-sec" class="nav-item">Features</a>
+                <a href="android.html" class="nav-item">Android</a>
+                <a href="windows.html" class="nav-item active">Windows</a>
+                <a href="docs.html" class="nav-item">Docs</a>
+                <a href="index.html#faq-sec" class="nav-item">FAQ</a>
+                <a href="https://github.com/raviumeshkulkarni-web/Fluence-Website" class="nav-item github-nav-link" id="link-github" target="_blank" rel="noopener">
+                    <svg class="github-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.137 20.162 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+                    </svg>
+                    GitHub
+                </a>
+                <a href="#setup-sec" class="btn-nav-download" id="btn-nav-dl">Get Started</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Dedicated Windows Hero Section -->
+        <section class="hero" id="hero-sec" style="padding-top: 140px; padding-bottom: 60px;">
+            <div class="hero-badges">
+                <div class="status-live-tag">
+                    <span class="live-dot" style="background-color: var(--accent-cyan);"></span>
+                    Tauri-Powered System-Wide Integration
+                </div>
+            </div>
+            <h1>Universal dictation for <span class="text-gradient" style="--gradient-start: #a855f7; --gradient-end: #00f2fe;">Windows</span></h1>
+            <p>Fluence for Windows runs lightweight in your system tray. Bind a global hotkey shortcut to start recording, speak naturally, and let Fluence type context-aware, fully-punctuated transcription into VS Code, Chrome, Word, or any active editor instantly.</p>
+            <div class="hero-ctas">
+                <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop/releases/latest" class="btn-primary" style="background: linear-gradient(135deg, #a855f7 0%, #00f2fe 100%);">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 9h-4V3H9v6H5l7 7 7-7zm-8 2V5h2v6h1.17L12 13.17 9.83 11H11zm-6 7h14v2H5z"/>
+                    </svg>
+                    Download Installer (.exe)
+                </a>
+                <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop" class="btn-secondary" target="_blank" rel="noopener">
+                    View Windows GitHub
+                </a>
+            </div>
+        </section>
+
+        <!-- Live Demo Showcase Section -->
+        <section class="showcase-container" id="showcase-sec" style="margin-top: 20px; padding-bottom: 40px;">
+            <!-- Windows Showcase Wrapper -->
+            <div class="showcase-content active" id="showcase-windows" style="display: flex;">
+                <div class="desktop-frame">
+                    <div class="desktop-titlebar">
+                        <div class="desktop-controls">
+                            <span class="control-dot close"></span>
+                            <span class="control-dot minimize"></span>
+                            <span class="control-dot maximize"></span>
+                        </div>
+                        <div class="desktop-title">fluence — Settings Dashboard</div>
+                    </div>
+                    
+                    <div class="desktop-body">
+                        <div class="desktop-sidebar">
+                            <button class="sidebar-tab active" data-tab="general">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                                </svg>
+                                General Preferences
+                            </button>
+                            <button class="sidebar-tab" data-tab="providers">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                                </svg>
+                                AI Providers
+                            </button>
+                            <button class="sidebar-tab" data-tab="dictionary">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                    <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5v-15z"></path>
+                                </svg>
+                                Custom Dictionary
+                            </button>
+                            <div class="sidebar-separator"></div>
+                            <button class="sidebar-action-btn" id="btn-desktop-demo">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect>
+                                    <line x1="6" y1="20" x2="18" y2="20"></line>
+                                    <line x1="12" y1="17" x2="12" y2="20"></line>
+                                </svg>
+                                Try Hotkey Dictation
+                            </button>
+                        </div>
+                        
+                        <div class="desktop-content">
+                            <div class="desktop-slideshow-container">
+                                <!-- Slideshow images wrapper -->
+                                <div class="desktop-slideshow" id="desktop-slideshow">
+                                    <div class="slideshow-slide active" data-slide="general">
+                                        <img src="assets/general.png" alt="General Settings">
+                                        <div class="slide-caption">Configure global shortcuts, recording modes (Hold vs Toggle), and auto-start.</div>
+                                    </div>
+                                    <div class="slideshow-slide" data-slide="providers">
+                                        <img src="assets/providers.png" alt="AI Providers Settings">
+                                        <div class="slide-caption">Set up secure keys for Groq/OpenAI cloud models, or choose SenseVoice for 100% offline transcription.</div>
+                                    </div>
+                                    <div class="slideshow-slide" data-slide="dictionary">
+                                        <img src="assets/dictionary.png" alt="Custom Dictionary">
+                                        <div class="slide-caption">Add auto-corrections for technical terms, names, or abbreviations to improve output accuracy.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Notepad Text Editor Mockup (for typing demo) -->
+                            <div class="desktop-editor-mockup" id="desktop-editor">
+                                <div class="editor-header">
+                                    <div class="editor-tabs">
+                                        <div class="editor-tab-item active">fluence_demo.txt</div>
+                                    </div>
+                                </div>
+                                <div class="editor-body" id="desktop-editor-body">Click "Try Hotkey Dictation" in the sidebar to simulate typing in any Windows app...</div>
+                            </div>
+
+                            <!-- Animated Windows 11 Dictation Overlay Pill -->
+                            <div class="desktop-overlay-pill" id="desktop-overlay-pill">
+                                <div class="overlay-waveform-container">
+                                    <svg class="overlay-waveform-svg">
+                                        <path class="waveform-path" id="desktop-waveform-path-bg" opacity="0.25" d="M 0 16 L 160 16"></path>
+                                        <path class="waveform-path" id="desktop-waveform-path" d="M 0 16 L 160 16"></path>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <!-- Shortcut Toast Overlay -->
+                            <div class="shortcut-toast" id="shortcut-toast">
+                                <span class="key-cap">Ctrl</span> + <span class="key-cap">Shift</span> + <span class="key-cap">Space</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="simulator-instruction">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                    Press Ctrl+Shift+Space or use the sidebar action to trigger global hotkey voice typing
+                </div>
+            </div>
+        </section>
+        
+        <!-- Windows Setup & Interactive Onboarding Section -->
+        <section class="setup-wizard-section" id="setup-sec" style="margin-top: 20px; padding-bottom: 80px;">
+            <div class="setup-header">
+                <div class="setup-header-logo">
+                    <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="16" cy="16" r="13" stroke="url(#setup-logo-grad)" stroke-width="2.2" stroke-dasharray="1.8 3" stroke-linecap="round"/>
+                        <circle cx="16" cy="16" r="9" stroke="url(#setup-logo-grad)" stroke-width="2.2" stroke-dasharray="2 3" stroke-linecap="round"/>
+                        <circle cx="16" cy="16" r="5" stroke="url(#setup-logo-grad)" stroke-width="2.2" stroke-dasharray="2 2" stroke-linecap="round"/>
+                        <circle cx="16" cy="16" r="1.5" fill="url(#setup-logo-grad)"/>
+                        <defs>
+                            <linearGradient id="setup-logo-grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#A855F7"/>
+                                <stop offset="100%" stop-color="#00f2fe"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="logo-text">flu<span>ence</span></div>
+                </div>
+                <h2>Windows Setup Guide</h2>
+                <p>Learn how to configure the desktop app or test the setup below</p>
+            </div>
+
+            <!-- Layout: Checklist Box (left) + Simulated App Wizard (right) -->
+            <div class="setup-layout-grid">
+                
+                <!-- Quick Setup Instructions -->
+                <div class="quick-install-box glass-panel">
+                    <h3>⚡ Desktop Installation Guide</h3>
+                    <ul class="quick-install-list">
+                        <li><strong>Download &amp; Run:</strong> Get the latest `.exe` installer or `.msi` package from <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop/releases/latest" target="_blank" rel="noopener">GitHub Releases</a> and run the installation.</li>
+                        <li><strong>System Tray Icon:</strong> Once installed, Fluence runs in the system tray. Right-click the tray icon to access Settings, view logs, or close the app.</li>
+                        <li><strong>Global Shortcuts:</strong> The default hotkey is <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Space</kbd>. You can press this inside any application (Word, Discord, Chrome, IDEs) to trigger dictation.</li>
+                        <li><strong>API Key:</strong> Paste your Groq or OpenAI key. It will be stored securely inside the native **Windows Credential Manager** with zero telemetry.</li>
+                        <li><strong>Overlay Indicator:</strong> A sleek wave pill appears on the bottom right (or customized position) of your screen during recording. <em>Note: The Windows overlay contains no check or close buttons to prevent focus loss.</em></li>
+                        <li><strong>Offline SenseVoice:</strong> Download the weights inside settings to run fully local offline transcription without internet connectivity.</li>
+                    </ul>
+                </div>
+
+                <!-- Simulated Tauri Window Wizard Shell -->
+                <div class="desktop-frame tauri-wizard-window" style="flex-grow: 1; min-height: 520px; display: flex; flex-direction: column;">
+                    <!-- Custom Simulated Titlebar -->
+                    <div class="desktop-titlebar">
+                        <div class="desktop-controls">
+                            <span class="control-dot close" id="sim-wiz-close"></span>
+                            <span class="control-dot minimize"></span>
+                            <span class="control-dot maximize"></span>
+                        </div>
+                        <div class="desktop-title">Welcome to Fluence — Onboarding Wizard</div>
+                    </div>
+                    
+                    <div class="desktop-body" style="background-color: #0d0c11; flex-grow: 1; display: flex; flex-direction: column; overflow: hidden; padding: 0;">
+                        <div class="wizard-shell" style="width: 100%; height: 100%; display: flex; flex-direction: column; position: relative;">
+                            
+                            <!-- Progress Bar -->
+                            <div class="progress-bar-track" style="height: 3px; background: rgba(255,255,255,0.06); width: 100%; z-index: 10;">
+                                <div class="progress-bar-fill" id="progress-fill" style="width: 0%; height: 100%; background: linear-gradient(90deg, #A855F7, #00f2fe); transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);"></div>
+                            </div>
+
+                            <!-- Steps Container -->
+                            <div class="wizard-steps" style="flex-grow: 1; position: relative; overflow: hidden; height: 380px;">
+                                
+                                <!-- Step 1: Welcome -->
+                                <div class="wizard-step active" id="step-1" data-step="1">
+                                    <div style="width:72px;height:72px;border-radius:16px;background:rgba(26,26,32,0.6);border:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px 0 rgba(0, 0, 0, 0.4); margin-bottom: 8px;">
+                                        <svg width="44" height="44" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="16" cy="16" r="13" stroke="url(#logo-grad-wiz)" stroke-width="2.2" stroke-dasharray="1.8 3" stroke-linecap="round"/>
+                                            <circle cx="16" cy="16" r="9" stroke="url(#logo-grad-wiz)" stroke-width="2.2" stroke-dasharray="2 3" stroke-linecap="round"/>
+                                            <circle cx="16" cy="16" r="5" stroke="url(#logo-grad-wiz)" stroke-width="2.2" stroke-dasharray="2 2" stroke-linecap="round"/>
+                                            <circle cx="16" cy="16" r="1.5" fill="url(#logo-grad-wiz)"/>
+                                            <defs>
+                                                <linearGradient id="logo-grad-wiz" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                                                    <stop offset="0%" stop-color="#A855F7"/>
+                                                    <stop offset="100%" stop-color="#00f2fe"/>
+                                                </linearGradient>
+                                            </defs>
+                                        </svg>
+                                    </div>
+                                    <h3 class="step-title" style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 700; margin: 0; color: #fff;">Welcome to flu<span style="color:#00f2fe;">ence</span></h3>
+                                    <p class="step-desc" style="font-size: 13px; color: #b9cacb; text-align: center; max-width: 360px; margin: 0; line-height: 1.45;">Your AI-powered voice typing assistant for Windows. Speak naturally, and Fluence transcribes your voice into any application — instantly.</p>
+                                    <div style="display:flex;flex-direction:column;gap:8px;width:100%;max-width:320px; margin-top: 8px;">
+                                        <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:rgba(209,140,255,0.04);border:1px solid rgba(209,140,255,0.12);border-radius:8px;">
+                                            <span style="font-size:16px;">🎤</span>
+                                            <div>
+                                                <div style="font-weight:600;font-size:12.5px;color:#fff;">Universal Voice Typing</div>
+                                                <div style="font-size:11px;color:#b9cacb;">Works in any app — Editors, Browsers, Word</div>
+                                            </div>
+                                        </div>
+                                        <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:rgba(209,140,255,0.04);border:1px solid rgba(209,140,255,0.12);border-radius:8px;">
+                                            <span style="font-size:16px;">🤖</span>
+                                            <div>
+                                                <div style="font-weight:600;font-size:12.5px;color:#fff;">AI Agent Mode</div>
+                                                <div style="font-size:11px;color:#b9cacb;">Long press hotkey to execute formatting commands</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Step 2: API Setup -->
+                                <div class="wizard-step" id="step-2" data-step="2">
+                                    <div class="step-icon">
+                                        <svg viewBox="0 0 24 24" fill="currentColor" style="width: 24px; height: 24px; color: #d18cff;"><path d="M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h2v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+                                    </div>
+                                    <h3 class="step-title" style="font-size: 18px; margin: 0; color: #fff;">Connect Your API Key</h3>
+                                    <p class="step-desc" style="font-size: 12.5px; color: #b9cacb; margin: 0; text-align: center; max-width: 380px;">Fluence uses OpenAI-compatible APIs for cloud voice recognition. Add your API key below.</p>
+                                    <div class="step-content" style="gap: 8px; width: 100%; max-width: 360px; margin-top: 4px;">
+                                        <div class="form-row">
+                                            <label style="font-size: 12px; color: #b9cacb; font-weight: 500;">Provider</label>
+                                            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
+                                                <button class="provider-card selected" data-provider="groq" id="wiz-groq" style="padding: 8px; display: flex; flex-direction: column; align-items: center; gap: 4px; border: 1px solid rgba(209,140,255,0.2); background: rgba(209,140,255,0.06); border-radius: 6px; color: #fff;">
+                                                    <span style="font-size:14px; font-weight: 600; color: #F55036;">Groq</span>
+                                                </button>
+                                                <button class="provider-card" data-provider="openai" id="wiz-openai" style="padding: 8px; display: flex; flex-direction: column; align-items: center; gap: 4px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); border-radius: 6px; color: #b9cacb;">
+                                                    <span style="font-size:14px; font-weight: 600;">OpenAI</span>
+                                                </button>
+                                                <button class="provider-card" data-provider="custom" id="wiz-custom" style="padding: 8px; display: flex; flex-direction: column; align-items: center; gap: 4px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); border-radius: 6px; color: #b9cacb;">
+                                                    <span style="font-size:14px; font-weight: 600;">Custom</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="form-row" id="wiz-endpoint-row">
+                                            <label style="font-size: 12px; color: #b9cacb; font-weight: 500;">API Endpoint</label>
+                                            <input type="url" id="wiz-base-url" placeholder="https://api.groq.com/openai" value="https://api.groq.com/openai" style="padding: 8px 12px; font-size: 12.5px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.04); color:#fff; width:100%; box-sizing: border-box;" />
+                                        </div>
+                                        <div class="form-row">
+                                            <label style="font-size: 12px; color: #b9cacb; font-weight: 500;">API Key</label>
+                                            <input type="password" id="wiz-api-key" placeholder="gsk_••••••••••••••••" value="gsk_demo_api_key_for_testing" style="padding: 8px 12px; font-size: 12.5px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.04); color:#fff; width:100%; box-sizing: border-box;" />
+                                        </div>
+                                        <div style="display:flex;align-items:center;gap:10px; margin-top: 4px;">
+                                            <button class="btn-setup-save" id="wiz-test-btn" style="padding: 8px 14px; font-size: 12px; border-radius: 20px; font-weight: 600; cursor: pointer;">Test Connection</button>
+                                            <div style="display:flex;align-items:center;gap:6px;" id="wiz-test-status">
+                                                <div class="live-dot" id="wiz-test-dot" style="width:8px; height:8px; background-color:#849495; filter:none; box-shadow:none;"></div>
+                                                <span id="wiz-test-text" style="font-size:11.5px;color:#b9cacb;">Not tested</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Step 3: Hotkey Configuration -->
+                                <div class="wizard-step" id="step-3" data-step="3">
+                                    <div class="step-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 24px; height: 24px; color: #d18cff;"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M8 8h.01M12 8h.01M16 8h.01M8 12h.01M12 12h.01M16 12h.01M8 16h8"/></svg>
+                                    </div>
+                                    <h3 class="step-title" style="font-size: 18px; margin: 0; color: #fff;">Set Your Hotkey</h3>
+                                    <p class="step-desc" style="font-size: 12.5px; color: #b9cacb; margin: 0; text-align: center; max-width: 380px;">Choose a global keyboard shortcut to start recording. It will work inside any active app.</p>
+                                    <div class="step-content" style="gap: 12px; width: 100%; max-width: 360px; margin-top: 4px;">
+                                        <div class="form-row" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+                                            <label style="font-size: 12px; color: #b9cacb; font-weight: 500;">Recording Shortcut</label>
+                                            <div class="hotkey-display" id="wiz-hotkey-display" tabindex="0" role="button" style="padding: 6px 14px; background: rgba(209,140,255,0.06); border: 1px dashed rgba(209,140,255,0.3); border-radius: 6px; font-family: 'Geist Mono', monospace; font-size: 12px; color: #d18cff; cursor: pointer; outline: none;">
+                                                <span id="wiz-hotkey-text">Ctrl+Shift+Space</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <label style="font-size: 12px; color: #b9cacb; font-weight: 500;">Recording Mode</label>
+                                            <div class="mode-selector" style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; width: 100%;">
+                                                <button class="mode-option selected" data-mode="push_to_toggle" id="wiz-mode-toggle" style="padding: 8px; border: 1px solid rgba(209,140,255,0.2); background: rgba(209,140,255,0.06); border-radius: 6px; text-align: left; color:#fff; cursor: pointer;">
+                                                    <div style="font-weight:600;font-size:12px;">Push-to-Toggle</div>
+                                                    <div style="font-size:10px;color:#b9cacb;margin-top:2px;">Press once to toggle</div>
+                                                </button>
+                                                <button class="mode-option" data-mode="hold_to_record" id="wiz-mode-hold" style="padding: 8px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); border-radius: 6px; text-align: left; color:#b9cacb; cursor: pointer;">
+                                                    <div style="font-weight:600;font-size:12px;color:#fff;">Hold-to-Record</div>
+                                                    <div style="font-size:10px;color:#b9cacb;margin-top:2px;">Hold key to speak</div>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <p style="font-size:10.5px;color:#849495;margin: 0; text-align: center;">
+                                            💡 <strong>Tip:</strong> Pressing the hotkey for over 800ms automatically opens AI Agent mode
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Step 4: Overlay Position -->
+                                <div class="wizard-step" id="step-4" data-step="4">
+                                    <div class="step-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 24px; height: 24px; color: #d18cff;"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                                    </div>
+                                    <h3 class="step-title" style="font-size: 18px; margin: 0; color: #fff;">Overlay Position</h3>
+                                    <p class="step-desc" style="font-size: 12.5px; color: #b9cacb; margin: 0; text-align: center; max-width: 380px;">Choose where the recording waveform indicator will float on your desktop screen.</p>
+                                    <div class="step-content" style="width: 100%; max-width: 360px; margin-top: 8px;">
+                                        <div class="position-selector" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; width: 100%;">
+                                            <button class="position-option pos-left" data-pos="bottom_left" id="wiz-pos-left" style="padding: 10px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); border-radius: 8px; color: #b9cacb; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer;">
+                                                <div class="position-preview" style="width: 50px; height: 30px; border: 1px solid rgba(255,255,255,0.1); background: #121117; border-radius: 4px; position: relative;">
+                                                    <div class="position-dot" style="position: absolute; bottom: 3px; left: 3px; width: 8px; height: 6px; background: #849495; border-radius: 2px;"></div>
+                                                </div>
+                                                <span style="font-size: 10px; font-weight: 500;">Left</span>
+                                            </button>
+                                            <button class="position-option pos-center" data-pos="center" id="wiz-pos-center" style="padding: 10px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); border-radius: 8px; color: #b9cacb; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer;">
+                                                <div class="position-preview" style="width: 50px; height: 30px; border: 1px solid rgba(255,255,255,0.1); background: #121117; border-radius: 4px; position: relative;">
+                                                    <div class="position-dot" style="position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%); width: 8px; height: 6px; background: #849495; border-radius: 2px;"></div>
+                                                </div>
+                                                <span style="font-size: 10px; font-weight: 500;">Center</span>
+                                            </button>
+                                            <button class="position-option pos-right selected" data-pos="bottom_right" id="wiz-pos-right" style="padding: 10px; border: 1px solid rgba(209,140,255,0.2); background: rgba(209,140,255,0.06); border-radius: 8px; color: #d18cff; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer;">
+                                                <div class="position-preview" style="width: 50px; height: 30px; border: 1px solid rgba(209,140,255,0.2); background: #121117; border-radius: 4px; position: relative;">
+                                                    <div class="position-dot" style="position: absolute; bottom: 3px; right: 3px; width: 8px; height: 6px; background: #d18cff; border-radius: 2px;"></div>
+                                                </div>
+                                                <span style="font-size: 10px; font-weight: 600;">Right</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Step 5: Test Setup -->
+                                <div class="wizard-step" id="step-5" data-step="5">
+                                    <div class="step-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 24px; height: 24px; color: #d18cff;"><path d="M12 1a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V5a4 4 0 0 1 4-4z"/><path d="M19 10a7 7 0 0 1-14 0M12 19v3M8 22h8"/></svg>
+                                    </div>
+                                    <h3 class="step-title" style="font-size: 18px; margin: 0; color: #fff;">Test Your Setup</h3>
+                                    <p class="step-desc" style="font-size: 12.5px; color: #b9cacb; margin: 0; text-align: center; max-width: 380px;">Let's verify everything works. Click the button to start a simulated recording.</p>
+                                    <div class="test-area" style="width: 100%; max-width: 360px; padding: 12px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 4px; box-sizing: border-box;">
+                                        <button class="btn-primary" id="wiz-test-record-btn" style="min-width: 140px; font-size: 12.5px; padding: 8px 16px; border-radius: 20px; font-weight: 600; cursor: pointer;">
+                                            🎙 Start Recording
+                                        </button>
+                                        <div class="test-result placeholder" id="wiz-test-result" style="width: 100%; min-height: 48px; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 6px; font-size: 12px; color: #849495; text-align: left; box-sizing: border-box; line-height: 1.4;">
+                                            Your transcription will appear here...
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Step 6: You're All Set -->
+                                <div class="wizard-step" id="step-6" data-step="6">
+                                    <div style="width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,#6fcf97,#219653);display:flex;align-items:center;justify-content:center;box-shadow:0 0 32px rgba(111,207,151,0.3); margin-bottom: 8px;">
+                                        <span style="font-size:28px; color:#fff; font-weight: bold;">✓</span>
+                                    </div>
+                                    <h3 class="step-title" style="font-size: 20px; margin: 0; color: #fff;">You're All Set!</h3>
+                                    <p class="step-desc" style="font-size: 13px; color: #b9cacb; margin: 0; text-align: center; max-width: 360px; line-height: 1.45;">Fluence is running. Press <span style="color:var(--color-primary);font-weight:600;" id="done-hotkey">Ctrl+Shift+Space</span> inside any windows application to start universal dictation.</p>
+                                    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:100%;max-width:280px; margin-top: 12px;">
+                                        <button class="btn-primary" id="wiz-open-settings-btn" style="width:100%;padding:10px; font-size: 13px; border-radius: 20px; font-weight: 600; cursor: pointer; text-align: center; justify-content: center; background: linear-gradient(135deg, #a855f7 0%, #00f2fe 100%);">Open Settings Panel</button>
+                                        <button class="btn-secondary" id="wiz-close-btn" style="width:100%; padding: 8px; font-size: 12px; border-radius: 20px; cursor: pointer;">Close Setup Wizard</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- Navigation Footer -->
+                            <div class="wizard-nav" style="padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.04); background: rgba(0,0,0,0.1);">
+                                <button class="btn-secondary" id="prev-btn" style="visibility:hidden; padding: 6px 12px; font-size: 12px; border-radius: 12px; cursor: pointer;">← Back</button>
+
+                                <div class="step-dots" id="step-dots" style="display: flex; gap: 5px;">
+                                    <div class="step-dot active" data-dot="1" style="width: 14px; height: 5px; border-radius: 3px; background: #d18cff; transition: all 0.25s;"></div>
+                                    <div class="step-dot" data-dot="2" style="width: 5px; height: 5px; border-radius: 50%; background: #3b494b; transition: all 0.25s;"></div>
+                                    <div class="step-dot" data-dot="3" style="width: 5px; height: 5px; border-radius: 50%; background: #3b494b; transition: all 0.25s;"></div>
+                                    <div class="step-dot" data-dot="4" style="width: 5px; height: 5px; border-radius: 50%; background: #3b494b; transition: all 0.25s;"></div>
+                                    <div class="step-dot" data-dot="5" style="width: 5px; height: 5px; border-radius: 50%; background: #3b494b; transition: all 0.25s;"></div>
+                                    <div class="step-dot" data-dot="6" style="width: 5px; height: 5px; border-radius: 50%; background: #3b494b; transition: all 0.25s;"></div>
+                                </div>
+
+                                <button class="btn-primary" id="next-btn" style="min-width:100px; padding: 6px 14px; font-size: 12px; border-radius: 12px; font-weight: 600; cursor: pointer; background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);">Get Started</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-left">
+            <div class="footer-logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="13" stroke="url(#foot-logo-grad)" stroke-width="2.2" stroke-dasharray="1.8 3" stroke-linecap="round"/>
+                    <circle cx="16" cy="16" r="9" stroke="url(#foot-logo-grad)" stroke-width="2.2" stroke-dasharray="2 3" stroke-linecap="round"/>
+                    <circle cx="16" cy="16" r="5" stroke="url(#foot-logo-grad)" stroke-width="2.2" stroke-dasharray="2 2" stroke-linecap="round"/>
+                    <circle cx="16" cy="16" r="1.5" fill="url(#foot-logo-grad)"/>
+                    <defs>
+                        <linearGradient id="foot-logo-grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#A855F7"/>
+                            <stop offset="100%" stop-color="#00f2fe"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div class="logo-text" style="font-size: 18px;">flu<span>ence</span></div>
+            </div>
+            <div class="footer-copyright">© 2026 Fluence. Open source under Apache 2.0.</div>
+        </div>
+        <div class="footer-right">
+            <a href="https://github.com/raviumeshkulkarni-web/Fluence/releases" class="footer-link" target="_blank" rel="noopener">Android APK</a>
+            <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop/releases" class="footer-link" target="_blank" rel="noopener">Windows Release</a>
+            <a href="https://github.com/raviumeshkulkarni-web/Fluence" class="footer-link" target="_blank" rel="noopener">Android GitHub</a>
+            <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop" class="footer-link" target="_blank" rel="noopener">Windows GitHub</a>
+            <a href="https://github.com/raviumeshkulkarni-web/Fluence-Website" class="footer-link" target="_blank" rel="noopener">Website GitHub</a>
+        </div>
+    </footer>
+
+    <!-- Interactive script -->
+    <script src="script.js?v=2"></script>
+</body>
+</html>

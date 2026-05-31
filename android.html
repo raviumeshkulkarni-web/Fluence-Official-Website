@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluence for Android 🎙️ | System-Wide Voice Dictation & Offline STT</title>
+    <meta name="description" content="Fluence for Android is an open-source, system-wide voice dictation and AI assistant. Easily configure local-to-cloud Whisper or 100% local offline transcription.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Sora:wght@600;700;800&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
+    
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="styles.css?v=2">
+</head>
+<body>
+
+    <!-- AMOLED Ambient Morphing Blobs -->
+    <div class="ambient-blob blob-1"></div>
+    <div class="ambient-blob blob-2"></div>
+    <div class="ambient-blob blob-3"></div>
+
+    <!-- Header Navigation -->
+    <header id="site-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo-link" id="nav-logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="13" stroke="url(#logo-grad)" stroke-width="2.2" stroke-dasharray="1.8 3" stroke-linecap="round"/>
+                    <circle cx="16" cy="16" r="9" stroke="url(#logo-grad)" stroke-width="2.2" stroke-dasharray="2 3" stroke-linecap="round"/>
+                    <circle cx="16" cy="16" r="5" stroke="url(#logo-grad)" stroke-width="2.2" stroke-dasharray="2 2" stroke-linecap="round"/>
+                    <circle cx="16" cy="16" r="1.5" fill="url(#logo-grad)"/>
+                    <defs>
+                        <linearGradient id="logo-grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#A855F7"/>
+                            <stop offset="100%" stop-color="#00f2fe"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div class="logo-text">flu<span>ence</span></div>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-item">Home</a>
+                <a href="index.html#features-sec" class="nav-item">Features</a>
+                <a href="android.html" class="nav-item active">Android</a>
+                <a href="windows.html" class="nav-item">Windows</a>
+                <a href="docs.html" class="nav-item">Docs</a>
+                <a href="index.html#faq-sec" class="nav-item">FAQ</a>
+                <a href="https://github.com/raviumeshkulkarni-web/Fluence-Website" class="nav-item github-nav-link" id="link-github" target="_blank" rel="noopener">
+                    <svg class="github-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.137 20.162 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+                    </svg>
+                    GitHub
+                </a>
+                <a href="#setup-sec" class="btn-nav-download" id="btn-nav-dl">Get Started</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Dedicated Android Hero Section -->
+        <section class="hero" id="hero-sec" style="padding-top: 140px; padding-bottom: 60px;">
+            <div class="hero-badges">
+                <div class="status-live-tag">
+                    <span class="live-dot" style="background-color: var(--accent-red);"></span>
+                    100% On-Device Offline Mode Available
+                </div>
+            </div>
+            <h1>Universal dictation for <span class="text-gradient" style="--gradient-start: #a855f7; --gradient-end: #ff4b4b;">Android</span></h1>
+            <p>Type into any mobile application using your voice. Tap the floating bubble overlay to start dictating. Process sentences in under a second using Groq Whisper Cloud API, or run completely local transcription with SenseVoice-Small model on-device for total privacy.</p>
+            <div class="hero-ctas">
+                <a href="https://github.com/raviumeshkulkarni-web/Fluence/releases/latest" class="btn-primary" style="background: linear-gradient(135deg, #a855f7 0%, #e11d48 100%);">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 9h-4V3H9v6H5l7 7 7-7zm-8 2V5h2v6h1.17L12 13.17 9.83 11H11zm-6 7h14v2H5z"/>
+                    </svg>
+                    Download Latest APK
+                </a>
+                <a href="https://github.com/raviumeshkulkarni-web/Fluence" class="btn-secondary" target="_blank" rel="noopener">
+                    View Android GitHub
+                </a>
+            </div>
+        </section>
+
+        <!-- Live Demo Showcase Section -->
+        <section class="showcase-container" id="showcase-sec" style="margin-top: 20px; padding-bottom: 40px;">
+            <!-- Android Showcase Wrapper -->
+            <div class="showcase-content active" id="showcase-android" style="display: flex;">
+                <div class="device-frame">
+                    <!-- Status Bar -->
+                    <div class="phone-status-bar">
+                        <span>12:00</span>
+                        <div class="status-icons">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3C7.79 3 4.19 4.63 1.5 7.29L12 21L22.5 7.29C19.81 4.63 16.21 3 12 3Z"/></svg>
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 5H16V3H8V5H7C5.9 5 5 5.9 5 7V21C5 22.1 5.9 23 7 23H17C18.1 23 19 22.1 19 21V7C19 5.9 18.1 5 17 5Z"/></svg>
+                        </div>
+                    </div>
+                    
+                    <!-- Phone Screen Mocking Note App -->
+                    <div class="phone-screen">
+                        <svg class="back-arrow" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                        <h2 class="note-title">Fluence Test Run</h2>
+                        <div class="note-body" id="sim-notepad-body">
+                            <!-- Filled by JS -->
+                        </div>
+                        
+                        <!-- Simulated Floating Bubble next to cursor -->
+                        <div class="simulated-floating-bubble" id="sim-bubble" title="Tap to dictate">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="6" y="8" width="2.5" height="8" rx="1.25" fill="currentColor"/>
+                                <rect x="10.75" y="4" width="2.5" height="16" rx="1.25" fill="currentColor"/>
+                                <rect x="15.5" y="8" width="2.5" height="8" rx="1.25" fill="currentColor"/>
+                            </svg>
+                        </div>
+                        
+                        <!-- Floating Waveform Overlay Pill -->
+                        <div class="floating-overlay-pill" id="sim-overlay-pill">
+                            <button class="overlay-close-btn" aria-label="Cancel recording">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                            </button>
+                            <div class="overlay-waveform-container">
+                                <svg class="overlay-waveform-svg">
+                                    <path class="waveform-path" id="sim-waveform-path-bg" opacity="0.25" d="M 0 16 L 160 16"></path>
+                                    <path class="waveform-path" id="sim-waveform-path" d="M 0 16 L 160 16"></path>
+                                </svg>
+                            </div>
+                            <button class="overlay-check-btn" aria-label="Confirm speech text">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                            </button>
+                        </div>
+                        
+                        <!-- Bottom Voice Bar -->
+                        <div class="bottom-voice-bar" id="sim-voice-bar">
+                            <div class="voice-status-text" id="sim-voice-status">Listening... (00:08)</div>
+                            <div class="voice-bar-pill">
+                                <button class="voice-bar-action" aria-label="Open keyboard">
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 5H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-3 0h2v2H5v-2zm0-3h2v2H5V8zm3 6h8v2H8v-2zm8-3h2v2h-2v-2zm0-3h2v2h-2V8zm3 3h2v2h-2v-2zm0-3h2v2h-2V8z"/></svg>
+                                </button>
+                                
+                                <div class="voice-bar-mic-container">
+                                    <div class="voice-bar-mic-pulsing-bg"></div>
+                                    <button class="voice-bar-mic-orb" aria-label="Stop recording">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
+                                    </button>
+                                </div>
+                                
+                                <button class="voice-bar-action" aria-label="Delete text">
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-3 12.59L17.59 17 14 13.41 10.41 17 9 15.59 12.59 12 9 8.41 10.41 7 14 10.59 17.59 7 19 8.41 15.41 12 19 15.59z"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="simulator-instruction">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                    Tap the floating bubble to trigger the transcription demo
+                </div>
+            </div>
+        </section>
+
+        <!-- Setup & Install Section -->
+        <section class="setup-wizard-section" id="setup-sec" style="margin-top: 20px;">
+            <div class="setup-header">
+                <div class="setup-header-logo">
+                    <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="16" cy="16" r="13" stroke="url(#setup-logo-grad)" stroke-width="2.2" stroke-dasharray="1.8 3" stroke-linecap="round"/>
+                        <circle cx="16" cy="16" r="9" stroke="url(#setup-logo-grad)" stroke-width="2.2" stroke-dasharray="2 3" stroke-linecap="round"/>
+                        <circle cx="16" cy="16" r="5" stroke="url(#setup-logo-grad)" stroke-width="2.2" stroke-dasharray="2 2" stroke-linecap="round"/>
+                        <circle cx="16" cy="16" r="1.5" fill="url(#setup-logo-grad)"/>
+                        <defs>
+                            <linearGradient id="setup-logo-grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#A855F7"/>
+                                <stop offset="100%" stop-color="#6366F1"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="logo-text">flu<span>ence</span></div>
+                </div>
+                <h2>Android Setup Guide</h2>
+                <p>Follow these steps to configure voice typing on your device</p>
+            </div>
+
+            <!-- Side-by-side: Quick Install card (left) + Stepper (right) -->
+            <div class="setup-layout-grid">
+
+                <!-- Quick Install & Setup -->
+                <div class="quick-install-box glass-panel">
+                    <h3>⚡ Installation Checklist</h3>
+                    <ul class="quick-install-list">
+                        <li><strong>Download APK:</strong> Get the latest `.apk` installer from <a href="https://github.com/raviumeshkulkarni-web/Fluence/releases/latest" target="_blank" rel="noopener">GitHub Releases</a>. You may need to authorize "Install from Unknown Sources" on your browser/file manager.</li>
+                        <li><strong>Configure API:</strong> Input your Groq API Key under the Cloud STT provider settings. Groq Whisper v3 provides instant, sub-second transcription.</li>
+                        <li><strong>Offline Setup (Optional):</strong> If you prefer complete offline operation, trigger the one-time download of the SenseVoice-Small model (~230 MB) within the app settings.</li>
+                        <li><strong>Enable Accessibility Service:</strong> Under Android Settings -> Accessibility, activate the <em>Fluence Accessibility Service</em>. This allows the overlay bubble to automatically inject text into active focus fields.</li>
+                        <li><strong>Grant Overlay Permission:</strong> Turn on "Display over other apps" permission so the floating dictation bubble remains visible while using other keyboard editors.</li>
+                        <li><strong>Control:</strong>
+                            <br>- Single tap bubble: triggers dictation.
+                            <br>- Long press bubble: launches AI rewrite/command input.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Setup Wizard Stepper -->
+                <div class="setup-stepper-container">
+                    <!-- Step 1 -->
+                    <div class="setup-step-row">
+                        <div class="setup-timeline-column">
+                            <div class="timeline-circle active" id="step-1-circle">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            </div>
+                            <div class="timeline-line"></div>
+                        </div>
+                        <div class="setup-card-wrapper">
+                            <div class="setup-card">
+                                <div class="setup-step-num">Step 1</div>
+                                <h3>API Configuration</h3>
+                                <p>Requires a Groq API Key to perform cloud transcription. Skip this step if you choose to download the on-device offline model.</p>
+                                <div class="setup-input-group">
+                                    <label class="setup-input-label" for="groq-key-input">Groq API Key (gsk_...)</label>
+                                    <div class="input-container">
+                                        <input type="password" class="setup-input-field" id="groq-key-input" placeholder="gsk_••••••••••••••••••••••••••••••••" value="gsk_key_demo_placeholder_value_secured_keystore">
+                                        <button class="input-action-btn" id="btn-toggle-key">Show</button>
+                                    </div>
+                                </div>
+                                <div class="setup-card-footer">
+                                    <span class="setup-status-message" id="save-status" style="opacity: 0;">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-cyan);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                        Key saved securely
+                                    </span>
+                                    <button class="btn-setup-save" id="btn-save-key">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="setup-step-row">
+                        <div class="setup-timeline-column">
+                            <div class="timeline-circle active" id="step-2-circle">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
+                            </div>
+                            <div class="timeline-line"></div>
+                        </div>
+                        <div class="setup-card-wrapper">
+                            <div class="setup-card">
+                                <div class="setup-step-num">Step 2</div>
+                                <h3>Record Audio Access</h3>
+                                <p>Grant microphone access when prompted to allow speech capture.</p>
+                                <div class="setup-card-footer">
+                                    <div></div>
+                                    <button class="btn-setup-status">Granted</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="setup-step-row">
+                        <div class="setup-timeline-column">
+                            <div class="timeline-circle" id="step-3-circle">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
+                            </div>
+                            <div class="timeline-line"></div>
+                        </div>
+                        <div class="setup-card-wrapper">
+                            <div class="setup-card">
+                                <div class="setup-step-num">Step 3</div>
+                                <h3>Enable Accessibility Service</h3>
+                                <p>Activate the accessibility service inside Android Settings so Fluence can detect active inputs and insert transcripts automatically.</p>
+                                <div class="setup-card-footer">
+                                    <div class="switch-container">
+                                        <span class="switch-label">Accessibility Service</span>
+                                        <div class="switch-el" id="switch-service"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-left">
+            <div class="footer-logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="13" stroke="url(#foot-logo-grad)" stroke-width="2.2" stroke-dasharray="1.8 3" stroke-linecap="round"/>
+                    <circle cx="16" cy="16" r="9" stroke="url(#foot-logo-grad)" stroke-width="2.2" stroke-dasharray="2 3" stroke-linecap="round"/>
+                    <circle cx="16" cy="16" r="5" stroke="url(#foot-logo-grad)" stroke-width="2.2" stroke-dasharray="2 2" stroke-linecap="round"/>
+                    <circle cx="16" cy="16" r="1.5" fill="url(#foot-logo-grad)"/>
+                    <defs>
+                        <linearGradient id="foot-logo-grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#A855F7"/>
+                            <stop offset="100%" stop-color="#00f2fe"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div class="logo-text" style="font-size: 18px;">flu<span>ence</span></div>
+            </div>
+            <div class="footer-copyright">© 2026 Fluence. Open source under Apache 2.0.</div>
+        </div>
+        <div class="footer-right">
+            <a href="https://github.com/raviumeshkulkarni-web/Fluence/releases" class="footer-link" target="_blank" rel="noopener">Android APK</a>
+            <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop/releases" class="footer-link" target="_blank" rel="noopener">Windows Release</a>
+            <a href="https://github.com/raviumeshkulkarni-web/Fluence" class="footer-link" target="_blank" rel="noopener">Android GitHub</a>
+            <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop" class="footer-link" target="_blank" rel="noopener">Windows GitHub</a>
+            <a href="https://github.com/raviumeshkulkarni-web/Fluence-Website" class="footer-link" target="_blank" rel="noopener">Website GitHub</a>
+        </div>
+    </footer>
+
+    <!-- Interactive script -->
+    <script src="script.js?v=2"></script>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluence Documentation 🎙️ | Guides, Architecture & Privacy Policy</title>
+    <meta name="description" content="Official documentation for Fluence. Find setup guides for Android and Windows, learn about offline transcription model setup, review our zero telemetry privacy policy, and check troubleshooting steps.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Sora:wght@600;700;800&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
+    
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="styles.css?v=2">
+</head>
+<body>
+
+    <!-- AMOLED Ambient Morphing Blobs -->
+    <div class="ambient-blob blob-1"></div>
+    <div class="ambient-blob blob-2"></div>
+    <div class="ambient-blob blob-3"></div>
+
+    <!-- Header Navigation -->
+    <header id="site-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo-link" id="nav-logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="13" stroke="url(#logo-grad)" stroke-width="2.2" stroke-dasharray="1.8 3" stroke-linecap="round"/>
+                    <circle cx="16" cy="16" r="9" stroke="url(#logo-grad)" stroke-width="2.2" stroke-dasharray="2 3" stroke-linecap="round"/>
+                    <circle cx="16" cy="16" r="5" stroke="url(#logo-grad)" stroke-width="2.2" stroke-dasharray="2 2" stroke-linecap="round"/>
+                    <circle cx="16" cy="16" r="1.5" fill="url(#logo-grad)"/>
+                    <defs>
+                        <linearGradient id="logo-grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#A855F7"/>
+                            <stop offset="100%" stop-color="#00f2fe"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div class="logo-text">flu<span>ence</span></div>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-item">Home</a>
+                <a href="index.html#features-sec" class="nav-item">Features</a>
+                <a href="android.html" class="nav-item">Android</a>
+                <a href="windows.html" class="nav-item">Windows</a>
+                <a href="docs.html" class="nav-item active">Docs</a>
+                <a href="index.html#faq-sec" class="nav-item">FAQ</a>
+                <a href="https://github.com/raviumeshkulkarni-web/Fluence-Website" class="nav-item github-nav-link" id="link-github" target="_blank" rel="noopener">
+                    <svg class="github-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.137 20.162 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+                    </svg>
+                    GitHub
+                </a>
+                <a href="index.html#download-hub-sec" class="btn-nav-download" id="btn-nav-dl">Download</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="docs-main">
+        <div class="docs-wrapper">
+            
+            <!-- Left Sidebar Navigation -->
+            <aside class="docs-sidebar">
+                <nav class="docs-nav">
+                    <ul>
+                        <li><a href="#getting-started" class="docs-nav-item active">Getting Started</a></li>
+                        <li><a href="#windows-guide" class="docs-nav-item">Windows Desktop Guide</a></li>
+                        <li><a href="#android-guide" class="docs-nav-item">Android Mobile Guide</a></li>
+                        <li><a href="#offline-mode" class="docs-nav-item">Offline Mode Configuration</a></li>
+                        <li><a href="#privacy-policy" class="docs-nav-item">Privacy Policy (Zero Telemetry)</a></li>
+                        <li><a href="#troubleshooting" class="docs-nav-item">Troubleshooting &amp; FAQs</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Right Content Area -->
+            <article class="docs-content">
+                
+                <!-- Section 1: Getting Started -->
+                <section id="getting-started" class="docs-section">
+                    <h1>Getting Started with Fluence</h1>
+                    <p class="lead">Crystallize your cognition at the speed of thought. Fluence is a system-wide voice dictation tool and smart AI editor built for total data privacy.</p>
+                    
+                    <div class="glass-panel info-box">
+                        <h3>💡 Core Philosophy</h3>
+                        <p>Unlike standard speech-to-text engines that type word-by-word and frequently miss context, Fluence captures your full spoken sentence, refines punctuation dynamically, and injects clean text at your cursor position instantly. It works in any text area, text editor, browser, or coding environment.</p>
+                    </div>
+
+                    <h3>Platform Support</h3>
+                    <p>Fluence supports two distinct runtime environments designed to integrate natively with your daily workflow:</p>
+                    <div class="platform-cards-grid">
+                        <div class="glass-panel platform-card-doc">
+                            <h4>Windows Application</h4>
+                            <p>Powered by Tauri. Sits lightweight in your system tray and triggers via global hotkeys to write into any desktop software.</p>
+                            <a href="windows.html" class="text-link">Explore Windows Features</a>
+                        </div>
+                        <div class="glass-panel platform-card-doc">
+                            <h4>Android Application</h4>
+                            <p>Powered by Jetpack Compose. Utilizes Android Accessibility Services to float a bubble near your active text cursor on mobile.</p>
+                            <a href="android.html" class="text-link">Explore Android Features</a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 2: Windows Guide -->
+                <section id="windows-guide" class="docs-section">
+                    <h2>Windows Desktop Guide</h2>
+                    <p>Configure and run the Tauri desktop integration for system-wide dictation on Windows devices.</p>
+                    
+                    <h3>Installation Steps</h3>
+                    <ol>
+                        <li>Go to the <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop/releases/latest" target="_blank" rel="noopener">Latest Windows Release</a> page.</li>
+                        <li>Download the setup file: select <code>.exe</code> for a standard user setup or <code>.msi</code> for enterprise deployment.</li>
+                        <li>Run the installer and follow the instructions. The application will start and place an icon in your system tray.</li>
+                    </ol>
+
+                    <h3>Tray Icon and Settings</h3>
+                    <p>Right-click the Fluence tray icon (microphone shape) to access settings:</p>
+                    <ul>
+                        <li><strong>Preferences:</strong> Opens the AMOLED dashboard where you can define shortcut keys, autostart behavior, and cloud keys.</li>
+                        <li><strong>Local Dictionary:</strong> Add jargon, personal acronyms, and names to prevent spelling mistakes.</li>
+                        <li><strong>View Logs:</strong> Review local diagnostic console outputs.</li>
+                        <li><strong>Exit:</strong> Completely terminate the application.</li>
+                    </ul>
+
+                    <h3>Hotkey Configuration</h3>
+                    <p>The default global hotkey is <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Space</kbd>. When pressed inside any text field, the application will display a compact overlay pill at the bottom of the screen showing a recording wave. Release or press the shortcut again to finish dictation and insert text.</p>
+                </section>
+
+                <!-- Section 3: Android Guide -->
+                <section id="android-guide" class="docs-section">
+                    <h2>Android Mobile Guide</h2>
+                    <p>Setup and configure the mobile app. Learn how to activate Accessibility overlays for system-wide dictation.</p>
+                    
+                    <h3>Sideloading the APK</h3>
+                    <ol>
+                        <li>Navigate to the <a href="https://github.com/raviumeshkulkarni-web/Fluence/releases" target="_blank" rel="noopener">Android Releases</a> page on your mobile device.</li>
+                        <li>Download the <code>app-release.apk</code> asset.</li>
+                        <li>Open the file. If prompted, toggle "Allow installation from unknown sources" in Android settings to finalize.</li>
+                    </ol>
+
+                    <h3>Required System Permissions</h3>
+                    <div class="glass-panel warning-box">
+                        <h4>⚠️ Crucial Permissions</h4>
+                        <p>To function as a universal text injector, you must enable these two system permissions inside the onboarding screens:</p>
+                        <ul>
+                            <li><strong>Accessibility Service:</strong> Allows the application to scan focused text boxes so it can locate the position of your cursor.</li>
+                            <li><strong>Display Over Other Apps (Overlay):</strong> Permits the glassmorphic bubble to float above active third-party apps.</li>
+                        </ul>
+                    </div>
+
+                    <h3>Bubble Interactions</h3>
+                    <p>A floating microphone bubble sits next to your active cursor. Tap to dictate, or hold the bubble to speak and release to finish. A bottom voice bar gives real-time visual feedback.</p>
+                </section>
+
+                <!-- Section 4: Offline Mode -->
+                <section id="offline-mode" class="docs-section">
+                    <h2>Offline Mode Configuration</h2>
+                    <p>Run 100% on-device speech-to-text without sending data online. This is perfect for high-privacy environments or users with poor connectivity.</p>
+                    
+                    <h3>Alibaba SenseVoice-Small Integration</h3>
+                    <p>Fluence integrates the Alibaba SenseVoice-Small model. This quantized model is extremely fast and light, with a size of approximately 230 MB.</p>
+
+                    <h3>Configuration for Android</h3>
+                    <ol>
+                        <li>Ensure you have a stable connection for the initial setup.</li>
+                        <li>Open Fluence Settings and toggle <strong>Offline Mode</strong> to active.</li>
+                        <li>The application will automatically download the required weights. Do not close the app during the download.</li>
+                        <li>Once the verification check succeeds, you can turn off internet access and dictate locally.</li>
+                    </ol>
+
+                    <h3>Configuration for Windows</h3>
+                    <ol>
+                        <li>Open the preferences panel from the system tray.</li>
+                        <li>Navigate to the <strong>AI Providers</strong> tab.</li>
+                        <li>Select <strong>Local SenseVoice</strong> as your active transcriber.</li>
+                        <li>Click download to fetch the ONNX weights. Once complete, audio files will be processed locally via the <code>sherpa-onnx</code> runtime.</li>
+                    </ol>
+                </section>
+
+                <!-- Section 5: Privacy Policy -->
+                <section id="privacy-policy" class="docs-section">
+                    <h2>Privacy Policy (Zero Telemetry)</h2>
+                    <p class="lead text-gradient">Your data belongs to you. Zero egress, zero telemetry, zero compromises.</p>
+                    
+                    <div class="glass-panel privacy-shield-box">
+                        <h3>🔒 Plain English Commitments</h3>
+                        <ul>
+                            <li><strong>No Tracking Scripts:</strong> We do not integrate Google Analytics, Firebase, Sentry, or any telemetry framework. We collect no analytics whatsoever.</li>
+                            <li><strong>No Audio Egress in Offline Mode:</strong> In offline mode, the microphone captures audio data directly into local volatile RAM and deletes it immediately after the local ONNX inference runs. No network requests are made.</li>
+                            <li><strong>Direct Cloud Delivery:</strong> In cloud mode, audio data goes directly from your local client to the secure Groq API gateway via HTTPS. No intermediate backend acts as a wrapper.</li>
+                            <li><strong>Credential Storage:</strong> Your cloud model API keys are stored locally using native system keychains: <strong>Android Keystore</strong> (using hardware-backed <code>EncryptedSharedPreferences</code>) and <strong>Windows Credential Manager</strong>.</li>
+                            <li><strong>Auditable Codebase:</strong> Every line of code is open source and auditable. Feel free to inspect, compile, or run it yourself.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Section 6: Troubleshooting -->
+                <section id="troubleshooting" class="docs-section">
+                    <h2>Troubleshooting &amp; FAQs</h2>
+                    <p>Common issues and how to resolve them.</p>
+
+                    <div class="faq-accordion">
+                        <div class="faq-item">
+                            <h4 class="faq-question">1. The Android bubble is not appearing in certain apps</h4>
+                            <p class="faq-answer">Make sure the Accessibility Service is toggled on in your system settings. Certain high-security text boxes, like banking password fields, block accessibility helpers by design to prevent overlay attacks.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h4 class="faq-question">2. I get a transcription error in Cloud Mode</h4>
+                            <p class="faq-answer">Check your internet connection first. If online, open settings and confirm your Groq API key is valid and has no trailing whitespaces. If you trigger multiple short dictations in rapid succession, you might temporarily hit Groq's rate limits.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h4 class="faq-question">3. How much storage does Offline Mode require?</h4>
+                            <p class="faq-answer">The SenseVoice model and Silero VAD weights require about 230 MB of local storage space. Ensure your phone or desktop C: drive has adequate free capacity before toggling the download.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h4 class="faq-question">4. Why does the Windows overlay pill not have close buttons?</h4>
+                            <p class="faq-answer">Clicking overlay buttons on Windows forces desktop systems to transfer active window focus away from your editor. To keep typing fluidly in your main app, the Windows pill displays status only and does not capture input focus.</p>
+                        </div>
+                    </div>
+                </section>
+
+            </article>
+
+        </div>
+    </main>
+
+    <!-- Site Footer -->
+    <footer id="site-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <div class="logo-text">flu<span>ence</span></div>
+                <p>Crystallize your cognition at the speed of thought.</p>
+            </div>
+            <div class="footer-links-grid">
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <a href="index.html">Home</a>
+                    <a href="index.html#features-sec">Features</a>
+                    <a href="docs.html">Docs</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Platforms</h4>
+                    <a href="android.html">Android</a>
+                    <a href="windows.html">Windows</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Open Source</h4>
+                    <a href="https://github.com/raviumeshkulkarni-web/Fluence" target="_blank" rel="noopener">Android Client</a>
+                    <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop" target="_blank" rel="noopener">Windows Client</a>
+                    <a href="https://github.com/raviumeshkulkarni-web/Fluence-Website" target="_blank" rel="noopener">Website Code</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Fluence. Open source under the Apache 2.0 License.</p>
+        </div>
+    </footer>
+
+    <!-- Interactive script -->
+    <script src="script.js?v=2"></script>
+</body>
+</html>

@@ -12,14 +12,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Sora:wght@600;700;800&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
     
     <!-- Custom Style Sheet -->
-    <link rel="stylesheet" href="styles.css?v=2">
+    <link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
 
-    <!-- AMOLED Ambient Morphing Blobs -->
-    <div class="ambient-blob blob-1"></div>
-    <div class="ambient-blob blob-2"></div>
-    <div class="ambient-blob blob-3"></div>
+    <!-- Subtle full-page background waveform canvas -->
+    <canvas id="scroll-waveform-canvas" aria-hidden="true"></canvas>
 
     <!-- Header Navigation -->
     <header id="site-header">
@@ -77,7 +75,7 @@
             <article class="docs-content">
                 
                 <!-- Section 1: Getting Started -->
-                <section id="getting-started" class="docs-section">
+                <section id="getting-started" class="docs-section reveal-up">
                     <h1>Getting Started with Fluence</h1>
                     <p class="lead">Crystallize your cognition at the speed of thought. Fluence is a system-wide voice dictation tool and smart AI editor built for total data privacy.</p>
                     
@@ -103,7 +101,7 @@
                 </section>
 
                 <!-- Section 2: Windows Guide -->
-                <section id="windows-guide" class="docs-section">
+                <section id="windows-guide" class="docs-section reveal-up">
                     <h2>Windows Desktop Guide</h2>
                     <p>Configure and run the Tauri desktop integration for system-wide dictation on Windows devices.</p>
                     
@@ -128,7 +126,7 @@
                 </section>
 
                 <!-- Section 3: Android Guide -->
-                <section id="android-guide" class="docs-section">
+                <section id="android-guide" class="docs-section reveal-up">
                     <h2>Android Mobile Guide</h2>
                     <p>Setup and configure the mobile app. Learn how to activate Accessibility overlays for system-wide dictation.</p>
                     
@@ -154,7 +152,7 @@
                 </section>
 
                 <!-- Section 4: Offline Mode -->
-                <section id="offline-mode" class="docs-section">
+                <section id="offline-mode" class="docs-section reveal-up">
                     <h2>Offline Mode Configuration</h2>
                     <p>Run 100% on-device speech-to-text without sending data online. This is perfect for high-privacy environments or users with poor connectivity.</p>
                     
@@ -179,7 +177,7 @@
                 </section>
 
                 <!-- Section 5: Privacy Policy -->
-                <section id="privacy-policy" class="docs-section">
+                <section id="privacy-policy" class="docs-section reveal-up">
                     <h2>Privacy Policy (Zero Telemetry)</h2>
                     <p class="lead text-gradient">Your data belongs to you. Zero egress, zero telemetry, zero compromises.</p>
                     
@@ -196,7 +194,7 @@
                 </section>
 
                 <!-- Section 6: Troubleshooting -->
-                <section id="troubleshooting" class="docs-section">
+                <section id="troubleshooting" class="docs-section reveal-up">
                     <h2>Troubleshooting &amp; FAQs</h2>
                     <p>Common issues and how to resolve them.</p>
 
@@ -260,6 +258,6 @@
     </footer>
 
     <!-- Interactive script -->
-    <script src="script.js?v=2"></script>
+    <script src="script.js?v=3"></script>
 </body>
 </html>

@@ -1,6 +1,12 @@
 // Fluence - Landing Page Interactions
 
 document.addEventListener('DOMContentLoaded', () => {
+    initScrollWaveform();
+    initDemoWaveform();
+    initAndroidDemoWaveform();
+    initScrollReveal();
+    initFeatureCarousel();
+    initComparisonBars();
     initNavbarScroll();
     initPlatformSwitcher();
     initSimulator();
@@ -8,6 +14,493 @@ document.addEventListener('DOMContentLoaded', () => {
     initWindowsWizard();
     initDocsScrollSpy();
 });
+
+/* =========================================================
+   1. Subtle Full-Page Background Waveform
+   Scroll-driven, gentle always-on canvas in the background.
+   Scroll velocity raises amplitude like voice audio in app.
+   ========================================================= */
+function initScrollWaveform() {
+    var canvas = document.getElementById('scroll-waveform-canvas');
+    if (!canvas) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { canvas.style.display='none'; return; }
+
+    var ctx = canvas.getContext('2d');
+    var W = 0, H = 0;
+    var lastTime = null;
+    var phase = 0;
+    var scrollY = window.scrollY, lastScrollY = scrollY;
+    var smoothedAmplitude = 0;
+
+    function resize() {
+        var dpr = window.devicePixelRatio || 1;
+        W = window.innerWidth; H = window.innerHeight;
+        canvas.width = W * dpr; canvas.height = H * dpr;
+        ctx.setTransform(1,0,0,1,0,0); ctx.scale(dpr, dpr);
+    }
+    window.addEventListener('resize', resize, { passive: true });
+    resize();
+    window.addEventListener('scroll', function() { scrollY = window.scrollY; }, { passive: true });
+
+    function hexAlpha(hex, alpha) {
+        var r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
+        return 'rgba('+r+','+g+','+b+','+alpha+')';
+    }
+    var env = function(x) { return Math.sin((x / W) * Math.PI); };
+
+    function loop(ts) {
+        requestAnimationFrame(loop);
+        if (lastTime === null) lastTime = ts;
+        var dt = Math.min((ts - lastTime) / 1000, 0.1);
+        lastTime = ts;
+
+        var rawV = Math.abs(scrollY - lastScrollY);
+        lastScrollY = scrollY;
+        smoothedAmplitude = smoothedAmplitude * 0.6 + Math.min(rawV / 30, 1.0) * 0.4;
+
+        var speed = 1.0 + smoothedAmplitude * 4.0;
+        phase = (phase + speed * dt * 2 * Math.PI) % (1000 * Math.PI);
+        var p1 = phase, p2 = -phase * 0.7;
+        var activeAmp = (smoothedAmplitude * 0.9 + 0.08) * H * 0.18;
+        ctx.clearRect(0, 0, W, H);
+
+        var x, e, a, v, g;
+        // Wave 1 — violet bg, freq 1.5, amp 0.5
+        ctx.beginPath(); ctx.moveTo(0, H*0.5);
+        for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*1.5+p1; v=Math.sin(x*0.1+p1*3)*smoothedAmplitude*4; ctx.lineTo(x, H*0.5+(Math.sin(a)*activeAmp*0.5+v)*e); }
+        g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#A855F7',0.38)); g.addColorStop(1,'transparent');
+        ctx.strokeStyle=g; ctx.lineWidth=1.5; ctx.stroke();
+
+        // Wave 2 — violet mid, freq 2.5, amp 0.7
+        ctx.beginPath(); ctx.moveTo(0, H*0.5);
+        for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*2.5+p2; v=Math.sin(x*0.15-p2*4)*smoothedAmplitude*3; ctx.lineTo(x, H*0.5+(Math.sin(a)*activeAmp*0.7+v)*e); }
+        g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#A855F7',0.38)); g.addColorStop(1,'transparent');
+        ctx.strokeStyle=g; ctx.lineWidth=1.8; ctx.stroke();
+
+        // Wave 3 — forefront F3E8FF, freq 1.2, amp 0.9
+        ctx.beginPath(); ctx.moveTo(0, H*0.5);
+        for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*1.2+(p1-p2)*0.5; v=Math.sin(x*0.08+p1*5)*smoothedAmplitude*5; ctx.lineTo(x, H*0.5+(Math.sin(a)*activeAmp*0.9+v)*e); }
+        g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#C4B5FD',0.55)); g.addColorStop(1,'transparent');
+        ctx.strokeStyle=g; ctx.lineWidth=2.0; ctx.stroke();
+
+        // Ghost echo upper
+        ctx.beginPath(); ctx.moveTo(0, H*0.25);
+        for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*2.0+p2*0.8; v=Math.sin(x*0.1+p2*2)*smoothedAmplitude*2; ctx.lineTo(x, H*0.25+(Math.sin(a)*activeAmp*0.4+v)*e); }
+        g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#A855F7',0.18)); g.addColorStop(1,'transparent');
+        ctx.strokeStyle=g; ctx.lineWidth=1.0; ctx.stroke();
+
+        // Ghost echo lower
+        ctx.beginPath(); ctx.moveTo(0, H*0.75);
+        for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*1.6+p1*0.9; v=Math.sin(x*0.1+p1*2)*smoothedAmplitude*2; ctx.lineTo(x, H*0.75+(Math.sin(a)*activeAmp*0.4+v)*e); }
+        g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#A855F7',0.18)); g.addColorStop(1,'transparent');
+        ctx.strokeStyle=g; ctx.lineWidth=1.0; ctx.stroke();
+    }
+    requestAnimationFrame(loop);
+}
+
+/* =========================================================
+   1b. Desktop Demo Pill — exact 1:1 AuraVisualizer inside
+   the Windows Settings demo mockup on windows.html.
+   Always animated at idle; demo trigger boosts amplitude.
+   ========================================================= */
+function initDemoWaveform() {
+    var canvas = document.getElementById('desktop-waveform-canvas');
+    if (!canvas) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var ctx = canvas.getContext('2d');
+    var smoothedAmplitude = 0;
+    var phase = 0;
+    var lastTime = null;
+    var demoActive = false;  // boosted when demo is running
+
+    function resize() {
+        var dpr = window.devicePixelRatio || 1;
+        var w = canvas.clientWidth;
+        var h = canvas.clientHeight;
+        if (w === 0 || h === 0) return;
+        canvas.width  = Math.round(w * dpr);
+        canvas.height = Math.round(h * dpr);
+        ctx.setTransform(1,0,0,1,0,0); ctx.scale(dpr, dpr);
+    }
+    window.addEventListener('resize', resize, { passive: true });
+    setTimeout(resize, 100);
+
+    // Expose a method so the Windows demo JS can boost amplitude during dictation
+    window._demoWaveformActivate = function() { demoActive = true; };
+    window._demoWaveformDeactivate = function() { demoActive = false; };
+
+    function hexAlpha(hex, alpha) {
+        var r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
+        return 'rgba('+r+','+g+','+b+','+alpha+')';
+    }
+
+    function loop(ts) {
+        requestAnimationFrame(loop);
+        if (lastTime === null) lastTime = ts;
+        var dt = Math.min((ts - lastTime) / 1000, 0.1);
+        lastTime = ts;
+
+        // Amplitude: idle = gentle 0.08 floor, demo active = fluctuates 0.3-0.9
+        var target = demoActive ? (0.4 + Math.sin(ts * 0.003) * 0.4) : 0;
+        smoothedAmplitude = smoothedAmplitude * 0.85 + target * 0.15;
+
+        // Phase integration — exact AuraVisualizer._loop
+        var speed = 1.0 + smoothedAmplitude * 4.0;
+        phase = (phase + speed * dt * 2 * Math.PI) % (1000 * Math.PI);
+
+        // Dynamic Backing Store check (using scale-invariant clientWidth/clientHeight)
+        var w = canvas.clientWidth  || 160;
+        var h = canvas.clientHeight || 32;
+        var dpr = window.devicePixelRatio || 1;
+        var expectedW = Math.round(w * dpr);
+        var expectedH = Math.round(h * dpr);
+        
+        if (canvas.width !== expectedW || canvas.height !== expectedH) {
+            canvas.width  = expectedW;
+            canvas.height = expectedH;
+            ctx.setTransform(1,0,0,1,0,0); ctx.scale(dpr, dpr);
+        }
+        
+        var W = w;
+        var H = h;
+        ctx.clearRect(0, 0, W, H);
+
+        var env = function(x) { return Math.sin((x / W) * Math.PI); };
+        var p1 = phase, p2 = -phase * 0.7;
+        // activeAmplitude formula — exact from AuraVisualizer._draw()
+        var activeAmplitude = (smoothedAmplitude * 0.9 + 0.08) * (H * 0.48);
+        var x, e, a, v, g;
+
+        // Wave 1 — violet #A855F7, alpha 0.4, freq 1.5, amp 0.5
+        ctx.beginPath(); ctx.moveTo(0, H/2);
+        for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*1.5+p1; v=Math.sin(x*0.1+p1*3)*smoothedAmplitude*4; ctx.lineTo(x, H/2+(Math.sin(a)*activeAmplitude*0.5+v)*e); }
+        g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#A855F7',0.4)); g.addColorStop(1,'transparent');
+        ctx.strokeStyle=g; ctx.lineWidth=1.5; ctx.stroke();
+
+        // Wave 2 — violet #A855F7, alpha 0.4, freq 2.5, amp 0.7
+        ctx.beginPath(); ctx.moveTo(0, H/2);
+        for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*2.5+p2; v=Math.sin(x*0.15-p2*4)*smoothedAmplitude*3; ctx.lineTo(x, H/2+(Math.sin(a)*activeAmplitude*0.7+v)*e); }
+        g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#A855F7',0.4)); g.addColorStop(1,'transparent');
+        ctx.strokeStyle=g; ctx.lineWidth=1.8; ctx.stroke();
+
+        // Wave 3 — #F3E8FF forefront, alpha 0.9, freq 1.2, amp 0.9
+        ctx.beginPath(); ctx.moveTo(0, H/2);
+        for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*1.2+(p1-p2)*0.5; v=Math.sin(x*0.08+p1*5)*smoothedAmplitude*5; ctx.lineTo(x, H/2+(Math.sin(a)*activeAmplitude*0.9+v)*e); }
+        g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#F3E8FF',0.9)); g.addColorStop(1,'transparent');
+        ctx.strokeStyle=g; ctx.lineWidth=2.0; ctx.stroke();
+    }
+    requestAnimationFrame(loop);
+}
+
+
+
+/* =========================================================
+   1c. Android Demo Pill — exact 1:1 AuraVisualizer inside
+   the Android simulator overlay pill on android.html.
+   Always animated at idle; demo trigger boosts amplitude.
+   ========================================================= */
+function initAndroidDemoWaveform() {
+    var canvas = document.getElementById('android-waveform-canvas');
+    if (!canvas) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var ctx = canvas.getContext('2d');
+    var smoothedAmplitude = 0;
+    var phase = 0;
+    var lastTime = null;
+    var demoActive = false;
+
+    function resize() {
+        var dpr = window.devicePixelRatio || 1;
+        var w = canvas.clientWidth;
+        var h = canvas.clientHeight;
+        if (w === 0 || h === 0) return;
+        canvas.width  = Math.round(w * dpr);
+        canvas.height = Math.round(h * dpr);
+        ctx.setTransform(1,0,0,1,0,0); ctx.scale(dpr, dpr);
+    }
+    window.addEventListener('resize', resize, { passive: true });
+    setTimeout(resize, 100);
+
+    window._androidWaveformActivate   = function() { demoActive = true; };
+    window._androidWaveformDeactivate = function() { demoActive = false; };
+
+    function hexAlpha(hex, alpha) {
+        var r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
+        return 'rgba('+r+','+g+','+b+','+alpha+')';
+    }
+
+    function loop(ts) {
+        requestAnimationFrame(loop);
+        if (lastTime === null) lastTime = ts;
+        var dt = Math.min((ts - lastTime) / 1000, 0.1);
+        lastTime = ts;
+
+        // Amplitude: idle gentle floor; demo active = voice-like fluctuation
+        var target = demoActive ? (0.4 + Math.sin(ts * 0.003) * 0.4) : 0;
+        smoothedAmplitude = smoothedAmplitude * 0.85 + target * 0.15;
+
+        // Phase integration — exact AuraVisualizer._loop
+        var speed = 1.0 + smoothedAmplitude * 4.0;
+        phase = (phase + speed * dt * 2 * Math.PI) % (1000 * Math.PI);
+
+        // Dynamic Backing Store check (using scale-invariant clientWidth/clientHeight)
+        var w = canvas.clientWidth  || 160;
+        var h = canvas.clientHeight || 32;
+        var dpr = window.devicePixelRatio || 1;
+        var expectedW = Math.round(w * dpr);
+        var expectedH = Math.round(h * dpr);
+        
+        if (canvas.width !== expectedW || canvas.height !== expectedH) {
+            canvas.width  = expectedW;
+            canvas.height = expectedH;
+            ctx.setTransform(1,0,0,1,0,0); ctx.scale(dpr, dpr);
+        }
+        
+        var W = w;
+        var H = h;
+        ctx.clearRect(0, 0, W, H);
+
+        var env = function(x) { return Math.sin((x / W) * Math.PI); };
+        var p1 = phase, p2 = -phase * 0.7;
+        // activeAmplitude — exact AuraVisualizer formula
+        var activeAmplitude = (smoothedAmplitude * 0.9 + 0.08) * (H * 0.48);
+        var x, e, a, v, g;
+
+        // Wave 1: violet #A855F7, alpha 0.4, freq 1.5x, amp 0.5
+        ctx.beginPath(); ctx.moveTo(0, H/2);
+        for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*1.5+p1; v=Math.sin(x*0.1+p1*3)*smoothedAmplitude*4; ctx.lineTo(x, H/2+(Math.sin(a)*activeAmplitude*0.5+v)*e); }
+        g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#A855F7',0.4)); g.addColorStop(1,'transparent');
+        ctx.strokeStyle=g; ctx.lineWidth=1.5; ctx.stroke();
+
+        // Wave 2: violet #A855F7, alpha 0.4, freq 2.5x, amp 0.7
+        ctx.beginPath(); ctx.moveTo(0, H/2);
+        for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*2.5+p2; v=Math.sin(x*0.15-p2*4)*smoothedAmplitude*3; ctx.lineTo(x, H/2+(Math.sin(a)*activeAmplitude*0.7+v)*e); }
+        g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#A855F7',0.4)); g.addColorStop(1,'transparent');
+        ctx.strokeStyle=g; ctx.lineWidth=1.8; ctx.stroke();
+
+        // Wave 3: #F3E8FF forefront, alpha 0.9, freq 1.2x, amp 0.9
+        ctx.beginPath(); ctx.moveTo(0, H/2);
+        for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*1.2+(p1-p2)*0.5; v=Math.sin(x*0.08+p1*5)*smoothedAmplitude*5; ctx.lineTo(x, H/2+(Math.sin(a)*activeAmplitude*0.9+v)*e); }
+        g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#F3E8FF',0.9)); g.addColorStop(1,'transparent');
+        ctx.strokeStyle=g; ctx.lineWidth=2.0; ctx.stroke();
+    }
+    requestAnimationFrame(loop);
+}/* =========================================================
+   NEW 2. Scroll-Reveal IntersectionObserver
+   ========================================================= */
+function initScrollReveal() {
+    const targets = document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right');
+    if (!targets.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                const delay = parseInt(el.dataset.delay || '0', 10);
+                setTimeout(() => {
+                    el.classList.add('visible');
+                }, delay);
+                observer.unobserve(el);
+            }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    targets.forEach(el => observer.observe(el));
+}
+
+/* =========================================================
+   NEW 3. Horizontal Feature Carousel — Drag-to-Scroll & Auto-Scroll
+   ========================================================= */
+function initFeatureCarousel() {
+    const carousel = document.getElementById('features-carousel');
+    if (!carousel) return;
+
+    // 1. Get original cards (no cloning to avoid duplication)
+    const originalCards = Array.from(carousel.children);
+
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+    let isHolding = false;
+    let autoScrollActive = true;
+    let scrollPosition = carousel.scrollLeft;
+    let lastTime = performance.now();
+
+    let scrollDirection = 'forward'; // 'forward', 'paused_end', 'rewinding', 'paused_start'
+    let stateTimer = 0;
+
+    // 2. Slow auto-scroll loop with finite limits, pause, and rewind
+    function autoScrollLoop(now) {
+        requestAnimationFrame(autoScrollLoop);
+        
+        const dt = Math.min((now - lastTime) / 1000, 0.1);
+        lastTime = now;
+
+        const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+
+        if (!autoScrollActive || isDown || isHolding) {
+            // Keep scrollPosition clamped and synchronized during user interactions
+            scrollPosition = Math.max(0, Math.min(carousel.scrollLeft, Math.max(0, maxScroll)));
+            return;
+        }
+
+        if (maxScroll <= 0) {
+            carousel.scrollLeft = 0;
+            scrollPosition = 0;
+            return;
+        }
+
+        if (scrollDirection === 'forward') {
+            scrollPosition += 25 * dt;
+            if (scrollPosition >= maxScroll) {
+                scrollPosition = maxScroll;
+                scrollDirection = 'paused_end';
+                stateTimer = 2.0; // Pause for 2 seconds at the end
+            }
+            carousel.scrollLeft = Math.round(scrollPosition);
+        } else if (scrollDirection === 'paused_end') {
+            stateTimer -= dt;
+            if (stateTimer <= 0) {
+                scrollDirection = 'rewinding';
+            }
+            carousel.scrollLeft = Math.round(scrollPosition);
+        } else if (scrollDirection === 'rewinding') {
+            // Rewind back to the beginning quickly but smoothly
+            scrollPosition -= 180 * dt;
+            if (scrollPosition <= 0) {
+                scrollPosition = 0;
+                scrollDirection = 'paused_start';
+                stateTimer = 1.0; // Pause for 1 second at the start
+            }
+            carousel.scrollLeft = Math.round(scrollPosition);
+        } else if (scrollDirection === 'paused_start') {
+            stateTimer -= dt;
+            if (stateTimer <= 0) {
+                scrollDirection = 'forward';
+            }
+            carousel.scrollLeft = Math.round(scrollPosition);
+        }
+    }
+    requestAnimationFrame(autoScrollLoop);
+
+    // 4. Mouse dragging listeners
+    carousel.addEventListener('mousedown', e => {
+        isDown = true;
+        carousel.classList.add('dragging');
+        startX = e.pageX - carousel.offsetLeft;
+        scrollLeft = carousel.scrollLeft;
+        autoScrollActive = false;
+    });
+
+    carousel.addEventListener('mouseleave', () => {
+        isDown = false;
+        carousel.classList.remove('dragging');
+        scrollPosition = carousel.scrollLeft;
+        autoScrollActive = true;
+    });
+
+    carousel.addEventListener('mouseup', () => {
+        isDown = false;
+        carousel.classList.remove('dragging');
+        scrollPosition = carousel.scrollLeft;
+        autoScrollActive = true;
+    });
+
+    carousel.addEventListener('mousemove', e => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - carousel.offsetLeft;
+        const walk = (x - startX) * 1.4;
+        carousel.scrollLeft = scrollLeft - walk;
+        scrollPosition = carousel.scrollLeft;
+    });
+
+    // 5. Click & Hold / Touch & Hold (stops scrolling while pressed down)
+    carousel.addEventListener('pointerdown', () => {
+        isHolding = true;
+        autoScrollActive = false;
+    });
+
+    window.addEventListener('pointerup', () => {
+        if (isHolding) {
+            isHolding = false;
+            scrollPosition = carousel.scrollLeft;
+            autoScrollActive = true;
+        }
+    });
+
+    // 6. Mobile touch swipe events
+    carousel.addEventListener('touchstart', e => {
+        isDown = true;
+        startX = e.touches[0].pageX - carousel.offsetLeft;
+        scrollLeft = carousel.scrollLeft;
+        autoScrollActive = false;
+    }, { passive: true });
+
+    carousel.addEventListener('touchmove', e => {
+        if (!isDown) return;
+        const x = e.touches[0].pageX - carousel.offsetLeft;
+        const walk = (x - startX) * 1.4;
+        carousel.scrollLeft = scrollLeft - walk;
+        scrollPosition = carousel.scrollLeft;
+    }, { passive: true });
+
+    carousel.addEventListener('touchend', () => {
+        isDown = false;
+        scrollPosition = carousel.scrollLeft;
+        autoScrollActive = true;
+    });
+
+    // 7. Initialize spotlight glows on all cards
+    initFeatureCardGlow();
+}
+
+/* =========================================================
+   NEW 3b. Interactive mouse spotlight glows on feature cards
+   ========================================================= */
+function initFeatureCardGlow() {
+    const cards = document.querySelectorAll('.feature-card-vertical');
+    cards.forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        });
+    });
+}
+
+/* =========================================================
+   NEW 4. Animated Bar Graph Comparison
+   ========================================================= */
+function initComparisonBars() {
+    const metricGroups = document.querySelectorAll('.bar-metric-group');
+    if (!metricGroups.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const group = entry.target;
+                const bars = group.querySelectorAll('.bar-fill');
+                bars.forEach((bar, i) => {
+                    const targetWidth = parseFloat(bar.dataset.width) || 80;
+                    setTimeout(() => {
+                        bar.style.width = targetWidth + '%';
+                        bar.classList.add('bar-animated');
+                    }, i * 160); // stagger bars within group by 160ms
+                });
+                observer.unobserve(group);
+            }
+        });
+    }, { threshold: 0.25, rootMargin: '0px 0px -30px 0px' });
+
+    metricGroups.forEach(group => observer.observe(group));
+}
+
+
 
 /* 1. Navbar Scroll Effect */
 function initNavbarScroll() {
@@ -88,8 +581,6 @@ function initSimulator() {
     const bottomVoiceBar = document.getElementById('sim-voice-bar');
     const voiceStatusText = document.getElementById('sim-voice-status');
     const notepadBody = document.getElementById('sim-notepad-body');
-    const waveformPath = document.getElementById('sim-waveform-path');
-    const waveformPathBg = document.getElementById('sim-waveform-path-bg');
 
     // --- Windows Elements ---
     const sidebarTabs = document.querySelectorAll('.desktop-sidebar .sidebar-tab');
@@ -99,17 +590,11 @@ function initSimulator() {
     const desktopEditorBody = document.getElementById('desktop-editor-body');
     const desktopOverlayPill = document.getElementById('desktop-overlay-pill');
     const shortcutToast = document.getElementById('shortcut-toast');
-    const desktopWaveformPath = document.getElementById('desktop-waveform-path');
-    const desktopWaveformPathBg = document.getElementById('desktop-waveform-path-bg');
 
     // Safety Check
     if (!floatingBubble && !tryHotkeyBtn) return;
 
     let isSimulating = false;
-    let wavePhase = 0;
-    let waveAmplitude = 0;
-    let waveTargetAmplitude = 0;
-    let animationId = null;
     
     // Initial and Demo text configs
     const originalAndroidText = 'Hello World!<br>';
@@ -123,46 +608,6 @@ function initSimulator() {
         notepadBody.innerHTML = originalAndroidText + '<span class="typing-cursor"></span>';
     }
 
-    // SVG Waveform Drawing loop (REUSED DRY FOR BOTH PLATFORMS)
-    function animateWave() {
-        if (!isSimulating) return;
-        
-        // Interpolate amplitude smoothly
-        waveAmplitude += (waveTargetAmplitude - waveAmplitude) * 0.1;
-        
-        const width = 160;
-        const height = 32;
-        const points = [];
-        const pointsBg = [];
-        
-        // Generate points for double sine wave
-        for (let x = 0; x <= width; x += 2) {
-            // Main wave: sine wave with envelope function to pinch the edges
-            const envelope = Math.sin((x / width) * Math.PI); 
-            const y1 = (height / 2) + Math.sin(x * 0.09 + wavePhase) * waveAmplitude * envelope;
-            // Back/secondary wave (shifted phase/frequency for rich layered look)
-            const y2 = (height / 2) + Math.sin(x * 0.075 - wavePhase * 0.8) * (waveAmplitude * 0.65) * envelope;
-            
-            points.push(`${x},${y1}`);
-            pointsBg.push(`${x},${y2}`);
-        }
-        
-        // Target active platform's SVG paths
-        if (window.activePlatform === 'android') {
-            if (waveformPath && waveformPathBg) {
-                waveformPath.setAttribute('d', `M ${points.join(' L ')}`);
-                waveformPathBg.setAttribute('d', `M ${pointsBg.join(' L ')}`);
-            }
-        } else {
-            if (desktopWaveformPath && desktopWaveformPathBg) {
-                desktopWaveformPath.setAttribute('d', `M ${points.join(' L ')}`);
-                desktopWaveformPathBg.setAttribute('d', `M ${pointsBg.join(' L ')}`);
-            }
-        }
-        
-        wavePhase += 0.15;
-        animationId = requestAnimationFrame(animateWave);
-    }
 
     // --- Android Simulation Sequence ---
     function startAndroidSimulation() {
@@ -177,10 +622,8 @@ function initSimulator() {
         if (overlayPill) overlayPill.classList.add('active');
         if (bottomVoiceBar) bottomVoiceBar.classList.add('active');
         
-        // Start Waveform drawing
-        waveAmplitude = 0;
-        waveTargetAmplitude = 12; // High wave amplitude for recording state
-        animateWave();
+        // Activate Android AuraVisualizer canvas — boosts amplitude like voice audio
+        if (window._androidWaveformActivate) window._androidWaveformActivate();
         
         // 1. Listening State (3 seconds)
         let timerCount = 0;
@@ -198,7 +641,6 @@ function initSimulator() {
     
     function transitionToAndroidTranscribing() {
         if (voiceStatusText) voiceStatusText.textContent = 'Transcribing...';
-        waveTargetAmplitude = 1.5; // low wiggle for processing state
         
         if (overlayPill) overlayPill.classList.add('success');
         
@@ -211,11 +653,10 @@ function initSimulator() {
             if (bottomVoiceBar) bottomVoiceBar.classList.remove('active');
             if (floatingBubble) floatingBubble.classList.remove('active');
             
-            // Stop wave loop
-            setTimeout(() => {
-                isSimulating = false;
-                cancelAnimationFrame(animationId);
-            }, 500);
+            // Deactivate Android AuraVisualizer canvas (returns to idle gentle wave)
+            if (window._androidWaveformDeactivate) window._androidWaveformDeactivate();
+            
+            isSimulating = false;
             
             // Start typing
             startAndroidTyping();
@@ -281,16 +722,11 @@ function initSimulator() {
             // Show floating recording overlay pill
             if (desktopOverlayPill) desktopOverlayPill.classList.add('active');
 
-            // Start wave loop drawing
-            waveAmplitude = 0;
-            waveTargetAmplitude = 12; // recording wave amplitude
-            animateWave();
+            // Activate AuraVisualizer canvas — boosts amplitude like voice audio
+            if (window._demoWaveformActivate) window._demoWaveformActivate();
 
             // Simulate listening (2.5 seconds)
             setTimeout(() => {
-                // Transition to transcribing wiggle
-                waveTargetAmplitude = 1.5; 
-                
                 if (desktopOverlayPill) desktopOverlayPill.classList.add('success');
 
                 // Hide overlay pill
@@ -300,11 +736,10 @@ function initSimulator() {
                         desktopOverlayPill.classList.remove('success');
                     }
                     
-                    // Stop animation loop
-                    setTimeout(() => {
-                        isSimulating = false;
-                        cancelAnimationFrame(animationId);
-                    }, 500);
+                    // Deactivate AuraVisualizer canvas (returns to idle gentle wave)
+                    if (window._demoWaveformDeactivate) window._demoWaveformDeactivate();
+
+                    isSimulating = false;
 
                     // Start typewriter text injection
                     startWindowsTyping();
@@ -490,7 +925,7 @@ function initWindowsWizard() {
                 nextBtn.classList.add('hidden');
             } else {
                 nextBtn.classList.remove('hidden');
-                nextBtn.textContent = step === 1 ? 'Get Started' : (step === TOTAL_STEPS - 1 ? 'Finish Setup' : 'Continue →');
+                nextBtn.textContent = step === 1 ? 'Get Started' : (step === TOTAL_STEPS - 1 ? 'Finish Setup' : 'Continue â†’');
             }
         }
     }
@@ -684,7 +1119,7 @@ function initWindowsWizard() {
         testRecordBtn.addEventListener('click', () => {
             if (!isTestRecording) {
                 isTestRecording = true;
-                testRecordBtn.textContent = '⏹ Stop Recording';
+                testRecordBtn.textContent = 'â¹ Stop Recording';
                 testRecordBtn.style.background = 'linear-gradient(135deg, #ef4444, #c0392b)';
                 if (testResult) {
                     testResult.classList.remove('placeholder');
@@ -692,7 +1127,7 @@ function initWindowsWizard() {
                 }
             } else {
                 isTestRecording = false;
-                testRecordBtn.textContent = '⏳ Transcribing...';
+                testRecordBtn.textContent = 'â³ Transcribing...';
                 testRecordBtn.style.background = '';
                 testRecordBtn.disabled = true;
 
@@ -700,7 +1135,7 @@ function initWindowsWizard() {
                     if (testResult) {
                         testResult.textContent = 'Hello! This is a test of Fluence voice typing setup on Windows.';
                     }
-                    testRecordBtn.textContent = '🎙 Try Again';
+                    testRecordBtn.textContent = 'ðŸŽ™ Try Again';
                     testRecordBtn.disabled = false;
                 }, 1500);
             }

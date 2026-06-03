@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fluence 🎙️ | Privacy-First AI Voice Dictation for Windows & Android</title>
+    <title>Fluence 🎙️ | Privacy-First AI Voice Dictation for Windows &amp; Android</title>
     <meta name="description" content="Fluence is an open-source, system-wide voice dictation and AI assistant for Windows and Android. Powered by Groq Whisper, with fully offline modes available.">
     
     <!-- Google Fonts: Sora (Display), Hanken Grotesk (Body), Geist Mono (Mono) -->
@@ -12,14 +12,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Sora:wght@600;700;800&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
     
     <!-- Custom Style Sheet -->
-    <link rel="stylesheet" href="styles.css?v=2">
+    <link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
 
-    <!-- AMOLED Ambient Morphing Blobs -->
-    <div class="ambient-blob blob-1"></div>
-    <div class="ambient-blob blob-2"></div>
-    <div class="ambient-blob blob-3"></div>
+    <!-- Subtle full-page background waveform canvas -->
+    <canvas id="scroll-waveform-canvas" aria-hidden="true"></canvas>
 
     <!-- Header Navigation -->
     <header id="site-header">
@@ -62,6 +60,16 @@
         <!-- Hero Section -->
         <section class="hero hero-bg" id="hero-sec">
             <div class="hero-noise"></div>
+
+            <!-- Pulsing concentric sound wave rings -->
+            <svg class="hero-pulse-rings" viewBox="0 0 700 700" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <circle cx="350" cy="350" r="80"/>
+                <circle cx="350" cy="350" r="130"/>
+                <circle cx="350" cy="350" r="185"/>
+                <circle cx="350" cy="350" r="245"/>
+                <circle cx="350" cy="350" r="310"/>
+            </svg>
+
             <div class="hero-badges">
                 <div class="status-live-tag">
                     <span class="live-dot"></span>
@@ -72,10 +80,10 @@
             <p>An open-source, system-wide voice dictation and AI assistant for Android and Windows. Transcribe in sub-seconds via Groq Whisper, or switch to 100% local offline transcription with intelligent AI commands. Works instantly in any application.</p>
             <div class="hero-ctas">
                 <a href="windows.html" class="btn-primary" id="hero-btn-dl">
-                    Fluence Windows Demo
+                    Try Fluence for Windows
                 </a>
                 <a href="android.html" class="btn-secondary" id="hero-btn-android-dl">
-                    Fluence Android Demo
+                    Try Fluence for Android
                 </a>
             </div>
         </section>
@@ -85,267 +93,433 @@
         <!-- Problem & Solution Section -->
         <section class="problem-solution-container" id="problem-sec">
             <div class="problem-solution-stack">
-                <div class="glass-panel problem-card">
+                <div class="glass-panel problem-card reveal-left">
                     <h2 class="problem-title">The Dictation Bottleneck</h2>
                     <p>Traditional dictation systems are either slow, unpunctuated, or restricted to a specific custom keyboard. Google's streaming STT dictates word-by-word and frequently gets homophones wrong because it lacks contextual sentence-level comprehension. Furthermore, closed-source keyboards pose a massive telemetry and data privacy risk.</p>
                 </div>
-                <div class="glass-panel solution-card">
+                <div class="glass-panel solution-card reveal-right">
                     <h2 class="solution-title">The Flu<span>ence</span> Approach</h2>
                     <p>Fluence waits for you to finish your sentence/phrase, transcribes it using OpenAI's Whisper Large v3 model on Groq's LPU inference hardware in less than a second, and automatically injects fully-punctuated, context-aware text directly at your cursor.</p>
                 </div>
             </div>
 
-            <div class="glass-panel comparison-table-wrapper">
+            <!-- Animated Bar Graph replacing old comparison table -->
+            <div class="glass-panel comparison-bar-section reveal-up">
                 <h3>Accuracy &amp; Performance Comparison</h3>
-                <div class="table-scroll-container">
-                    <table class="comparison-table">
-                        <thead>
-                            <tr>
-                                <th>Feature</th>
-                                <th class="highlight-header col-fluence-groq">
-                                    Fluence (Groq Whisper v3)
-                                    <span class="winner-badge">★ Best in class</span>
-                                </th>
-                                <th class="highlight-header-offline col-fluence-offline">
-                                    Fluence (SenseVoice Offline)
-                                    <span class="winner-badge">★ Best in class</span>
-                                </th>
-                                <th>Google Speech-to-Text</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="comparison-row">
-                                <td class="feature-title">Accuracy</td>
-                                <td class="highlight-cell col-fluence-groq"><strong><code>92% - 97.9%</code></strong> (Human level)</td>
-                                <td class="highlight-cell-offline col-fluence-offline"><strong><code>85% - 93%</code></strong> (On-device)</td>
-                                <td><code>79% - 88%</code></td>
-                            </tr>
-                            <tr class="comparison-row">
-                                <td class="feature-title">Punctuation</td>
-                                <td class="highlight-cell col-fluence-groq"><strong>Automatic &amp; Intelligent</strong></td>
-                                <td class="highlight-cell-offline col-fluence-offline"><strong>Automatic &amp; Intelligent</strong></td>
-                                <td>Rigid / Word-by-word</td>
-                            </tr>
-                            <tr class="comparison-row">
-                                <td class="feature-title">Privacy</td>
-                                <td class="highlight-cell col-fluence-groq"><strong>Open Source (Zero Telemetry)</strong></td>
-                                <td class="highlight-cell-offline col-fluence-offline"><strong>100% On-Device (Zero Egress)</strong></td>
-                                <td>Closed Source (Data collected)</td>
-                            </tr>
-                            <tr class="comparison-row">
-                                <td class="feature-title">System-wide Overlay</td>
-                                <td class="highlight-cell col-fluence-groq"><strong>Yes (Floating Bubble)</strong></td>
-                                <td class="highlight-cell-offline col-fluence-offline"><strong>Yes (Floating Bubble)</strong></td>
-                                <td>No (Restricted to keyboard)</td>
-                            </tr>
-                            <tr class="comparison-row">
-                                <td class="feature-title">Accent &amp; Jargon Handling</td>
-                                <td class="highlight-cell col-fluence-groq"><strong>Excellent (<code>680k hr</code> dataset)</strong></td>
-                                <td class="highlight-cell-offline col-fluence-offline"><strong>Good (Industrial dataset)</strong></td>
-                                <td>Average (Often stumbles)</td>
-                            </tr>
-                            <tr class="comparison-row">
-                                <td class="feature-title">Internet Required</td>
-                                <td class="highlight-cell col-fluence-groq"><strong>Cloud only</strong></td>
-                                <td class="highlight-cell-offline col-fluence-offline"><strong>No. Fully Offline.</strong></td>
-                                <td>Cloud only</td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                <div class="bar-graph-legend">
+                    <div class="legend-item">
+                        <span class="legend-dot groq"></span>
+                        Fluence (Groq Whisper v3)
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot offline"></span>
+                        Fluence (SenseVoice Offline)
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot google"></span>
+                        Google Speech-to-Text
+                    </div>
                 </div>
+
+                <!-- Accuracy -->
+                <div class="bar-metric-group" data-metric="accuracy">
+                    <div class="bar-metric-label">Recognition Accuracy</div>
+                    <div class="bar-row">
+                        <span class="bar-row-name">Fluence Groq</span>
+                        <div class="bar-track">
+                            <div class="bar-fill bar-groq" data-width="97.9" data-label="92% &ndash; 97.9%">
+                                <span class="bar-value">92&ndash;97.9%</span>
+                            </div>
+                        </div>
+                        <span class="bar-winner-badge">★ Best</span>
+                    </div>
+                    <div class="bar-row">
+                        <span class="bar-row-name">Fluence Offline</span>
+                        <div class="bar-track">
+                            <div class="bar-fill bar-offline" data-width="90" data-label="85% &ndash; 93%">
+                                <span class="bar-value">85&ndash;93%</span>
+                            </div>
+                        </div>
+                        <span class="bar-winner-badge teal">★ Best</span>
+                    </div>
+                    <div class="bar-row">
+                        <span class="bar-row-name">Google STT</span>
+                        <div class="bar-track">
+                            <div class="bar-fill bar-google" data-width="83" data-label="79% &ndash; 88%">
+                                <span class="bar-value">79&ndash;88%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transcription latency -->
+                <div class="bar-metric-group" data-metric="latency">
+                    <div class="bar-metric-label">Transcription Speed</div>
+                    <div class="bar-row">
+                        <span class="bar-row-name">Fluence Groq</span>
+                        <div class="bar-track">
+                            <div class="bar-fill bar-groq" data-width="98" data-label="Under 1 second">
+                                <span class="bar-value">&lt;1 sec</span>
+                            </div>
+                        </div>
+                        <span class="bar-winner-badge">★ Best</span>
+                    </div>
+                    <div class="bar-row">
+                        <span class="bar-row-name">Fluence Offline</span>
+                        <div class="bar-track">
+                            <div class="bar-fill bar-offline" data-width="80" data-label="1 to 2 seconds">
+                                <span class="bar-value">1&ndash;2 sec</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar-row">
+                        <span class="bar-row-name">Google STT</span>
+                        <div class="bar-track">
+                            <div class="bar-fill bar-google" data-width="55" data-label="Streaming (word-by-word)">
+                                <span class="bar-value">Streaming</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Privacy -->
+                <div class="bar-metric-group" data-metric="privacy">
+                    <div class="bar-metric-label">Privacy &amp; Telemetry</div>
+                    <div class="bar-row">
+                        <span class="bar-row-name">Fluence Groq</span>
+                        <div class="bar-track">
+                            <div class="bar-fill bar-groq" data-width="92" data-label="Open source, zero telemetry">
+                                <span class="bar-value">Zero telemetry</span>
+                            </div>
+                        </div>
+                        <span class="bar-winner-badge">★ Best</span>
+                    </div>
+                    <div class="bar-row">
+                        <span class="bar-row-name">Fluence Offline</span>
+                        <div class="bar-track">
+                            <div class="bar-fill bar-offline" data-width="100" data-label="100% on-device, zero egress">
+                                <span class="bar-value">100% On-Device</span>
+                            </div>
+                        </div>
+                        <span class="bar-winner-badge teal">★ Best</span>
+                    </div>
+                    <div class="bar-row">
+                        <span class="bar-row-name">Google STT</span>
+                        <div class="bar-track">
+                            <div class="bar-fill bar-google" data-width="25" data-label="Closed source, data collected">
+                                <span class="bar-value">Closed source</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accent handling -->
+                <div class="bar-metric-group" data-metric="accent">
+                    <div class="bar-metric-label">Accent &amp; Jargon Handling</div>
+                    <div class="bar-row">
+                        <span class="bar-row-name">Fluence Groq</span>
+                        <div class="bar-track">
+                            <div class="bar-fill bar-groq" data-width="96" data-label="Excellent (680k hr dataset)">
+                                <span class="bar-value">Excellent</span>
+                            </div>
+                        </div>
+                        <span class="bar-winner-badge">★ Best</span>
+                    </div>
+                    <div class="bar-row">
+                        <span class="bar-row-name">Fluence Offline</span>
+                        <div class="bar-track">
+                            <div class="bar-fill bar-offline" data-width="78" data-label="Good (industrial dataset)">
+                                <span class="bar-value">Good</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bar-row">
+                        <span class="bar-row-name">Google STT</span>
+                        <div class="bar-track">
+                            <div class="bar-fill bar-google" data-width="52" data-label="Average, often stumbles">
+                                <span class="bar-value">Average</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
         <hr class="section-divider" />
 
-        <!-- Core Features Section: bento card grid -->
+        <!-- Core Features Section: horizontal scroll carousel -->
         <section class="features-container" id="features-sec">
-            <h2>Built for people who think faster than they type</h2>
+            <h2>Everything I wished voice typing had. So I built it.</h2>
             <p class="features-subheading">Every feature exists because a workaround wasn't good enough.</p>
-            <div class="features-grid">
 
-                <!-- Card 1: Voice Dictation -->
-                <div class="glass-panel feature-card-vertical" id="feat-voice">
-                    <div class="feature-bento-content">
-                        <div class="feature-icon-box">
-                            <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <defs>
-                                    <linearGradient id="icon-grad-voice" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
-                                        <stop offset="0%" stop-color="#A855F7"/>
-                                        <stop offset="100%" stop-color="#00f2fe"/>
-                                    </linearGradient>
-                                    <filter id="glow-voice">
-                                        <feGaussianBlur stdDeviation="1.5" result="blur"/>
-                                        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                                    </filter>
-                                </defs>
-                                <!-- Microphone body -->
-                                <rect x="22" y="10" width="12" height="20" rx="6" stroke="url(#icon-grad-voice)" stroke-width="2" fill="none" filter="url(#glow-voice)"/>
-                                <!-- Microphone arc -->
-                                <path d="M14 28c0 7.732 6.268 14 14 14s14-6.268 14-14" stroke="url(#icon-grad-voice)" stroke-width="2" stroke-linecap="round" fill="none"/>
-                                <!-- Stand -->
-                                <line x1="28" y1="42" x2="28" y2="47" stroke="url(#icon-grad-voice)" stroke-width="2" stroke-linecap="round"/>
-                                <line x1="22" y1="47" x2="34" y2="47" stroke="url(#icon-grad-voice)" stroke-width="2" stroke-linecap="round"/>
-                                <!-- Waveform bars beside mic -->
-                                <rect x="8" y="23" width="2.5" height="10" rx="1.25" fill="url(#icon-grad-voice)" opacity="0.6"/>
-                                <rect x="12" y="19" width="2.5" height="18" rx="1.25" fill="url(#icon-grad-voice)" opacity="0.8"/>
-                                <rect x="41.5" y="23" width="2.5" height="10" rx="1.25" fill="url(#icon-grad-voice)" opacity="0.6"/>
-                                <rect x="45.5" y="19" width="2.5" height="18" rx="1.25" fill="url(#icon-grad-voice)" opacity="0.8"/>
-                            </svg>
+            <div class="features-carousel-wrapper">
+                <div class="features-grid" id="features-carousel">
+                    <!-- Card 1: Voice Dictation -->
+                    <div class="glass-panel feature-card-vertical" id="feat-voice">
+                        <div class="feature-bento-content">
+                            <div class="feature-icon-box">
+                                <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <linearGradient id="icon-grad-voice" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+                                            <stop offset="0%" stop-color="#A855F7"/>
+                                            <stop offset="100%" stop-color="#00f2fe"/>
+                                        </linearGradient>
+                                        <filter id="glow-voice">
+                                            <feGaussianBlur stdDeviation="1.5" result="blur"/>
+                                            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                        </filter>
+                                    </defs>
+                                    <!-- Microphone body -->
+                                    <rect x="22" y="10" width="12" height="20" rx="6" stroke="url(#icon-grad-voice)" stroke-width="2" fill="none" filter="url(#glow-voice)"/>
+                                    <!-- Microphone arc -->
+                                    <path d="M14 28c0 7.732 6.268 14 14 14s14-6.268 14-14" stroke="url(#icon-grad-voice)" stroke-width="2" stroke-linecap="round" fill="none"/>
+                                    <!-- Stand -->
+                                    <line x1="28" y1="42" x2="28" y2="47" stroke="url(#icon-grad-voice)" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="22" y1="47" x2="34" y2="47" stroke="url(#icon-grad-voice)" stroke-width="2" stroke-linecap="round"/>
+                                    <!-- Waveform bars beside mic -->
+                                    <rect x="8" y="23" width="2.5" height="10" rx="1.25" fill="url(#icon-grad-voice)" opacity="0.6"/>
+                                    <rect x="12" y="19" width="2.5" height="18" rx="1.25" fill="url(#icon-grad-voice)" opacity="0.8"/>
+                                    <rect x="41.5" y="23" width="2.5" height="10" rx="1.25" fill="url(#icon-grad-voice)" opacity="0.6"/>
+                                    <rect x="45.5" y="19" width="2.5" height="18" rx="1.25" fill="url(#icon-grad-voice)" opacity="0.8"/>
+                                </svg>
+                            </div>
+                            <div class="feature-text">
+                                <h3>Voice Dictation</h3>
+                                <p>Powered by Groq-accelerated Whisper Large v3. Transcribes in under a second with up to 97.9% accuracy, handling complex jargon with ease.</p>
+                            </div>
                         </div>
-                        <div class="feature-text">
-                            <h3>Voice Dictation</h3>
-                            <p>Powered by Groq-accelerated Whisper Large v3. Transcribes in under a second with up to 97.9% word accuracy, handling complex jargon and heavy accents with ease.</p>
+                        <div class="feature-bento-visual">
+                            <div class="bento-wave">
+                                <span class="wave-bar bar-1"></span>
+                                <span class="wave-bar bar-2"></span>
+                                <span class="wave-bar bar-3"></span>
+                                <span class="wave-bar bar-4"></span>
+                                <span class="wave-bar bar-5"></span>
+                                <span class="wave-bar bar-6"></span>
+                                <span class="wave-bar bar-7"></span>
+                                <span class="wave-bar bar-8"></span>
+                                <span class="wave-bar bar-9"></span>
+                                <span class="wave-bar bar-10"></span>
+                            </div>
                         </div>
                     </div>
-                    <div class="feature-bento-visual">
-                        <div class="bento-wave">
-                            <span class="wave-bar bar-1"></span>
-                            <span class="wave-bar bar-2"></span>
-                            <span class="wave-bar bar-3"></span>
-                            <span class="wave-bar bar-4"></span>
-                            <span class="wave-bar bar-5"></span>
+ 
+                    <!-- Card 2: AI Agent Mode -->
+                    <div class="glass-panel feature-card-vertical" id="feat-agent">
+                        <div class="feature-bento-content">
+                            <div class="feature-icon-box">
+                                <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <linearGradient id="icon-grad-agent" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+                                            <stop offset="0%" stop-color="#A855F7"/>
+                                            <stop offset="100%" stop-color="#00f2fe"/>
+                                        </linearGradient>
+                                        <filter id="glow-agent">
+                                            <feGaussianBlur stdDeviation="1.5" result="blur"/>
+                                            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                        </filter>
+                                    </defs>
+                                    <!-- Outer orbit ring -->
+                                    <circle cx="28" cy="28" r="19" stroke="url(#icon-grad-agent)" stroke-width="1.5" stroke-dasharray="2.5 4" stroke-linecap="round" opacity="0.6"/>
+                                    <!-- Mid orbit ring -->
+                                    <circle cx="28" cy="28" r="13" stroke="url(#icon-grad-agent)" stroke-width="1.5" stroke-dasharray="3 4" stroke-linecap="round" opacity="0.85" filter="url(#glow-agent)"/>
+                                    <!-- Inner core -->
+                                    <circle cx="28" cy="28" r="5" fill="url(#icon-grad-agent)" filter="url(#glow-agent)"/>
+                                    <!-- Lightning bolt center -->
+                                    <path d="M30 24l-4 5h3l-1 4 4-5h-3l1-4z" fill="white" opacity="0.95"/>
+                                    <!-- Orbit dot -->
+                                    <circle cx="28" cy="9" r="2.5" fill="url(#icon-grad-agent)" filter="url(#glow-agent)"/>
+                                </svg>
+                            </div>
+                            <div class="feature-text">
+                                <h3>AI Agent Mode</h3>
+                                <p>Hold to activate. Powered by Llama 3.3 70B, Agent Mode accepts speech instructions right at your cursor: edit, translate, or generate text.</p>
+                            </div>
+                        </div>
+                        <div class="feature-bento-visual">
+                            <div class="bento-agent-orbit">
+                                <div class="orbit-ring ring-outer">
+                                    <div class="orbit-dot dot-1"></div>
+                                </div>
+                                <div class="orbit-ring ring-mid">
+                                    <div class="orbit-dot dot-2"></div>
+                                </div>
+                                <div class="orbit-ring ring-inner">
+                                    <div class="orbit-dot dot-3"></div>
+                                </div>
+                                <div class="orbit-core">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="currentColor"/>
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Card 2: AI Agent Mode -->
-                <div class="glass-panel feature-card-vertical" id="feat-agent">
-                    <div class="feature-icon-box">
-                        <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <linearGradient id="icon-grad-agent" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
-                                    <stop offset="0%" stop-color="#A855F7"/>
-                                    <stop offset="100%" stop-color="#00f2fe"/>
-                                </linearGradient>
-                                <filter id="glow-agent">
-                                    <feGaussianBlur stdDeviation="1.5" result="blur"/>
-                                    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                                </filter>
-                            </defs>
-                            <!-- Outer orbit ring -->
-                            <circle cx="28" cy="28" r="19" stroke="url(#icon-grad-agent)" stroke-width="1.5" stroke-dasharray="2.5 4" stroke-linecap="round" opacity="0.6"/>
-                            <!-- Mid orbit ring -->
-                            <circle cx="28" cy="28" r="13" stroke="url(#icon-grad-agent)" stroke-width="1.5" stroke-dasharray="3 4" stroke-linecap="round" opacity="0.85" filter="url(#glow-agent)"/>
-                            <!-- Inner core -->
-                            <circle cx="28" cy="28" r="5" fill="url(#icon-grad-agent)" filter="url(#glow-agent)"/>
-                            <!-- Lightning bolt center -->
-                            <path d="M30 24l-4 5h3l-1 4 4-5h-3l1-4z" fill="white" opacity="0.95"/>
-                            <!-- Orbit dot -->
-                            <circle cx="28" cy="9" r="2.5" fill="url(#icon-grad-agent)" filter="url(#glow-agent)"/>
-                        </svg>
+ 
+                    <!-- Card 3: Your Words Stay Yours -->
+                    <div class="glass-panel feature-card-vertical" id="feat-privacy">
+                        <div class="feature-bento-content">
+                            <div class="feature-icon-box">
+                                <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <linearGradient id="icon-grad-priv" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+                                            <stop offset="0%" stop-color="#A855F7"/>
+                                            <stop offset="100%" stop-color="#00f2fe"/>
+                                        </linearGradient>
+                                        <filter id="glow-priv">
+                                            <feGaussianBlur stdDeviation="1.5" result="blur"/>
+                                            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                        </filter>
+                                    </defs>
+                                    <!-- Shield outline -->
+                                    <path d="M28 8l16 6v10c0 9-7 16-16 20C19 40 12 33 12 24V14l16-6z" stroke="url(#icon-grad-priv)" stroke-width="2" fill="rgba(168,85,247,0.08)" filter="url(#glow-priv)"/>
+                                    <!-- Lock body -->
+                                    <rect x="22" y="28" width="12" height="9" rx="2.5" stroke="url(#icon-grad-priv)" stroke-width="1.8" fill="none"/>
+                                    <!-- Lock shackle -->
+                                    <path d="M23.5 28v-3.5a4.5 4.5 0 019 0V28" stroke="url(#icon-grad-priv)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                                    <!-- Keyhole dot -->
+                                    <circle cx="28" cy="32.5" r="1.8" fill="url(#icon-grad-priv)" filter="url(#glow-priv)"/>
+                                </svg>
+                            </div>
+                            <div class="feature-text">
+                                <h3>Your Words Stay Yours</h3>
+                                <p>Zero telemetry, zero keyloggers. Audio is ephemeral and deleted instantly. Your API Key is hardware-encrypted via Android Keystore system.</p>
+                            </div>
+                        </div>
+                        <div class="feature-bento-visual">
+                            <div class="bento-security-shield">
+                                <div class="security-shield-glow"></div>
+                                <div class="security-shield-svg">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                    </svg>
+                                </div>
+                                <div class="matrix-rain">
+                                    <span style="--i:1">0</span>
+                                    <span style="--i:2">1</span>
+                                    <span style="--i:3">0</span>
+                                    <span style="--i:4">1</span>
+                                    <span style="--i:5">1</span>
+                                    <span style="--i:6">0</span>
+                                    <span style="--i:7">1</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="feature-text">
-                        <h3>AI Agent Mode</h3>
-                        <p>Hold to activate. Powered by Llama 3.3 70B, Agent Mode accepts speech instructions right at your cursor: edit, rewrite, translate, or generate text in any app.</p>
+ 
+                    <!-- Card 4: Fully Offline Mode -->
+                    <div class="glass-panel feature-card-vertical" id="feat-offline">
+                        <div class="feature-bento-content">
+                            <div class="feature-icon-box">
+                                <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <linearGradient id="icon-grad-offline" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+                                            <stop offset="0%" stop-color="#A855F7"/>
+                                            <stop offset="100%" stop-color="#00f2fe"/>
+                                        </linearGradient>
+                                        <filter id="glow-offline">
+                                            <feGaussianBlur stdDeviation="1.5" result="blur"/>
+                                            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                        </filter>
+                                    </defs>
+                                    <!-- Chip body -->
+                                    <rect x="17" y="17" width="22" height="22" rx="4" stroke="url(#icon-grad-offline)" stroke-width="2" fill="rgba(0,242,254,0.06)" filter="url(#glow-offline)"/>
+                                    <!-- Chip inner core -->
+                                    <rect x="22" y="22" width="12" height="12" rx="2" fill="url(#icon-grad-offline)" opacity="0.25"/>
+                                    <!-- Chip pins -->
+                                    <line x1="22" y1="17" x2="22" y2="12" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
+                                    <line x1="28" y1="17" x2="28" y2="12" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
+                                    <line x1="34" y1="17" x2="34" y2="12" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
+                                    <line x1="22" y1="39" x2="22" y2="44" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
+                                    <line x1="28" y1="39" x2="28" y2="44" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
+                                    <line x1="34" y1="39" x2="34" y2="44" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
+                                    <line x1="17" y1="22" x2="12" y2="22" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
+                                    <line x1="17" y1="28" x2="12" y2="28" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
+                                    <line x1="17" y1="34" x2="12" y2="34" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
+                                    <line x1="39" y1="22" x2="44" y2="22" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
+                                    <line x1="39" y1="28" x2="44" y2="28" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
+                                    <line x1="39" y1="34" x2="44" y2="34" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
+                                    <!-- No-cloud strike -->
+                                    <line x1="24" y1="26" x2="32" y2="30" stroke="url(#icon-grad-offline)" stroke-width="1.5" stroke-linecap="round" filter="url(#glow-offline)"/>
+                                </svg>
+                            </div>
+                            <div class="feature-text">
+                                <h3>Fully Offline Mode</h3>
+                                <p>100% offline powered by SenseVoice-Small ONNX model (~230 MB). All inference runs on-device. No internet or data egress, ever.</p>
+                            </div>
+                        </div>
+                        <div class="feature-bento-visual">
+                            <div class="bento-cpu-chip">
+                                <div class="chip-socket">
+                                    <div class="chip-silicon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <rect x="4" y="4" width="16" height="16" rx="2"/>
+                                            <rect x="9" y="9" width="6" height="6"/>
+                                            <line x1="9" y1="1" x2="9" y2="4"/>
+                                            <line x1="15" y1="1" x2="15" y2="4"/>
+                                            <line x1="9" y1="20" x2="9" y2="23"/>
+                                            <line x1="15" y1="20" x2="15" y2="23"/>
+                                            <line x1="20" y1="9" x2="23" y2="9"/>
+                                            <line x1="20" y1="15" x2="23" y2="15"/>
+                                            <line x1="1" y1="9" x2="4" y2="9"/>
+                                            <line x1="1" y1="15" x2="4" y2="15"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="circuit-pulses">
+                                    <span class="pulse pulse-t"></span>
+                                    <span class="pulse pulse-b"></span>
+                                    <span class="pulse pulse-l"></span>
+                                    <span class="pulse pulse-r"></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                <!-- Card 3: Ironclad Privacy -->
-                <div class="glass-panel feature-card-vertical" id="feat-privacy">
-                    <div class="feature-icon-box">
-                        <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <linearGradient id="icon-grad-priv" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
-                                    <stop offset="0%" stop-color="#A855F7"/>
-                                    <stop offset="100%" stop-color="#00f2fe"/>
-                                </linearGradient>
-                                <filter id="glow-priv">
-                                    <feGaussianBlur stdDeviation="1.5" result="blur"/>
-                                    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                                </filter>
-                            </defs>
-                            <!-- Shield outline -->
-                            <path d="M28 8l16 6v10c0 9-7 16-16 20C19 40 12 33 12 24V14l16-6z" stroke="url(#icon-grad-priv)" stroke-width="2" fill="rgba(168,85,247,0.08)" filter="url(#glow-priv)"/>
-                            <!-- Lock body -->
-                            <rect x="22" y="28" width="12" height="9" rx="2.5" stroke="url(#icon-grad-priv)" stroke-width="1.8" fill="none"/>
-                            <!-- Lock shackle -->
-                            <path d="M23.5 28v-3.5a4.5 4.5 0 019 0V28" stroke="url(#icon-grad-priv)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-                            <!-- Keyhole dot -->
-                            <circle cx="28" cy="32.5" r="1.8" fill="url(#icon-grad-priv)" filter="url(#glow-priv)"/>
-                        </svg>
-                    </div>
-                    <div class="feature-text">
-                        <h3>Ironclad Privacy</h3>
-                        <p>Zero telemetry, zero keyloggers, zero analytics. Audio is ephemeral and deleted instantly after transcription. Your API Key is hardware-encrypted via Android Keystore.</p>
-                    </div>
-                </div>
-
-                <!-- Card 4: Local Edge Model -->
-                <div class="glass-panel feature-card-vertical" id="feat-offline">
-                    <div class="feature-icon-box">
-                        <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <linearGradient id="icon-grad-offline" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
-                                    <stop offset="0%" stop-color="#A855F7"/>
-                                    <stop offset="100%" stop-color="#00f2fe"/>
-                                </linearGradient>
-                                <filter id="glow-offline">
-                                    <feGaussianBlur stdDeviation="1.5" result="blur"/>
-                                    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                                </filter>
-                            </defs>
-                            <!-- Chip body -->
-                            <rect x="17" y="17" width="22" height="22" rx="4" stroke="url(#icon-grad-offline)" stroke-width="2" fill="rgba(0,242,254,0.06)" filter="url(#glow-offline)"/>
-                            <!-- Chip inner core -->
-                            <rect x="22" y="22" width="12" height="12" rx="2" fill="url(#icon-grad-offline)" opacity="0.25"/>
-                            <!-- Chip pins top/bottom/left/right -->
-                            <line x1="22" y1="17" x2="22" y2="12" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
-                            <line x1="28" y1="17" x2="28" y2="12" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
-                            <line x1="34" y1="17" x2="34" y2="12" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
-                            <line x1="22" y1="39" x2="22" y2="44" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
-                            <line x1="28" y1="39" x2="28" y2="44" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
-                            <line x1="34" y1="39" x2="34" y2="44" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
-                            <line x1="17" y1="22" x2="12" y2="22" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
-                            <line x1="17" y1="28" x2="12" y2="28" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
-                            <line x1="17" y1="34" x2="12" y2="34" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
-                            <line x1="39" y1="22" x2="44" y2="22" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
-                            <line x1="39" y1="28" x2="44" y2="28" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
-                            <line x1="39" y1="34" x2="44" y2="34" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
-                            <!-- No-cloud strike (small diagonal) -->
-                            <line x1="24" y1="26" x2="32" y2="30" stroke="url(#icon-grad-offline)" stroke-width="1.5" stroke-linecap="round" filter="url(#glow-offline)"/>
-                        </svg>
-                    </div>
-                    <div class="feature-text">
-                        <h3>Local Edge Model</h3>
-                        <p>100% offline voice typing powered by Alibaba's SenseVoice-Small ONNX model (~230 MB, downloaded on demand). All inference runs on-device via sherpa-onnx. No internet, no data egress, ever.</p>
-                    </div>
-                </div>
 
             </div>
+
+
+            <!-- Scroll hint -->
+            <div class="carousel-scroll-hint" aria-hidden="true">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+                Drag to explore
+            </div>
+
         </section>
 
         <hr class="section-divider" />
 
         <!-- Collapsible FAQ Section -->
         <section class="faq-section" id="faq-sec">
-            <h2>Frequently Asked Questions</h2>
+            <h2 class="reveal-up">Frequently Asked Questions</h2>
             <div class="faq-group">
-                <details name="faq-accordion" class="glass-panel faq-item" open>
+                <details name="faq-accordion" class="glass-panel faq-item reveal-up" open>
                     <summary>Is Fluence free to use?</summary>
                     <div class="faq-content">
                         <p>Yes, Fluence is 100% free and open-source under the Apache 2.0 license. Since transcription is processed using API keys, you only pay for your own usage. Groq offers a generous free tier for developers, and even on paid tiers, Whisper transcription costs a fraction of a cent per hour of usage. Offline mode using SenseVoice has no API cost whatsoever.</p>
                     </div>
                 </details>
-                <details name="faq-accordion" class="glass-panel faq-item">
+                <details name="faq-accordion" class="glass-panel faq-item reveal-up" data-delay="100">
                     <summary>Does Fluence track my keystrokes or usage?</summary>
                     <div class="faq-content">
                         <p>Absolutely not. Fluence does <strong>not</strong> record, store, or transmit keystrokes, typing speed, session length, usage frequency, or any behavioral data whatsoever. There are zero analytics libraries, zero crash reporters, and zero background telemetry beacons in the codebase. The app contains no tracking code of any kind. Every line of this is verifiable since the project is fully open source.</p>
                     </div>
                 </details>
-                <details name="faq-accordion" class="glass-panel faq-item">
+                <details name="faq-accordion" class="glass-panel faq-item reveal-up" data-delay="200">
                     <summary>How is my data privacy protected?</summary>
                     <div class="faq-content">
                         <p>Fluence is built on ironclad privacy principles. There is zero telemetry and no server logging of any kind. Audio is recorded, sent securely to the Whisper API, transcribed, and instantly discarded from both the API and your device. Your Groq API key is stored inside the Android Keystore using hardware-backed encryption, never in plain text. In offline mode, no audio or data ever leaves your device at all.</p>
                     </div>
                 </details>
-                <details name="faq-accordion" class="glass-panel faq-item">
+                <details name="faq-accordion" class="glass-panel faq-item reveal-up" data-delay="300">
                     <summary>Can it run completely offline?</summary>
                     <div class="faq-content">
                         <p>Yes! Fluence fully supports 100% offline, on-device voice dictation. Toggle "Offline Transcription" in settings and the app downloads Alibaba's optimized SenseVoice-Small ONNX model (~230 MB, one-time download). Once downloaded, all transcription runs completely locally on your device with zero internet connectivity and zero data egress. Offline mode also works with AI Agent Mode for local text editing commands.</p>
                     </div>
                 </details>
-                <details name="faq-accordion" class="glass-panel faq-item">
+                <details name="faq-accordion" class="glass-panel faq-item reveal-up" data-delay="400">
                     <summary>Does it support languages other than English?</summary>
                     <div class="faq-content">
                         <p>Yes. Whisper Large v3 supports 99+ languages with high accuracy and automatic language detection. Just speak in your native language and it transcribes correctly. SenseVoice offline mode also supports multiple languages including Chinese, Japanese, Korean, and more, with automatic detection.</p>
@@ -357,20 +531,20 @@
         <hr class="section-divider" />
 
         <!-- Founder Note Section -->
-        <section class="founder-note">
+        <section class="founder-note reveal-up">
             <div class="founder-note-inner">
                 <span class="founder-label">Why Fluence Exists</span>
                 <blockquote class="founder-quote">
-                    "I built Fluence because I was tired of closed-source keyboards harvesting every word I dictated. So I made something  that doesn't. No telemetry. No keyloggers. No compromise."
+                    "I built Fluence because I was tired of closed-source keyboards harvesting every word I dictated. So I made something that doesn't. No telemetry. No keyloggers. No compromise."
                 </blockquote>
-                <span class="founder-attribution">The Fluence Project</span>
+                <span class="founder-attribution">Ravi</span>
             </div>
         </section>
 
         <hr class="section-divider" />
 
         <!-- Download Hub Section -->
-        <section class="download-hub-container" id="download-hub-sec">
+        <section class="download-hub-container reveal-up" id="download-hub-sec">
             <h2>Get Fluence for Your Device</h2>
             <div class="download-grid">
                 <!-- Windows Card -->
@@ -460,6 +634,6 @@
     </footer>
 
     <!-- Interactive script -->
-    <script src="script.js?v=2"></script>
+    <script src="script.js?v=3"></script>
 </body>
 </html>

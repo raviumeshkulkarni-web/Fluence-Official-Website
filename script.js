@@ -6,8 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initDemoWaveform();
     initAndroidDemoWaveform();
     initScrollReveal();
-    initFeatureCarousel();
+    initFeatureCardGlow();
     initComparisonBars();
+    initMarqueeInteraction();
     initNavbarScroll();
     initPlatformSwitcher();
     initSimulator();
@@ -358,157 +359,10 @@ function initScrollReveal() {
 }
 
 /* =========================================================
-   NEW 3. Horizontal Feature Carousel: Drag-to-Scroll & Auto-Scroll
-   ========================================================= */
-function initFeatureCarousel() {
-    const carousel = document.getElementById('features-carousel');
-    if (!carousel) return;
-
-    // 1. Get original cards (no cloning to avoid duplication)
-    const originalCards = Array.from(carousel.children);
-
-    let isDown = false;
-    let startX;
-    let scrollLeft;
-    let isHolding = false;
-    let autoScrollActive = true;
-    let scrollPosition = carousel.scrollLeft;
-    let lastTime = performance.now();
-
-    let scrollDirection = 'forward'; // 'forward', 'paused_end', 'rewinding', 'paused_start'
-    let stateTimer = 0;
-
-    // 2. Slow auto-scroll loop with finite limits, pause, and rewind
-    function autoScrollLoop(now) {
-        requestAnimationFrame(autoScrollLoop);
-        
-        const dt = Math.min((now - lastTime) / 1000, 0.1);
-        lastTime = now;
-
-        const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-
-        if (!autoScrollActive || isDown || isHolding) {
-            // Keep scrollPosition clamped and synchronized during user interactions
-            scrollPosition = Math.max(0, Math.min(carousel.scrollLeft, Math.max(0, maxScroll)));
-            return;
-        }
-
-        if (maxScroll <= 0) {
-            carousel.scrollLeft = 0;
-            scrollPosition = 0;
-            return;
-        }
-
-        if (scrollDirection === 'forward') {
-            scrollPosition += 25 * dt;
-            if (scrollPosition >= maxScroll) {
-                scrollPosition = maxScroll;
-                scrollDirection = 'paused_end';
-                stateTimer = 2.0; // Pause for 2 seconds at the end
-            }
-            carousel.scrollLeft = Math.round(scrollPosition);
-        } else if (scrollDirection === 'paused_end') {
-            stateTimer -= dt;
-            if (stateTimer <= 0) {
-                scrollDirection = 'rewinding';
-            }
-            carousel.scrollLeft = Math.round(scrollPosition);
-        } else if (scrollDirection === 'rewinding') {
-            // Rewind back to the beginning quickly but smoothly
-            scrollPosition -= 180 * dt;
-            if (scrollPosition <= 0) {
-                scrollPosition = 0;
-                scrollDirection = 'paused_start';
-                stateTimer = 1.0; // Pause for 1 second at the start
-            }
-            carousel.scrollLeft = Math.round(scrollPosition);
-        } else if (scrollDirection === 'paused_start') {
-            stateTimer -= dt;
-            if (stateTimer <= 0) {
-                scrollDirection = 'forward';
-            }
-            carousel.scrollLeft = Math.round(scrollPosition);
-        }
-    }
-    requestAnimationFrame(autoScrollLoop);
-
-    // 4. Mouse dragging listeners
-    carousel.addEventListener('mousedown', e => {
-        isDown = true;
-        carousel.classList.add('dragging');
-        startX = e.pageX - carousel.offsetLeft;
-        scrollLeft = carousel.scrollLeft;
-        autoScrollActive = false;
-    });
-
-    carousel.addEventListener('mouseleave', () => {
-        isDown = false;
-        carousel.classList.remove('dragging');
-        scrollPosition = carousel.scrollLeft;
-        autoScrollActive = true;
-    });
-
-    carousel.addEventListener('mouseup', () => {
-        isDown = false;
-        carousel.classList.remove('dragging');
-        scrollPosition = carousel.scrollLeft;
-        autoScrollActive = true;
-    });
-
-    carousel.addEventListener('mousemove', e => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - carousel.offsetLeft;
-        const walk = (x - startX) * 1.4;
-        carousel.scrollLeft = scrollLeft - walk;
-        scrollPosition = carousel.scrollLeft;
-    });
-
-    // 5. Click & Hold / Touch & Hold (stops scrolling while pressed down)
-    carousel.addEventListener('pointerdown', () => {
-        isHolding = true;
-        autoScrollActive = false;
-    });
-
-    window.addEventListener('pointerup', () => {
-        if (isHolding) {
-            isHolding = false;
-            scrollPosition = carousel.scrollLeft;
-            autoScrollActive = true;
-        }
-    });
-
-    // 6. Mobile touch swipe events
-    carousel.addEventListener('touchstart', e => {
-        isDown = true;
-        startX = e.touches[0].pageX - carousel.offsetLeft;
-        scrollLeft = carousel.scrollLeft;
-        autoScrollActive = false;
-    }, { passive: true });
-
-    carousel.addEventListener('touchmove', e => {
-        if (!isDown) return;
-        const x = e.touches[0].pageX - carousel.offsetLeft;
-        const walk = (x - startX) * 1.4;
-        carousel.scrollLeft = scrollLeft - walk;
-        scrollPosition = carousel.scrollLeft;
-    }, { passive: true });
-
-    carousel.addEventListener('touchend', () => {
-        isDown = false;
-        scrollPosition = carousel.scrollLeft;
-        autoScrollActive = true;
-    });
-
-    // 7. Initialize spotlight glows on all cards
-    initFeatureCardGlow();
-}
-
-/* =========================================================
-   NEW 3b. Interactive mouse spotlight glows on feature cards
+   3. Interactive mouse spotlight glows on feature & download cards
    ========================================================= */
 function initFeatureCardGlow() {
-    const cards = document.querySelectorAll('.feature-card-vertical');
+    const cards = document.querySelectorAll('.feature-card-vertical, .download-card');
     cards.forEach(card => {
         card.addEventListener('mousemove', e => {
             const rect = card.getBoundingClientRect();
@@ -517,6 +371,71 @@ function initFeatureCardGlow() {
             card.style.setProperty('--mouse-x', `${x}px`);
             card.style.setProperty('--mouse-y', `${y}px`);
         });
+    });
+}
+
+/* =========================================================
+   3b. Interactive Marquee Pause/Resume
+   ========================================================= */
+function initMarqueeInteraction() {
+    const wrapper = document.getElementById('features-marquee-wrapper');
+    const marquee = document.getElementById('features-marquee');
+    if (!wrapper || !marquee) return;
+    
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+    let isPaused = false;
+    let speed = 0.8; // px per frame
+    let animationId;
+
+    // Auto-scroll loop
+    function autoScroll() {
+        if (!isPaused && !isDown) {
+            wrapper.scrollLeft += speed;
+            const group = marquee.querySelector('.marquee-group');
+            if (group) {
+                // If we've scrolled past the first group (plus the 24px gap between groups)
+                if (wrapper.scrollLeft >= group.offsetWidth + 24) {
+                    wrapper.scrollLeft = 0;
+                }
+            }
+        }
+        animationId = requestAnimationFrame(autoScroll);
+    }
+    
+    autoScroll();
+
+    // Drag to scroll events
+    wrapper.addEventListener('mousedown', (e) => {
+        isDown = true;
+        marquee.classList.add('grabbing');
+        startX = e.pageX - wrapper.offsetLeft;
+        scrollLeft = wrapper.scrollLeft;
+        // Pause auto-scroll while dragging is handled by the `!isDown` condition
+    });
+    
+    window.addEventListener('mouseup', () => {
+        if (!isDown) return;
+        isDown = false;
+        marquee.classList.remove('grabbing');
+    });
+    
+    window.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - wrapper.offsetLeft;
+        const walk = (x - startX) * 1.2; 
+        wrapper.scrollLeft = scrollLeft - walk;
+    });
+
+    // Toggle pause on click
+    wrapper.addEventListener('click', (e) => {
+        // If it was a drag, don't pause/play
+        if (typeof startX !== 'undefined' && Math.abs(e.pageX - wrapper.offsetLeft - startX) > 5) {
+            return;
+        }
+        isPaused = !isPaused;
     });
 }
 

@@ -62,10 +62,6 @@
             <div class="hero-noise"></div>
             <div class="hero-copy">
                 <div class="hero-badges">
-                    <div class="status-live-tag">
-                        <span class="live-dot"></span>
-                        Windows hotkey + Android bubble + local offline mode
-                    </div>
                 </div>
                 <span class="hero-eyebrow">System-wide voice typing for real apps</span>
                 <h1>Crystallize your cognition at the <span class="text-gradient">speed of thought</span></h1>
@@ -305,21 +301,23 @@
             <h2>Every feature is tied to a real interaction.</h2>
             <p class="features-subheading">No floating claims. These are the moments a user actually touches.</p>
 
-            <div class="features-carousel-wrapper">
-                <div class="features-grid" id="features-carousel">
-                    <div class="feature-card-vertical product-feature-card" id="feat-voice">
-                        <div class="feature-bento-content">
-                            <span class="feature-tag">Windows</span>
-                            <div class="feature-text">
-                                <h3>Hotkey dictation anywhere</h3>
-                                <p>Bind a shortcut once. Trigger recording inside the editor, browser, chat app, or document where your cursor already lives.</p>
+            <div class="features-marquee-wrapper" id="features-marquee-wrapper">
+                <div class="features-marquee" id="features-marquee">
+                    <!-- Original Set -->
+                    <div class="marquee-group">
+                        <div class="feature-card-vertical product-feature-card" id="feat-voice">
+                            <div class="feature-bento-content">
+                                <span class="feature-tag">Windows</span>
+                                <div class="feature-text">
+                                    <h3>Hotkey dictation anywhere</h3>
+                                    <p>Bind a shortcut once. Trigger recording inside the editor, browser, chat app, or document where your cursor already lives.</p>
+                                </div>
+                            </div>
+                            <div class="feature-shot feature-shot-desktop">
+                                <img src="assets/general.png" alt="Recording hotkey settings in Fluence for Windows">
                             </div>
                         </div>
-                        <div class="feature-shot feature-shot-desktop">
-                            <img src="assets/general.png" alt="Recording hotkey settings in Fluence for Windows">
-                        </div>
-                    </div>
- 
+    
                     <div class="feature-card-vertical product-feature-card" id="feat-agent">
                         <div class="feature-bento-content">
                             <span class="feature-tag">Android</span>
@@ -332,7 +330,7 @@
                             <img src="assets/bubble_waveform.png" alt="Android bubble dictation waveform above the keyboard">
                         </div>
                     </div>
- 
+    
                     <div class="feature-card-vertical product-feature-card" id="feat-privacy">
                         <div class="feature-bento-content">
                             <span class="feature-tag">Privacy</span>
@@ -349,7 +347,7 @@
                             <span>Cursor insertion</span>
                         </div>
                     </div>
- 
+    
                     <div class="feature-card-vertical product-feature-card" id="feat-offline">
                         <div class="feature-bento-content">
                             <span class="feature-tag">Setup</span>
@@ -362,14 +360,67 @@
                             <img src="assets/setup_wizard.png" alt="Fluence setup wizard with API configuration and permissions">
                         </div>
                     </div>
-
-            </div>
-
-
-            <!-- Scroll hint -->
-            <div class="carousel-scroll-hint" aria-hidden="true">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
-                Drag to explore
+                    </div>
+                    
+                    <!-- Duplicated Set for Seamless Marquee -->
+                    <div class="marquee-group">
+                    <div class="feature-card-vertical product-feature-card">
+                        <div class="feature-bento-content">
+                            <span class="feature-tag">Windows</span>
+                            <div class="feature-text">
+                                <h3>Hotkey dictation anywhere</h3>
+                                <p>Bind a shortcut once. Trigger recording inside the editor, browser, chat app, or document where your cursor already lives.</p>
+                            </div>
+                        </div>
+                        <div class="feature-shot feature-shot-desktop">
+                            <img src="assets/general.png" alt="Recording hotkey settings in Fluence for Windows">
+                        </div>
+                    </div>
+    
+                    <div class="feature-card-vertical product-feature-card">
+                        <div class="feature-bento-content">
+                            <span class="feature-tag">Android</span>
+                            <div class="feature-text">
+                                <h3>Bubble over the keyboard</h3>
+                                <p>The mobile control lives beside the real keyboard. Tap to dictate, approve, cancel, or keep typing manually.</p>
+                            </div>
+                        </div>
+                        <div class="feature-shot feature-shot-phone">
+                            <img src="assets/bubble_waveform.png" alt="Android bubble dictation waveform above the keyboard">
+                        </div>
+                    </div>
+    
+                    <div class="feature-card-vertical product-feature-card">
+                        <div class="feature-bento-content">
+                            <span class="feature-tag">Privacy</span>
+                            <div class="feature-text">
+                                <h3>Choose the route for your audio</h3>
+                                <p>Cloud mode sends audio directly to the model provider. Offline mode keeps inference local after the model is installed.</p>
+                            </div>
+                        </div>
+                        <div class="feature-flow">
+                            <span>Microphone</span>
+                            <span>Cloud Whisper</span>
+                            <span>or</span>
+                            <span>Local SenseVoice</span>
+                            <span>Cursor insertion</span>
+                        </div>
+                    </div>
+    
+                    <div class="feature-card-vertical product-feature-card">
+                        <div class="feature-bento-content">
+                            <span class="feature-tag">Setup</span>
+                            <div class="feature-text">
+                                <h3>Explicit permissions and keys</h3>
+                                <p>The setup flow names the sensitive parts: API key storage, microphone access, accessibility service, and overlay permission.</p>
+                            </div>
+                        </div>
+                        <div class="feature-shot feature-shot-setup">
+                            <img src="assets/setup_wizard.png" alt="Fluence setup wizard with API configuration and permissions">
+                        </div>
+                    </div>
+                    </div>
+                </div>
             </div>
 
         </section>
@@ -422,7 +473,7 @@
                 <!-- Windows Card -->
                 <div class="glass-panel download-card">
                     <div class="download-card-header">
-                        <div class="card-badge badge-green">Desktop</div>
+                        <div class="card-badge badge-windows">Desktop</div>
                         <h3>Fluence for Windows</h3>
                     </div>
                     <p class="download-requirements">Requires Windows 10 or 11 (x64)</p>
@@ -449,7 +500,7 @@
                 <!-- Android Card -->
                 <div class="glass-panel download-card">
                     <div class="download-card-header">
-                        <div class="card-badge badge-red">Mobile</div>
+                        <div class="card-badge badge-android">Mobile</div>
                         <h3>Fluence for Android</h3>
                     </div>
                     <p class="download-requirements">Requires Android 8.0 or above</p>

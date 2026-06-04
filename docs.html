@@ -79,8 +79,11 @@
                     <h1>Getting Started with Fluence</h1>
                     <p class="lead">Crystallize your cognition at the speed of thought. Fluence is a system-wide voice dictation tool and smart AI editor built for total data privacy.</p>
                     
-                    <div class="glass-panel info-box">
-                        <h3>💡 Core Philosophy</h3>
+                    <div class="info-box">
+                        <div class="box-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            <h3>Core Philosophy</h3>
+                        </div>
                         <p>Unlike standard speech-to-text engines that type word-by-word and frequently miss context, Fluence captures your full spoken sentence, refines punctuation dynamically, and injects clean text at your cursor position instantly. It works in any text area, text editor, browser, or coding environment.</p>
                     </div>
 
@@ -138,8 +141,11 @@
                     </ol>
 
                     <h3>Required System Permissions</h3>
-                    <div class="glass-panel warning-box">
-                        <h4>⚠️ Crucial Permissions</h4>
+                    <div class="warning-box">
+                        <div class="box-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                            <h4>Crucial Permissions</h4>
+                        </div>
                         <p>To function as a universal text injector, you must enable these two system permissions inside the onboarding screens:</p>
                         <ul>
                             <li><strong>Accessibility Service:</strong> Allows the application to scan focused text boxes so it can locate the position of your cursor.</li>
@@ -179,10 +185,13 @@
                 <!-- Section 5: Privacy Policy -->
                 <section id="privacy-policy" class="docs-section reveal-up">
                     <h2>Privacy Policy (Zero Telemetry)</h2>
-                    <p class="lead text-gradient">Your data belongs to you. Zero egress, zero telemetry, zero compromises.</p>
+                    <p class="lead">Your data belongs to you. Zero egress, zero telemetry, zero compromises.</p>
                     
-                    <div class="glass-panel privacy-shield-box">
-                        <h3>🔒 Plain English Commitments</h3>
+                    <div class="privacy-shield-box">
+                        <div class="box-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                            <h3>Plain English Commitments</h3>
+                        </div>
                         <ul>
                             <li><strong>No Tracking Scripts:</strong> We do not integrate Google Analytics, Firebase, Sentry, or any telemetry framework. We collect no analytics whatsoever.</li>
                             <li><strong>No Audio Egress in Offline Mode:</strong> In offline mode, the microphone captures audio data directly into local volatile RAM and deletes it immediately after the local ONNX inference runs. No network requests are made.</li>
@@ -198,23 +207,31 @@
                     <h2>Troubleshooting &amp; FAQs</h2>
                     <p>Common issues and how to resolve them.</p>
 
-                    <div class="faq-accordion">
-                        <div class="faq-item">
-                            <h4 class="faq-question">1. The Android bubble is not appearing in certain apps</h4>
-                            <p class="faq-answer">Make sure the Accessibility Service is toggled on in your system settings. Certain high-security text boxes, like banking password fields, block accessibility helpers by design to prevent overlay attacks.</p>
-                        </div>
-                        <div class="faq-item">
-                            <h4 class="faq-question">2. I get a transcription error in Cloud Mode</h4>
-                            <p class="faq-answer">Check your internet connection first. If online, open settings and confirm your Groq API key is valid and has no trailing whitespaces. If you trigger multiple short dictations in rapid succession, you might temporarily hit Groq's rate limits.</p>
-                        </div>
-                        <div class="faq-item">
-                            <h4 class="faq-question">3. How much storage does Offline Mode require?</h4>
-                            <p class="faq-answer">The SenseVoice model and Silero VAD weights require about 230 MB of local storage space. Ensure your phone or desktop C: drive has adequate free capacity before toggling the download.</p>
-                        </div>
-                        <div class="faq-item">
-                            <h4 class="faq-question">4. Why does the Windows overlay pill not have close buttons?</h4>
-                            <p class="faq-answer">Clicking overlay buttons on Windows forces desktop systems to transfer active window focus away from your editor. To keep typing fluidly in your main app, the Windows pill displays status only and does not capture input focus.</p>
-                        </div>
+                    <div class="faq-group docs-faq-group">
+                        <details name="docs-faq" class="glass-panel faq-item reveal-up">
+                            <summary>The Android bubble is not appearing in certain apps</summary>
+                            <div class="faq-content">
+                                <p>Make sure the Accessibility Service is toggled on in your system settings. Certain high-security text boxes, like banking password fields, block accessibility helpers by design to prevent overlay attacks.</p>
+                            </div>
+                        </details>
+                        <details name="docs-faq" class="glass-panel faq-item reveal-up" data-delay="100">
+                            <summary>I get a transcription error in Cloud Mode</summary>
+                            <div class="faq-content">
+                                <p>Check your internet connection first. If online, open settings and confirm your Groq API key is valid and has no trailing whitespaces. If you trigger multiple short dictations in rapid succession, you might temporarily hit Groq's rate limits.</p>
+                            </div>
+                        </details>
+                        <details name="docs-faq" class="glass-panel faq-item reveal-up" data-delay="200">
+                            <summary>How much storage does Offline Mode require?</summary>
+                            <div class="faq-content">
+                                <p>The SenseVoice model and Silero VAD weights require about 230 MB of local storage space. Ensure your phone or desktop C: drive has adequate free capacity before toggling the download.</p>
+                            </div>
+                        </details>
+                        <details name="docs-faq" class="glass-panel faq-item reveal-up" data-delay="300">
+                            <summary>Why does the Windows overlay pill not have close buttons?</summary>
+                            <div class="faq-content">
+                                <p>Clicking overlay buttons on Windows forces desktop systems to transfer active window focus away from your editor. To keep typing fluidly in your main app, the Windows pill displays status only and does not capture input focus.</p>
+                            </div>
+                        </details>
                     </div>
                 </section>
 

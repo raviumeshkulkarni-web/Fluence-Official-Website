@@ -538,18 +538,38 @@ main {
 }
 
 .live-dot, .status-dot {
-    display: block;
-    width: 7px;
-    height: 7px;
+    display: inline-block;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    background: #22c55e;
-    animation: pulse-dot 2s ease-in-out infinite;
+    background-color: var(--color-green); /* default */
+    position: relative;
+    vertical-align: middle;
 }
 
-@keyframes pulse-dot {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5); }
-    50% { box-shadow: 0 0 0 5px rgba(34, 197, 94, 0); }
+.live-dot::after, .status-dot::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background-color: inherit;
+    animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
 }
+
+@keyframes pulse-ring {
+    0% {
+        transform: scale(0.95);
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+
 
 .hero h1 {
     font-size: clamp(3rem, 6vw, 5rem);
@@ -3397,7 +3417,8 @@ footer {
     text-decoration: none;
     font-size: 14.5px;
     font-weight: 500;
-    border-radius: 8px;
+    border-radius: 0 8px 8px 0;
+    border-left: 2px solid transparent;
     transition: all 0.25s ease;
 }
 
@@ -3410,6 +3431,7 @@ footer {
     color: var(--primary-amethyst);
     background: rgba(168, 85, 247, 0.08);
     font-weight: 600;
+    border-left: 2px solid var(--primary-amethyst);
 }
 
 .docs-content {
@@ -3460,6 +3482,28 @@ footer {
 
 .docs-section p.lead {
     font-size: 18px;
+    color: var(--text-white);
+}
+
+.docs-section kbd {
+    background-color: #1e1e24;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    color: var(--text-white);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    margin: 0 2px;
+}
+
+.docs-section code {
+    background-color: rgba(255, 255, 255, 0.08);
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 13.5px;
     color: var(--text-white);
 }
 
@@ -3516,67 +3560,73 @@ footer {
     color: var(--color-teal-light);
 }
 
+.box-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.box-header svg {
+    flex-shrink: 0;
+}
+
 .info-box {
     border-left: 3px solid var(--accent-cyan);
+    background: rgba(0, 242, 254, 0.05);
+    border-radius: 0 8px 8px 0;
     padding: 20px 24px;
     margin: 24px 0;
+}
+
+.info-box .box-header svg {
+    color: var(--accent-cyan);
 }
 
 .info-box h3 {
     margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
 
 .warning-box {
-    border-left: 3px solid #ff4b4b;
+    border-left: 3px solid #ffb020;
+    background: rgba(255, 176, 32, 0.05);
+    border-radius: 0 8px 8px 0;
     padding: 20px 24px;
     margin: 24px 0;
 }
 
+.warning-box .box-header svg {
+    color: #ffb020;
+}
+
 .warning-box h4 {
     margin-top: 0 !important;
-    color: #ff4b4b;
+    margin-bottom: 0 !important;
+    color: #ffb020;
     font-weight: 600;
 }
 
 .privacy-shield-box {
     border-left: 3px solid var(--primary-amethyst);
+    background: rgba(168, 85, 247, 0.05);
+    border-radius: 0 8px 8px 0;
     padding: 24px;
     margin: 24px 0;
-    background: rgba(168, 85, 247, 0.02);
+}
+
+.privacy-shield-box .box-header svg {
+    color: var(--primary-amethyst);
 }
 
 .privacy-shield-box h3 {
     margin-top: 0 !important;
+    margin-bottom: 0 !important;
     color: var(--primary-amethyst);
 }
 
-.faq-accordion {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+.docs-faq-group {
     margin-top: 24px;
-}
-
-.faq-item {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-    padding-bottom: 20px;
-}
-
-.faq-item:last-child {
-    border-bottom: none;
-}
-
-.faq-question {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--text-white);
-    margin-bottom: 8px;
-}
-
-.faq-answer {
-    font-size: 14.5px;
-    line-height: 1.6;
-    color: var(--text-muted);
 }
 
 /* Responsive Mobile Layout for Docs */
@@ -4030,5 +4080,140 @@ footer {
     font-weight: bold;
     margin-left: 8px;
 }
+
+/* =========================================================
+   Bento Grid Layout and Card Overrides
+   ========================================================= */
+.features-marquee-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin: 32px 0 0 0;
+    padding: 24px 0;
+    position: relative;
+    /* Optional fade edges for effect */
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    scrollbar-width: none;
+}
+
+.features-marquee-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.features-marquee {
+    display: flex;
+    width: max-content;
+    gap: 24px;
+    cursor: grab;
+}
+
+.marquee-group {
+    display: flex;
+    gap: 24px;
+    /* No flex-shrink so it doesn't squish */
+    flex-shrink: 0;
+}
+
+.features-marquee.grabbing {
+    cursor: grabbing;
+}
+
+.features-marquee .feature-card-vertical {
+    width: 400px; /* Fixed width for horizontal scrolling */
+    height: 480px; /* Fixed height to keep them uniform */
+    flex-shrink: 0;
+}
+
+/* Removed grid-column definitions for features since they are now in a flex row */
+
+/* Privacy feature tag reassuring soft green */
+#feat-privacy .feature-tag {
+    color: var(--color-green) !important;
+    background: rgba(16, 185, 129, 0.08) !important;
+    border: 1px solid rgba(16, 185, 129, 0.15) !important;
+}
+
+/* Brand badges for download cards */
+.badge-windows {
+    background: rgba(0, 242, 254, 0.08) !important;
+    border: 1px solid rgba(0, 242, 254, 0.25) !important;
+    color: var(--color-teal-light) !important;
+}
+
+.badge-android {
+    background: rgba(168, 85, 247, 0.08) !important;
+    border: 1px solid rgba(168, 85, 247, 0.25) !important;
+    color: var(--color-violet-light) !important;
+}
+
+/* Download card spotlight glows and border reveals */
+.download-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.download-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(350px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), var(--glow-color, rgba(168, 85, 247, 0.08)), transparent 80%);
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.download-card::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(200px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), var(--border-glow-color, rgba(168, 85, 247, 0.35)), transparent 70%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.download-card:hover::before,
+.download-card:hover::after {
+    opacity: 1;
+}
+
+.download-card:has(.badge-windows) {
+    --glow-color: rgba(0, 242, 254, 0.1);
+    --border-glow-color: rgba(0, 242, 254, 0.35);
+}
+
+.download-card:has(.badge-android) {
+    --glow-color: rgba(168, 85, 247, 0.1);
+    --border-glow-color: rgba(168, 85, 247, 0.35);
+}
+
+/* Keep inner content of download card above the glow absolute overlay layers */
+.download-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Ensure header nav of download cards remains above border overlay */
+.download-card-header {
+    z-index: 3;
+}
+
+/* Bento Grid Mobile responsiveness */
+@media (max-width: 992px) {
+    .features-marquee .feature-card-vertical {
+        width: 320px;
+        height: 420px;
+    }
+}
+
 
 

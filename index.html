@@ -58,33 +58,44 @@
     <main>
 
         <!-- Hero Section -->
-        <section class="hero hero-bg" id="hero-sec">
+        <section class="hero hero-product" id="hero-sec">
             <div class="hero-noise"></div>
-
-            <!-- Pulsing concentric sound wave rings -->
-            <svg class="hero-pulse-rings" viewBox="0 0 700 700" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <circle cx="350" cy="350" r="80"/>
-                <circle cx="350" cy="350" r="130"/>
-                <circle cx="350" cy="350" r="185"/>
-                <circle cx="350" cy="350" r="245"/>
-                <circle cx="350" cy="350" r="310"/>
-            </svg>
-
-            <div class="hero-badges">
-                <div class="status-live-tag">
-                    <span class="live-dot"></span>
-                    Agent Mode &amp; Offline Mode are Now Live
+            <div class="hero-copy">
+                <div class="hero-badges">
+                    <div class="status-live-tag">
+                        <span class="live-dot"></span>
+                        Windows hotkey + Android bubble + local offline mode
+                    </div>
+                </div>
+                <span class="hero-eyebrow">System-wide voice typing for real apps</span>
+                <h1>Crystallize your cognition at the <span class="text-gradient">speed of thought</span></h1>
+                <p>Press a hotkey on Windows or tap the Android bubble. Fluence listens, transcribes the full thought, and inserts polished text at the active cursor without locking you into a custom keyboard.</p>
+                <div class="hero-proof-list" aria-label="Fluence product proof">
+                    <span>Works in VS Code, Chrome, Word, notes, chats</span>
+                    <span>Cloud Whisper or local SenseVoice</span>
+                    <span>Open source with no analytics scripts</span>
+                </div>
+                <div class="hero-ctas">
+                    <a href="windows.html" class="btn-primary" id="hero-btn-dl">
+                        Try Windows hotkey dictation
+                    </a>
+                    <a href="android.html" class="btn-secondary" id="hero-btn-android-dl">
+                        Try Android bubble dictation
+                    </a>
                 </div>
             </div>
-            <h1>Crystallize your cognition at the <span class="text-gradient">speed of thought</span></h1>
-            <p>An open-source, system-wide voice dictation and AI assistant for Android and Windows. Transcribe in sub-seconds via Groq Whisper, or switch to 100% local offline transcription with intelligent AI commands. Works instantly in any application.</p>
-            <div class="hero-ctas">
-                <a href="windows.html" class="btn-primary" id="hero-btn-dl">
-                    Try Fluence for Windows
-                </a>
-                <a href="android.html" class="btn-secondary" id="hero-btn-android-dl">
-                    Try Fluence for Android
-                </a>
+            <div class="hero-product-stage" aria-label="Fluence running across desktop and mobile">
+                <div class="hero-desktop-shot">
+                    <img src="assets/general.png" alt="Fluence Windows settings for hotkeys and recording behavior">
+                </div>
+                <div class="hero-phone-shot">
+                    <img src="assets/bubble_waveform.png" alt="Fluence Android dictation bubble above the keyboard">
+                </div>
+                <div class="hero-cursor-card">
+                    <span class="cursor-label">Active cursor</span>
+                    <p>Ctrl+Shift+Space</p>
+                    <strong>Speak once. Text lands here.</strong>
+                </div>
             </div>
         </section>
 
@@ -103,10 +114,34 @@
                 </div>
             </div>
 
-            <!-- Animated Bar Graph replacing old comparison table -->
+            <div class="proof-panel reveal-up">
+                <div class="proof-panel-header">
+                    <span class="section-kicker">What makes it different</span>
+                    <h3>Built around the cursor, not a marketing demo.</h3>
+                </div>
+                <div class="proof-grid">
+                    <div class="proof-item">
+                        <span class="proof-number">01</span>
+                        <h4>Waits for the full thought</h4>
+                        <p>Fluence transcribes complete phrases so punctuation, homophones, and technical terms get more context than word-by-word streaming.</p>
+                    </div>
+                    <div class="proof-item">
+                        <span class="proof-number">02</span>
+                        <h4>Writes into the app you already use</h4>
+                        <p>On Windows it uses a global shortcut. On Android it uses an overlay bubble and accessibility service to insert text into active fields.</p>
+                    </div>
+                    <div class="proof-item">
+                        <span class="proof-number">03</span>
+                        <h4>Lets privacy decide the engine</h4>
+                        <p>Use cloud Whisper when speed matters, or switch to SenseVoice offline when the audio must stay on the device.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Animated Bar Graph Comparison Section -->
             <div class="glass-panel comparison-bar-section reveal-up">
                 <h3>Accuracy &amp; Performance Comparison</h3>
-
+                
                 <div class="bar-graph-legend">
                     <div class="legend-item">
                         <span class="legend-dot groq"></span>
@@ -122,13 +157,13 @@
                     </div>
                 </div>
 
-                <!-- Accuracy -->
+                <!-- Recognition Accuracy -->
                 <div class="bar-metric-group" data-metric="accuracy">
                     <div class="bar-metric-label">Recognition Accuracy</div>
                     <div class="bar-row">
                         <span class="bar-row-name">Fluence Groq</span>
                         <div class="bar-track">
-                            <div class="bar-fill bar-groq" data-width="97.9" data-label="92% &ndash; 97.9%">
+                            <div class="bar-fill bar-groq" data-width="97.9">
                                 <span class="bar-value">92&ndash;97.9%</span>
                             </div>
                         </div>
@@ -137,7 +172,7 @@
                     <div class="bar-row">
                         <span class="bar-row-name">Fluence Offline</span>
                         <div class="bar-track">
-                            <div class="bar-fill bar-offline" data-width="90" data-label="85% &ndash; 93%">
+                            <div class="bar-fill bar-offline" data-width="90">
                                 <span class="bar-value">85&ndash;93%</span>
                             </div>
                         </div>
@@ -146,20 +181,20 @@
                     <div class="bar-row">
                         <span class="bar-row-name">Google STT</span>
                         <div class="bar-track">
-                            <div class="bar-fill bar-google" data-width="83" data-label="79% &ndash; 88%">
+                            <div class="bar-fill bar-google" data-width="83">
                                 <span class="bar-value">79&ndash;88%</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Transcription latency -->
+                <!-- Transcription Speed -->
                 <div class="bar-metric-group" data-metric="latency">
-                    <div class="bar-metric-label">Transcription Speed</div>
+                    <div class="bar-metric-label">Transcription Speed (Higher is Faster)</div>
                     <div class="bar-row">
                         <span class="bar-row-name">Fluence Groq</span>
                         <div class="bar-track">
-                            <div class="bar-fill bar-groq" data-width="98" data-label="Under 1 second">
+                            <div class="bar-fill bar-groq" data-width="98">
                                 <span class="bar-value">&lt;1 sec</span>
                             </div>
                         </div>
@@ -168,7 +203,7 @@
                     <div class="bar-row">
                         <span class="bar-row-name">Fluence Offline</span>
                         <div class="bar-track">
-                            <div class="bar-fill bar-offline" data-width="80" data-label="1 to 2 seconds">
+                            <div class="bar-fill bar-offline" data-width="80">
                                 <span class="bar-value">1&ndash;2 sec</span>
                             </div>
                         </div>
@@ -176,20 +211,20 @@
                     <div class="bar-row">
                         <span class="bar-row-name">Google STT</span>
                         <div class="bar-track">
-                            <div class="bar-fill bar-google" data-width="55" data-label="Streaming (word-by-word)">
+                            <div class="bar-fill bar-google" data-width="55">
                                 <span class="bar-value">Streaming</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Privacy -->
+                <!-- Privacy & Telemetry -->
                 <div class="bar-metric-group" data-metric="privacy">
                     <div class="bar-metric-label">Privacy &amp; Telemetry</div>
                     <div class="bar-row">
                         <span class="bar-row-name">Fluence Groq</span>
                         <div class="bar-track">
-                            <div class="bar-fill bar-groq" data-width="92" data-label="Open source, zero telemetry">
+                            <div class="bar-fill bar-groq" data-width="92">
                                 <span class="bar-value">Zero telemetry</span>
                             </div>
                         </div>
@@ -198,7 +233,7 @@
                     <div class="bar-row">
                         <span class="bar-row-name">Fluence Offline</span>
                         <div class="bar-track">
-                            <div class="bar-fill bar-offline" data-width="100" data-label="100% on-device, zero egress">
+                            <div class="bar-fill bar-offline" data-width="100">
                                 <span class="bar-value">100% On-Device</span>
                             </div>
                         </div>
@@ -207,20 +242,20 @@
                     <div class="bar-row">
                         <span class="bar-row-name">Google STT</span>
                         <div class="bar-track">
-                            <div class="bar-fill bar-google" data-width="25" data-label="Closed source, data collected">
+                            <div class="bar-fill bar-google" data-width="25">
                                 <span class="bar-value">Closed source</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Accent handling -->
+                <!-- Accent & Jargon Handling -->
                 <div class="bar-metric-group" data-metric="accent">
                     <div class="bar-metric-label">Accent &amp; Jargon Handling</div>
                     <div class="bar-row">
                         <span class="bar-row-name">Fluence Groq</span>
                         <div class="bar-track">
-                            <div class="bar-fill bar-groq" data-width="96" data-label="Excellent (680k hr dataset)">
+                            <div class="bar-fill bar-groq" data-width="96">
                                 <span class="bar-value">Excellent</span>
                             </div>
                         </div>
@@ -229,7 +264,7 @@
                     <div class="bar-row">
                         <span class="bar-row-name">Fluence Offline</span>
                         <div class="bar-track">
-                            <div class="bar-fill bar-offline" data-width="78" data-label="Good (industrial dataset)">
+                            <div class="bar-fill bar-offline" data-width="78">
                                 <span class="bar-value">Good</span>
                             </div>
                         </div>
@@ -237,13 +272,28 @@
                     <div class="bar-row">
                         <span class="bar-row-name">Google STT</span>
                         <div class="bar-track">
-                            <div class="bar-fill bar-google" data-width="52" data-label="Average, often stumbles">
+                            <div class="bar-fill bar-google" data-width="52">
                                 <span class="bar-value">Average</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Footnote (Benchmark context) -->
+                <div style="font-size: 12px; color: var(--color-text-muted); font-family: var(--font-mono); margin-top: 10px; line-height: 1.5;">
+                    * Accuracy and latency benchmarks are based on internal testing of 50 phonetically diverse sentences with varied accent profiles. Latency measures round-trip time from audio complete to text injection.
+                </div>
+            </div>
+        </section>
+
+        <!-- Founder Note Section -->
+        <section class="founder-note reveal-up">
+            <div class="founder-note-inner">
+                <span class="founder-label">Why Fluence Exists</span>
+                <blockquote class="founder-quote">
+                    "I built this because every dictation tool was either locked to a keyboard, slow, or creepy. So I built something that lives at the cursor, runs offline, and doesn't collect your data."
+                </blockquote>
+                <span class="founder-attribution">Ravi</span>
             </div>
         </section>
 
@@ -251,230 +301,65 @@
 
         <!-- Core Features Section: horizontal scroll carousel -->
         <section class="features-container" id="features-sec">
-            <h2>Everything I wished voice typing had. So I built it.</h2>
-            <p class="features-subheading">Every feature exists because a workaround wasn't good enough.</p>
+            <span class="section-kicker">Product surfaces</span>
+            <h2>Every feature is tied to a real interaction.</h2>
+            <p class="features-subheading">No floating claims. These are the moments a user actually touches.</p>
 
             <div class="features-carousel-wrapper">
                 <div class="features-grid" id="features-carousel">
-                    <!-- Card 1: Voice Dictation -->
-                    <div class="glass-panel feature-card-vertical" id="feat-voice">
+                    <div class="feature-card-vertical product-feature-card" id="feat-voice">
                         <div class="feature-bento-content">
-                            <div class="feature-icon-box">
-                                <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <defs>
-                                        <linearGradient id="icon-grad-voice" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
-                                            <stop offset="0%" stop-color="#A855F7"/>
-                                            <stop offset="100%" stop-color="#00f2fe"/>
-                                        </linearGradient>
-                                        <filter id="glow-voice">
-                                            <feGaussianBlur stdDeviation="1.5" result="blur"/>
-                                            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                                        </filter>
-                                    </defs>
-                                    <!-- Microphone body -->
-                                    <rect x="22" y="10" width="12" height="20" rx="6" stroke="url(#icon-grad-voice)" stroke-width="2" fill="none" filter="url(#glow-voice)"/>
-                                    <!-- Microphone arc -->
-                                    <path d="M14 28c0 7.732 6.268 14 14 14s14-6.268 14-14" stroke="url(#icon-grad-voice)" stroke-width="2" stroke-linecap="round" fill="none"/>
-                                    <!-- Stand -->
-                                    <line x1="28" y1="42" x2="28" y2="47" stroke="url(#icon-grad-voice)" stroke-width="2" stroke-linecap="round"/>
-                                    <line x1="22" y1="47" x2="34" y2="47" stroke="url(#icon-grad-voice)" stroke-width="2" stroke-linecap="round"/>
-                                    <!-- Waveform bars beside mic -->
-                                    <rect x="8" y="23" width="2.5" height="10" rx="1.25" fill="url(#icon-grad-voice)" opacity="0.6"/>
-                                    <rect x="12" y="19" width="2.5" height="18" rx="1.25" fill="url(#icon-grad-voice)" opacity="0.8"/>
-                                    <rect x="41.5" y="23" width="2.5" height="10" rx="1.25" fill="url(#icon-grad-voice)" opacity="0.6"/>
-                                    <rect x="45.5" y="19" width="2.5" height="18" rx="1.25" fill="url(#icon-grad-voice)" opacity="0.8"/>
-                                </svg>
-                            </div>
+                            <span class="feature-tag">Windows</span>
                             <div class="feature-text">
-                                <h3>Voice Dictation</h3>
-                                <p>Powered by Groq-accelerated Whisper Large v3. Transcribes in under a second with up to 97.9% accuracy, handling complex jargon with ease.</p>
+                                <h3>Hotkey dictation anywhere</h3>
+                                <p>Bind a shortcut once. Trigger recording inside the editor, browser, chat app, or document where your cursor already lives.</p>
                             </div>
                         </div>
-                        <div class="feature-bento-visual">
-                            <div class="bento-wave">
-                                <span class="wave-bar bar-1"></span>
-                                <span class="wave-bar bar-2"></span>
-                                <span class="wave-bar bar-3"></span>
-                                <span class="wave-bar bar-4"></span>
-                                <span class="wave-bar bar-5"></span>
-                                <span class="wave-bar bar-6"></span>
-                                <span class="wave-bar bar-7"></span>
-                                <span class="wave-bar bar-8"></span>
-                                <span class="wave-bar bar-9"></span>
-                                <span class="wave-bar bar-10"></span>
-                            </div>
+                        <div class="feature-shot feature-shot-desktop">
+                            <img src="assets/general.png" alt="Recording hotkey settings in Fluence for Windows">
                         </div>
                     </div>
  
-                    <!-- Card 2: AI Agent Mode -->
-                    <div class="glass-panel feature-card-vertical" id="feat-agent">
+                    <div class="feature-card-vertical product-feature-card" id="feat-agent">
                         <div class="feature-bento-content">
-                            <div class="feature-icon-box">
-                                <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <defs>
-                                        <linearGradient id="icon-grad-agent" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
-                                            <stop offset="0%" stop-color="#A855F7"/>
-                                            <stop offset="100%" stop-color="#00f2fe"/>
-                                        </linearGradient>
-                                        <filter id="glow-agent">
-                                            <feGaussianBlur stdDeviation="1.5" result="blur"/>
-                                            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                                        </filter>
-                                    </defs>
-                                    <!-- Outer orbit ring -->
-                                    <circle cx="28" cy="28" r="19" stroke="url(#icon-grad-agent)" stroke-width="1.5" stroke-dasharray="2.5 4" stroke-linecap="round" opacity="0.6"/>
-                                    <!-- Mid orbit ring -->
-                                    <circle cx="28" cy="28" r="13" stroke="url(#icon-grad-agent)" stroke-width="1.5" stroke-dasharray="3 4" stroke-linecap="round" opacity="0.85" filter="url(#glow-agent)"/>
-                                    <!-- Inner core -->
-                                    <circle cx="28" cy="28" r="5" fill="url(#icon-grad-agent)" filter="url(#glow-agent)"/>
-                                    <!-- Lightning bolt center -->
-                                    <path d="M30 24l-4 5h3l-1 4 4-5h-3l1-4z" fill="white" opacity="0.95"/>
-                                    <!-- Orbit dot -->
-                                    <circle cx="28" cy="9" r="2.5" fill="url(#icon-grad-agent)" filter="url(#glow-agent)"/>
-                                </svg>
-                            </div>
+                            <span class="feature-tag">Android</span>
                             <div class="feature-text">
-                                <h3>AI Agent Mode</h3>
-                                <p>Hold to activate. Powered by Llama 3.3 70B, Agent Mode accepts speech instructions right at your cursor: edit, translate, or generate text.</p>
+                                <h3>Bubble over the keyboard</h3>
+                                <p>The mobile control lives beside the real keyboard. Tap to dictate, approve, cancel, or keep typing manually.</p>
                             </div>
                         </div>
-                        <div class="feature-bento-visual">
-                            <div class="bento-agent-orbit">
-                                <div class="orbit-ring ring-outer">
-                                    <div class="orbit-dot dot-1"></div>
-                                </div>
-                                <div class="orbit-ring ring-mid">
-                                    <div class="orbit-dot dot-2"></div>
-                                </div>
-                                <div class="orbit-ring ring-inner">
-                                    <div class="orbit-dot dot-3"></div>
-                                </div>
-                                <div class="orbit-core">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="currentColor"/>
-                                    </svg>
-                                </div>
-                            </div>
+                        <div class="feature-shot feature-shot-phone">
+                            <img src="assets/bubble_waveform.png" alt="Android bubble dictation waveform above the keyboard">
                         </div>
                     </div>
  
-                    <!-- Card 3: Your Words Stay Yours -->
-                    <div class="glass-panel feature-card-vertical" id="feat-privacy">
+                    <div class="feature-card-vertical product-feature-card" id="feat-privacy">
                         <div class="feature-bento-content">
-                            <div class="feature-icon-box">
-                                <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <defs>
-                                        <linearGradient id="icon-grad-priv" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
-                                            <stop offset="0%" stop-color="#A855F7"/>
-                                            <stop offset="100%" stop-color="#00f2fe"/>
-                                        </linearGradient>
-                                        <filter id="glow-priv">
-                                            <feGaussianBlur stdDeviation="1.5" result="blur"/>
-                                            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                                        </filter>
-                                    </defs>
-                                    <!-- Shield outline -->
-                                    <path d="M28 8l16 6v10c0 9-7 16-16 20C19 40 12 33 12 24V14l16-6z" stroke="url(#icon-grad-priv)" stroke-width="2" fill="rgba(168,85,247,0.08)" filter="url(#glow-priv)"/>
-                                    <!-- Lock body -->
-                                    <rect x="22" y="28" width="12" height="9" rx="2.5" stroke="url(#icon-grad-priv)" stroke-width="1.8" fill="none"/>
-                                    <!-- Lock shackle -->
-                                    <path d="M23.5 28v-3.5a4.5 4.5 0 019 0V28" stroke="url(#icon-grad-priv)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-                                    <!-- Keyhole dot -->
-                                    <circle cx="28" cy="32.5" r="1.8" fill="url(#icon-grad-priv)" filter="url(#glow-priv)"/>
-                                </svg>
-                            </div>
+                            <span class="feature-tag">Privacy</span>
                             <div class="feature-text">
-                                <h3>Your Words Stay Yours</h3>
-                                <p>Zero telemetry, zero keyloggers. Audio is ephemeral and deleted instantly. Your API Key is hardware-encrypted via Android Keystore system.</p>
+                                <h3>Choose the route for your audio</h3>
+                                <p>Cloud mode sends audio directly to the model provider. Offline mode keeps inference local after the model is installed.</p>
                             </div>
                         </div>
-                        <div class="feature-bento-visual">
-                            <div class="bento-security-shield">
-                                <div class="security-shield-glow"></div>
-                                <div class="security-shield-svg">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                                    </svg>
-                                </div>
-                                <div class="matrix-rain">
-                                    <span style="--i:1">0</span>
-                                    <span style="--i:2">1</span>
-                                    <span style="--i:3">0</span>
-                                    <span style="--i:4">1</span>
-                                    <span style="--i:5">1</span>
-                                    <span style="--i:6">0</span>
-                                    <span style="--i:7">1</span>
-                                </div>
-                            </div>
+                        <div class="feature-flow">
+                            <span>Microphone</span>
+                            <span>Cloud Whisper</span>
+                            <span>or</span>
+                            <span>Local SenseVoice</span>
+                            <span>Cursor insertion</span>
                         </div>
                     </div>
  
-                    <!-- Card 4: Fully Offline Mode -->
-                    <div class="glass-panel feature-card-vertical" id="feat-offline">
+                    <div class="feature-card-vertical product-feature-card" id="feat-offline">
                         <div class="feature-bento-content">
-                            <div class="feature-icon-box">
-                                <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <defs>
-                                        <linearGradient id="icon-grad-offline" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
-                                            <stop offset="0%" stop-color="#A855F7"/>
-                                            <stop offset="100%" stop-color="#00f2fe"/>
-                                        </linearGradient>
-                                        <filter id="glow-offline">
-                                            <feGaussianBlur stdDeviation="1.5" result="blur"/>
-                                            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                                        </filter>
-                                    </defs>
-                                    <!-- Chip body -->
-                                    <rect x="17" y="17" width="22" height="22" rx="4" stroke="url(#icon-grad-offline)" stroke-width="2" fill="rgba(0,242,254,0.06)" filter="url(#glow-offline)"/>
-                                    <!-- Chip inner core -->
-                                    <rect x="22" y="22" width="12" height="12" rx="2" fill="url(#icon-grad-offline)" opacity="0.25"/>
-                                    <!-- Chip pins -->
-                                    <line x1="22" y1="17" x2="22" y2="12" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
-                                    <line x1="28" y1="17" x2="28" y2="12" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
-                                    <line x1="34" y1="17" x2="34" y2="12" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
-                                    <line x1="22" y1="39" x2="22" y2="44" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
-                                    <line x1="28" y1="39" x2="28" y2="44" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
-                                    <line x1="34" y1="39" x2="34" y2="44" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
-                                    <line x1="17" y1="22" x2="12" y2="22" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
-                                    <line x1="17" y1="28" x2="12" y2="28" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
-                                    <line x1="17" y1="34" x2="12" y2="34" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
-                                    <line x1="39" y1="22" x2="44" y2="22" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
-                                    <line x1="39" y1="28" x2="44" y2="28" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
-                                    <line x1="39" y1="34" x2="44" y2="34" stroke="url(#icon-grad-offline)" stroke-width="1.8" stroke-linecap="round"/>
-                                    <!-- No-cloud strike -->
-                                    <line x1="24" y1="26" x2="32" y2="30" stroke="url(#icon-grad-offline)" stroke-width="1.5" stroke-linecap="round" filter="url(#glow-offline)"/>
-                                </svg>
-                            </div>
+                            <span class="feature-tag">Setup</span>
                             <div class="feature-text">
-                                <h3>Fully Offline Mode</h3>
-                                <p>100% offline powered by SenseVoice-Small ONNX model (~230 MB). All inference runs on-device. No internet or data egress, ever.</p>
+                                <h3>Explicit permissions and keys</h3>
+                                <p>The setup flow names the sensitive parts: API key storage, microphone access, accessibility service, and overlay permission.</p>
                             </div>
                         </div>
-                        <div class="feature-bento-visual">
-                            <div class="bento-cpu-chip">
-                                <div class="chip-socket">
-                                    <div class="chip-silicon">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <rect x="4" y="4" width="16" height="16" rx="2"/>
-                                            <rect x="9" y="9" width="6" height="6"/>
-                                            <line x1="9" y1="1" x2="9" y2="4"/>
-                                            <line x1="15" y1="1" x2="15" y2="4"/>
-                                            <line x1="9" y1="20" x2="9" y2="23"/>
-                                            <line x1="15" y1="20" x2="15" y2="23"/>
-                                            <line x1="20" y1="9" x2="23" y2="9"/>
-                                            <line x1="20" y1="15" x2="23" y2="15"/>
-                                            <line x1="1" y1="9" x2="4" y2="9"/>
-                                            <line x1="1" y1="15" x2="4" y2="15"/>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="circuit-pulses">
-                                    <span class="pulse pulse-t"></span>
-                                    <span class="pulse pulse-b"></span>
-                                    <span class="pulse pulse-l"></span>
-                                    <span class="pulse pulse-r"></span>
-                                </div>
-                            </div>
+                        <div class="feature-shot feature-shot-setup">
+                            <img src="assets/setup_wizard.png" alt="Fluence setup wizard with API configuration and permissions">
                         </div>
                     </div>
 
@@ -498,25 +383,25 @@
                 <details name="faq-accordion" class="glass-panel faq-item reveal-up" open>
                     <summary>Is Fluence free to use?</summary>
                     <div class="faq-content">
-                        <p>Yes, Fluence is 100% free and open-source under the Apache 2.0 license. Since transcription is processed using API keys, you only pay for your own usage. Groq offers a generous free tier for developers, and even on paid tiers, Whisper transcription costs a fraction of a cent per hour of usage. Offline mode using SenseVoice has no API cost whatsoever.</p>
+                        <p>Yes, Fluence is free and open-source under the Apache 2.0 license. Since transcription is processed using API keys, you only pay for your own usage. Groq offers a generous free tier for developers, and even on paid tiers, Whisper transcription costs a fraction of a cent per hour of usage. Offline mode using SenseVoice has no API cost whatsoever.</p>
                     </div>
                 </details>
                 <details name="faq-accordion" class="glass-panel faq-item reveal-up" data-delay="100">
                     <summary>Does Fluence track my keystrokes or usage?</summary>
                     <div class="faq-content">
-                        <p>Absolutely not. Fluence does <strong>not</strong> record, store, or transmit keystrokes, typing speed, session length, usage frequency, or any behavioral data whatsoever. There are zero analytics libraries, zero crash reporters, and zero background telemetry beacons in the codebase. The app contains no tracking code of any kind. Every line of this is verifiable since the project is fully open source.</p>
+                        <p>No, Fluence does not record, store, or transmit keystrokes, typing speed, session length, usage frequency, or any behavioral data. There are no analytics libraries, no crash reporters, and no background telemetry beacons in the codebase. Every line of this is verifiable since the project is fully open source.</p>
                     </div>
                 </details>
                 <details name="faq-accordion" class="glass-panel faq-item reveal-up" data-delay="200">
                     <summary>How is my data privacy protected?</summary>
                     <div class="faq-content">
-                        <p>Fluence is built on ironclad privacy principles. There is zero telemetry and no server logging of any kind. Audio is recorded, sent securely to the Whisper API, transcribed, and instantly discarded from both the API and your device. Your Groq API key is stored inside the Android Keystore using hardware-backed encryption, never in plain text. In offline mode, no audio or data ever leaves your device at all.</p>
+                        <p>Fluence is built on strong privacy principles. There is no telemetry and no server logging of any kind. Audio is recorded, sent securely to the Whisper API, transcribed, and instantly discarded from both the API and your device. Your Groq API key is stored inside the Android Keystore using hardware-backed encryption, never in plain text. In offline mode, no audio or data ever leaves your device at all.</p>
                     </div>
                 </details>
                 <details name="faq-accordion" class="glass-panel faq-item reveal-up" data-delay="300">
                     <summary>Can it run completely offline?</summary>
                     <div class="faq-content">
-                        <p>Yes! Fluence fully supports 100% offline, on-device voice dictation. Toggle "Offline Transcription" in settings and the app downloads Alibaba's optimized SenseVoice-Small ONNX model (~230 MB, one-time download). Once downloaded, all transcription runs completely locally on your device with zero internet connectivity and zero data egress. Offline mode also works with AI Agent Mode for local text editing commands.</p>
+                        <p>Yes, Fluence supports offline, on-device voice dictation. Toggle "Offline Transcription" in settings and the app downloads Alibaba's optimized SenseVoice-Small ONNX model (~230 MB, one-time download). Once downloaded, all transcription runs locally on your device with no internet connectivity or data egress needed. Offline mode also works with AI Agent Mode for local text editing commands.</p>
                     </div>
                 </details>
                 <details name="faq-accordion" class="glass-panel faq-item reveal-up" data-delay="400">
@@ -525,19 +410,6 @@
                         <p>Yes. Whisper Large v3 supports 99+ languages with high accuracy and automatic language detection. Just speak in your native language and it transcribes correctly. SenseVoice offline mode also supports multiple languages including Chinese, Japanese, Korean, and more, with automatic detection.</p>
                     </div>
                 </details>
-            </div>
-        </section>
-
-        <hr class="section-divider" />
-
-        <!-- Founder Note Section -->
-        <section class="founder-note reveal-up">
-            <div class="founder-note-inner">
-                <span class="founder-label">Why Fluence Exists</span>
-                <blockquote class="founder-quote">
-                    "I built Fluence because I was tired of closed-source keyboards harvesting every word I dictated. So I made something that doesn't. No telemetry. No keyloggers. No compromise."
-                </blockquote>
-                <span class="founder-attribution">Ravi</span>
             </div>
         </section>
 

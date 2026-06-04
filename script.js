@@ -2,6 +2,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     initScrollWaveform();
+    initHeroProductMotion();
     initDemoWaveform();
     initAndroidDemoWaveform();
     initScrollReveal();
@@ -65,19 +66,19 @@ function initScrollWaveform() {
         ctx.clearRect(0, 0, W, H);
 
         var x, e, a, v, g;
-        // Wave 1 — violet bg, freq 1.5, amp 0.5
+        // Wave 1: violet bg, freq 1.5, amp 0.5
         ctx.beginPath(); ctx.moveTo(0, H*0.5);
         for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*1.5+p1; v=Math.sin(x*0.1+p1*3)*smoothedAmplitude*4; ctx.lineTo(x, H*0.5+(Math.sin(a)*activeAmp*0.5+v)*e); }
         g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#A855F7',0.38)); g.addColorStop(1,'transparent');
         ctx.strokeStyle=g; ctx.lineWidth=1.5; ctx.stroke();
 
-        // Wave 2 — violet mid, freq 2.5, amp 0.7
+        // Wave 2: violet mid, freq 2.5, amp 0.7
         ctx.beginPath(); ctx.moveTo(0, H*0.5);
         for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*2.5+p2; v=Math.sin(x*0.15-p2*4)*smoothedAmplitude*3; ctx.lineTo(x, H*0.5+(Math.sin(a)*activeAmp*0.7+v)*e); }
         g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#A855F7',0.38)); g.addColorStop(1,'transparent');
         ctx.strokeStyle=g; ctx.lineWidth=1.8; ctx.stroke();
 
-        // Wave 3 — forefront F3E8FF, freq 1.2, amp 0.9
+        // Wave 3: forefront F3E8FF, freq 1.2, amp 0.9
         ctx.beginPath(); ctx.moveTo(0, H*0.5);
         for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*1.2+(p1-p2)*0.5; v=Math.sin(x*0.08+p1*5)*smoothedAmplitude*5; ctx.lineTo(x, H*0.5+(Math.sin(a)*activeAmp*0.9+v)*e); }
         g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#C4B5FD',0.55)); g.addColorStop(1,'transparent');
@@ -99,7 +100,53 @@ function initScrollWaveform() {
 }
 
 /* =========================================================
-   1b. Desktop Demo Pill — exact 1:1 AuraVisualizer inside
+   1a. Product hero motion
+   Pointer movement adds a small amount of depth to the
+   screenshot collage without taking over the page.
+   ========================================================= */
+function initHeroProductMotion() {
+    const stage = document.querySelector('.hero-product-stage');
+    if (!stage) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const desktop = stage.querySelector('.hero-desktop-shot');
+    const phone = stage.querySelector('.hero-phone-shot');
+    const cursor = stage.querySelector('.hero-cursor-card');
+    if (!desktop || !phone || !cursor) return;
+
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+
+    stage.addEventListener('mousemove', e => {
+        const rect = stage.getBoundingClientRect();
+        targetX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+        targetY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+    });
+
+    stage.addEventListener('mouseleave', () => {
+        targetX = 0;
+        targetY = 0;
+    });
+
+    function loop() {
+        currentX += (targetX - currentX) * 0.08;
+        currentY += (targetY - currentY) * 0.08;
+        desktop.style.setProperty('--hero-x', `${currentX * 10}px`);
+        desktop.style.setProperty('--hero-y', `${currentY * 8}px`);
+        phone.style.setProperty('--hero-x', `${currentX * -12}px`);
+        phone.style.setProperty('--hero-y', `${currentY * -10}px`);
+        cursor.style.setProperty('--hero-x', `${currentX * 7}px`);
+        cursor.style.setProperty('--hero-y', `${currentY * 5}px`);
+        requestAnimationFrame(loop);
+    }
+
+    requestAnimationFrame(loop);
+}
+
+/* =========================================================
+   1b. Desktop Demo Pill: exact 1:1 AuraVisualizer inside
    the Windows Settings demo mockup on windows.html.
    Always animated at idle; demo trigger boosts amplitude.
    ========================================================= */
@@ -145,7 +192,7 @@ function initDemoWaveform() {
         var target = demoActive ? (0.4 + Math.sin(ts * 0.003) * 0.4) : 0;
         smoothedAmplitude = smoothedAmplitude * 0.85 + target * 0.15;
 
-        // Phase integration — exact AuraVisualizer._loop
+        // Phase integration: exact AuraVisualizer._loop
         var speed = 1.0 + smoothedAmplitude * 4.0;
         phase = (phase + speed * dt * 2 * Math.PI) % (1000 * Math.PI);
 
@@ -168,23 +215,23 @@ function initDemoWaveform() {
 
         var env = function(x) { return Math.sin((x / W) * Math.PI); };
         var p1 = phase, p2 = -phase * 0.7;
-        // activeAmplitude formula — exact from AuraVisualizer._draw()
+        // activeAmplitude formula: exact from AuraVisualizer._draw()
         var activeAmplitude = (smoothedAmplitude * 0.9 + 0.08) * (H * 0.48);
         var x, e, a, v, g;
 
-        // Wave 1 — violet #A855F7, alpha 0.4, freq 1.5, amp 0.5
+        // Wave 1: violet #A855F7, alpha 0.4, freq 1.5, amp 0.5
         ctx.beginPath(); ctx.moveTo(0, H/2);
         for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*1.5+p1; v=Math.sin(x*0.1+p1*3)*smoothedAmplitude*4; ctx.lineTo(x, H/2+(Math.sin(a)*activeAmplitude*0.5+v)*e); }
         g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#A855F7',0.4)); g.addColorStop(1,'transparent');
         ctx.strokeStyle=g; ctx.lineWidth=1.5; ctx.stroke();
 
-        // Wave 2 — violet #A855F7, alpha 0.4, freq 2.5, amp 0.7
+        // Wave 2: violet #A855F7, alpha 0.4, freq 2.5, amp 0.7
         ctx.beginPath(); ctx.moveTo(0, H/2);
         for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*2.5+p2; v=Math.sin(x*0.15-p2*4)*smoothedAmplitude*3; ctx.lineTo(x, H/2+(Math.sin(a)*activeAmplitude*0.7+v)*e); }
         g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#A855F7',0.4)); g.addColorStop(1,'transparent');
         ctx.strokeStyle=g; ctx.lineWidth=1.8; ctx.stroke();
 
-        // Wave 3 — #F3E8FF forefront, alpha 0.9, freq 1.2, amp 0.9
+        // Wave 3: #F3E8FF forefront, alpha 0.9, freq 1.2, amp 0.9
         ctx.beginPath(); ctx.moveTo(0, H/2);
         for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*1.2+(p1-p2)*0.5; v=Math.sin(x*0.08+p1*5)*smoothedAmplitude*5; ctx.lineTo(x, H/2+(Math.sin(a)*activeAmplitude*0.9+v)*e); }
         g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#F3E8FF',0.9)); g.addColorStop(1,'transparent');
@@ -196,7 +243,7 @@ function initDemoWaveform() {
 
 
 /* =========================================================
-   1c. Android Demo Pill — exact 1:1 AuraVisualizer inside
+   1c. Android Demo Pill: exact 1:1 AuraVisualizer inside
    the Android simulator overlay pill on android.html.
    Always animated at idle; demo trigger boosts amplitude.
    ========================================================= */
@@ -241,7 +288,7 @@ function initAndroidDemoWaveform() {
         var target = demoActive ? (0.4 + Math.sin(ts * 0.003) * 0.4) : 0;
         smoothedAmplitude = smoothedAmplitude * 0.85 + target * 0.15;
 
-        // Phase integration — exact AuraVisualizer._loop
+        // Phase integration: exact AuraVisualizer._loop
         var speed = 1.0 + smoothedAmplitude * 4.0;
         phase = (phase + speed * dt * 2 * Math.PI) % (1000 * Math.PI);
 
@@ -264,7 +311,7 @@ function initAndroidDemoWaveform() {
 
         var env = function(x) { return Math.sin((x / W) * Math.PI); };
         var p1 = phase, p2 = -phase * 0.7;
-        // activeAmplitude — exact AuraVisualizer formula
+        // activeAmplitude: exact AuraVisualizer formula
         var activeAmplitude = (smoothedAmplitude * 0.9 + 0.08) * (H * 0.48);
         var x, e, a, v, g;
 
@@ -311,7 +358,7 @@ function initScrollReveal() {
 }
 
 /* =========================================================
-   NEW 3. Horizontal Feature Carousel — Drag-to-Scroll & Auto-Scroll
+   NEW 3. Horizontal Feature Carousel: Drag-to-Scroll & Auto-Scroll
    ========================================================= */
 function initFeatureCarousel() {
     const carousel = document.getElementById('features-carousel');
@@ -622,7 +669,7 @@ function initSimulator() {
         if (overlayPill) overlayPill.classList.add('active');
         if (bottomVoiceBar) bottomVoiceBar.classList.add('active');
         
-        // Activate Android AuraVisualizer canvas — boosts amplitude like voice audio
+        // Activate Android AuraVisualizer canvas: boosts amplitude like voice audio
         if (window._androidWaveformActivate) window._androidWaveformActivate();
         
         // 1. Listening State (3 seconds)
@@ -722,7 +769,7 @@ function initSimulator() {
             // Show floating recording overlay pill
             if (desktopOverlayPill) desktopOverlayPill.classList.add('active');
 
-            // Activate AuraVisualizer canvas — boosts amplitude like voice audio
+            // Activate AuraVisualizer canvas: boosts amplitude like voice audio
             if (window._demoWaveformActivate) window._demoWaveformActivate();
 
             // Simulate listening (2.5 seconds)

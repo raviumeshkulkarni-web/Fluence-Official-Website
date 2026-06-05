@@ -2579,57 +2579,173 @@ footer {
     width: 100%;
     text-align: left;
     align-self: start;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), var(--shadow-glass) !important;
+}
+
+.quick-install-box:hover {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 8px 32px rgba(168, 85, 247, 0.15) !important;
 }
 
 .quick-install-box h3 {
     font-size: 17px;
-    margin-bottom: 8px;
+    margin-bottom: 16px;
     font-family: var(--font-heading);
     color: var(--text-white);
     display: flex;
     align-items: center;
     gap: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    padding-bottom: 12px;
 }
 
-.quick-install-list {
-    list-style: none;
+/* Premium Timeline Step Layout */
+.quick-install-timeline {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 24px;
+    position: relative;
+    margin-top: 8px;
 }
 
-.quick-install-list li {
-    font-size: 13.5px;
-    color: var(--text-muted);
+/* Connective line in timeline */
+.quick-install-timeline::before {
+    content: '';
+    position: absolute;
+    left: 17px;
+    top: 24px;
+    bottom: 24px;
+    width: 2px;
+    background: linear-gradient(to bottom, rgba(168, 85, 247, 0.3) 0%, rgba(0, 242, 254, 0.05) 100%);
+    z-index: 1;
+}
+
+.install-step-item {
+    display: flex;
+    gap: 16px;
     position: relative;
-    padding-left: 24px;
+    z-index: 2;
+    transition: transform 0.25s ease;
+}
+
+.install-step-item:hover {
+    transform: translateX(4px);
+}
+
+.install-step-icon-wrapper {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(18, 18, 22, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    color: var(--color-violet-light);
+    transition: border-color 0.25s, color 0.25s, background-color 0.25s, box-shadow 0.25s;
+}
+
+.install-step-item:hover .install-step-icon-wrapper {
+    background-color: rgba(168, 85, 247, 0.08);
+    border-color: rgba(168, 85, 247, 0.45);
+    color: var(--color-teal);
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.25);
+}
+
+.install-step-icon-wrapper svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.install-step-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Header line of the step */
+.install-step-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.install-step-title {
+    font-family: var(--font-heading);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-white);
+    letter-spacing: -0.01em;
+}
+
+.install-step-badge {
+    font-family: var(--font-mono);
+    font-size: 8.5px;
+    font-weight: 600;
+    color: var(--color-teal);
+    background: rgba(0, 242, 254, 0.05);
+    border: 1px solid rgba(0, 242, 254, 0.15);
+    padding: 1px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.install-step-item:hover .install-step-badge {
+    color: var(--color-violet-light);
+    background: rgba(168, 85, 247, 0.05);
+    border-color: rgba(168, 85, 247, 0.15);
+}
+
+.install-step-desc {
+    font-size: 13px;
+    color: var(--text-muted);
     line-height: 1.55;
 }
 
-.quick-install-list li strong {
-    color: var(--text-white);
+/* Inline badges inside descriptions */
+.install-step-desc code.premium-badge {
+    font-family: var(--font-mono) !important;
+    font-size: 11px;
+    color: var(--color-teal-light);
+    background: rgba(0, 242, 254, 0.05);
+    border: 1px solid rgba(0, 242, 254, 0.1);
+    padding: 1px 5px;
+    border-radius: 4px;
 }
 
-.quick-install-list li a {
-    color: var(--accent-cyan);
+/* Keycaps */
+.install-step-desc kbd.premium-kbd {
+    font-family: var(--font-mono) !important;
+    font-size: 11px;
+    color: var(--text-white);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.25);
+    padding: 1px 5px;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.install-step-desc a {
+    color: var(--color-teal);
     text-decoration: none;
     font-weight: 500;
     border-bottom: 1px dashed rgba(0, 242, 254, 0.4);
     transition: border-bottom-color 0.2s, color 0.2s;
 }
 
-.quick-install-list li a:hover {
+.install-step-desc a:hover {
     color: var(--text-white);
     border-bottom-color: var(--text-white);
-}
-
-.quick-install-list li::before {
-    content: '→';
-    position: absolute;
-    left: 0;
-    top: 0;
-    color: var(--primary-amethyst);
-    font-weight: 700;
 }
 
 /* Extra Responsive Adjustments */
@@ -4217,3 +4333,107 @@ footer {
 
 
 
+
+
+/* =========================================================
+   Mobile Navigation Responsive Styles
+   ========================================================= */
+.mobile-menu-toggle {
+    display: none; /* Hidden on desktop */
+}
+
+@media (max-width: 768px) {
+    .mobile-menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: none;
+        border: none;
+        color: var(--text-white);
+        cursor: pointer;
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        z-index: 110;
+        outline: none;
+        transition: transform 0.2s ease;
+    }
+    
+    .mobile-menu-toggle svg {
+        width: 24px;
+        height: 24px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    /* Open/Close state rendering */
+    .mobile-menu-toggle .icon-close {
+        display: none;
+    }
+    
+    .mobile-menu-toggle .icon-open {
+        display: block;
+    }
+    
+    #site-header.mobile-menu-active .mobile-menu-toggle .icon-open {
+        display: none;
+    }
+    
+    #site-header.mobile-menu-active .mobile-menu-toggle .icon-close {
+        display: block;
+        transform: rotate(90deg);
+    }
+    
+    #site-header.mobile-menu-active {
+        background-color: rgba(10, 10, 14, 0.98) !important;
+        backdrop-filter: blur(25px) !important;
+        -webkit-backdrop-filter: blur(25px) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%; /* Start hidden off-screen */
+        width: 300px;
+        height: 100vh;
+        background: rgba(10, 10, 14, 0.98);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border-left: 1px solid rgba(255, 255, 255, 0.08);
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 120px 40px 40px 40px;
+        gap: 24px;
+        z-index: 105;
+        transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    }
+
+    /* When menu is active, slide it in */
+    #site-header.mobile-menu-active .nav-links {
+        right: 0;
+    }
+
+    /* Adjust link item sizing for touch targets */
+    .nav-links .nav-item {
+        font-size: 16px;
+        width: 100%;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        display: block;
+    }
+    
+    .nav-links .btn-nav-download {
+        width: 100%;
+        text-align: center;
+        margin-top: 16px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+    }
+}

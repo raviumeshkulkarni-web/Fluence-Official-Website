@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initSetupWizard();
     initWindowsWizard();
     initDocsScrollSpy();
+    initMobileMenu();
 });
 
 /* =========================================================
@@ -1165,4 +1166,47 @@ function initDocsScrollSpy() {
 
     window.addEventListener('scroll', scrollSpy);
     scrollSpy(); // run initially
+}
+
+
+/* =========================================================
+   NEW 6. Mobile Responsive Navigation Menu
+   ========================================================= */
+function initMobileMenu() {
+    const toggleBtn = document.getElementById('mobile-menu-toggle');
+    const header = document.getElementById('site-header');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    
+    if (!toggleBtn || !header) return;
+    
+    toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = header.classList.contains('mobile-menu-active');
+        if (isOpen) {
+            header.classList.remove('mobile-menu-active');
+            toggleBtn.setAttribute('aria-expanded', 'false');
+        } else {
+            header.classList.add('mobile-menu-active');
+            toggleBtn.setAttribute('aria-expanded', 'true');
+        }
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (header.classList.contains('mobile-menu-active')) {
+            const isClickInside = header.contains(e.target);
+            if (!isClickInside) {
+                header.classList.remove('mobile-menu-active');
+                toggleBtn.setAttribute('aria-expanded', 'false');
+            }
+        }
+    });
+    
+    // Close menu when clicking a link (useful for hash links)
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            header.classList.remove('mobile-menu-active');
+            toggleBtn.setAttribute('aria-expanded', 'false');
+        });
+    });
 }

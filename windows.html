@@ -37,6 +37,18 @@
                 </svg>
                 <div class="logo-text">flu<span>ence</span></div>
             </a>
+            <!-- Mobile Menu Toggle Button -->
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
+                <svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" y1="12" x2="20" y2="12"></line>
+                    <line x1="4" y1="6" x2="20" y2="6"></line>
+                    <line x1="4" y1="18" x2="20" y2="18"></line>
+                </svg>
+                <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
             <nav class="nav-links">
                 <a href="index.html" class="nav-item">Home</a>
                 <a href="index.html#features-sec" class="nav-item">Features</a>
@@ -212,14 +224,91 @@
                 <!-- Quick Setup Instructions -->
                 <div class="quick-install-box glass-panel">
                     <h3>Desktop Installation Guide</h3>
-                    <ul class="quick-install-list">
-                        <li><strong>Download &amp; Run:</strong> Get the latest `.exe` installer or `.msi` package from <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop/releases/latest" target="_blank" rel="noopener">GitHub Releases</a> and run the installation.</li>
-                        <li><strong>System Tray Icon:</strong> Once installed, Fluence runs in the system tray. Right-click the tray icon to access Settings, view logs, or close the app.</li>
-                        <li><strong>Global Shortcuts:</strong> The default hotkey is <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Space</kbd>. You can press this inside any application (Word, Discord, Chrome, IDEs) to trigger dictation.</li>
-                        <li><strong>API Key:</strong> Paste your Groq or OpenAI key. It will be stored securely inside the native **Windows Credential Manager** with zero telemetry.</li>
-                        <li><strong>Overlay Indicator:</strong> A sleek wave pill appears on the bottom right (or customized position) of your screen during recording. <em>Note: The Windows overlay contains no check or close buttons to prevent focus loss.</em></li>
-                        <li><strong>Offline SenseVoice:</strong> Download the weights inside settings to run fully local offline transcription without internet connectivity.</li>
-                    </ul>
+                    <div class="quick-install-timeline">
+                        <!-- Step 1 -->
+                        <div class="install-step-item">
+                            <div class="install-step-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            </div>
+                            <div class="install-step-content">
+                                <div class="install-step-header">
+                                    <span class="install-step-title">Download &amp; Run</span>
+                                    <span class="install-step-badge">Install</span>
+                                </div>
+                                <p class="install-step-desc">Get the latest <code class="premium-badge">.exe</code> installer or <code class="premium-badge">.msi</code> package from the official <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop/releases/latest" target="_blank" rel="noopener">GitHub Releases</a> and run the installation wizard.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="install-step-item">
+                            <div class="install-step-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                            </div>
+                            <div class="install-step-content">
+                                <div class="install-step-header">
+                                    <span class="install-step-title">System Tray Background Mode</span>
+                                    <span class="install-step-badge">Tray</span>
+                                </div>
+                                <p class="install-step-desc">Once running, Fluence sits quietly in your system tray. Right-click the icon to adjust settings, view logs, or exit the application.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="install-step-item">
+                            <div class="install-step-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"/><line x1="6" y1="8" x2="6" y2="8"/><line x1="10" y1="8" x2="10" y2="8"/><line x1="14" y1="8" x2="14" y2="8"/><line x1="18" y1="8" x2="18" y2="8"/><line x1="6" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="18" y2="12"/><line x1="10" y1="16" x2="14" y2="16"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+                            </div>
+                            <div class="install-step-content">
+                                <div class="install-step-header">
+                                    <span class="install-step-title">Global Shortcut</span>
+                                    <span class="install-step-badge">Hotkeys</span>
+                                </div>
+                                <p class="install-step-desc">Press <kbd class="premium-kbd">Ctrl</kbd> + <kbd class="premium-kbd">Shift</kbd> + <kbd class="premium-kbd">Space</kbd> inside any application (such as Word, Discord, Chrome, or IDEs) to trigger dictation instantly.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="install-step-item">
+                            <div class="install-step-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+                            </div>
+                            <div class="install-step-content">
+                                <div class="install-step-header">
+                                    <span class="install-step-title">Secure API Keys</span>
+                                    <span class="install-step-badge">Security</span>
+                                </div>
+                                <p class="install-step-desc">Paste your Groq or OpenAI key in the settings. It is stored securely in the native <code class="premium-badge">Windows Credential Manager</code> with zero cloud telemetry.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 5 -->
+                        <div class="install-step-item">
+                            <div class="install-step-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+                            </div>
+                            <div class="install-step-content">
+                                <div class="install-step-header">
+                                    <span class="install-step-title">Overlay Indicator</span>
+                                    <span class="install-step-badge">Visuals</span>
+                                </div>
+                                <p class="install-step-desc">A wave pill overlay appears on the bottom right of your screen during recording. The overlay is click-through to prevent focus loss.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 6 -->
+                        <div class="install-step-item">
+                            <div class="install-step-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v6c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 11v6c0 1.66 4 3 9 3s9-1.34 9-3v-6"/></svg>
+                            </div>
+                            <div class="install-step-content">
+                                <div class="install-step-header">
+                                    <span class="install-step-title">Offline Engine Support</span>
+                                    <span class="install-step-badge">Offline</span>
+                                </div>
+                                <p class="install-step-desc">Enable offline mode inside settings to download the <code class="premium-badge">SenseVoice</code> model weights. Run local, private transcription with zero internet connectivity.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Simulated Tauri Window Wizard Shell -->

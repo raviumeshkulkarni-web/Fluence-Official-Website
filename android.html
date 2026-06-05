@@ -37,6 +37,18 @@
                 </svg>
                 <div class="logo-text">flu<span>ence</span></div>
             </a>
+            <!-- Mobile Menu Toggle Button -->
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
+                <svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" y1="12" x2="20" y2="12"></line>
+                    <line x1="4" y1="6" x2="20" y2="6"></line>
+                    <line x1="4" y1="18" x2="20" y2="18"></line>
+                </svg>
+                <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
             <nav class="nav-links">
                 <a href="index.html" class="nav-item">Home</a>
                 <a href="index.html#features-sec" class="nav-item">Features</a>
@@ -184,17 +196,93 @@
                 <!-- Quick Install & Setup -->
                 <div class="quick-install-box glass-panel">
                     <h3>Installation Checklist</h3>
-                    <ul class="quick-install-list">
-                        <li><strong>Download APK:</strong> Get the latest `.apk` installer from <a href="https://github.com/raviumeshkulkarni-web/Fluence/releases/latest" target="_blank" rel="noopener">GitHub Releases</a>. You may need to authorize "Install from Unknown Sources" on your browser/file manager.</li>
-                        <li><strong>Configure API:</strong> Input your Groq API Key under the Cloud STT provider settings. Groq Whisper v3 provides instant, sub-second transcription.</li>
-                        <li><strong>Offline Setup (Optional):</strong> If you prefer complete offline operation, trigger the one-time download of the SenseVoice-Small model (~230 MB) within the app settings.</li>
-                        <li><strong>Enable Accessibility Service:</strong> Under Android Settings -> Accessibility, activate the <em>Fluence Accessibility Service</em>. This allows the overlay bubble to automatically inject text into active focus fields.</li>
-                        <li><strong>Grant Overlay Permission:</strong> Turn on "Display over other apps" permission so the floating dictation bubble remains visible while using other keyboard editors.</li>
-                        <li><strong>Control:</strong>
-                            <br>- Single tap bubble: triggers dictation.
-                            <br>- Long press bubble: launches AI rewrite/command input.
-                        </li>
-                    </ul>
+                    <div class="quick-install-timeline">
+                        <!-- Step 1 -->
+                        <div class="install-step-item">
+                            <div class="install-step-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            </div>
+                            <div class="install-step-content">
+                                <div class="install-step-header">
+                                    <span class="install-step-title">Download APK</span>
+                                    <span class="install-step-badge">Download</span>
+                                </div>
+                                <p class="install-step-desc">Get the latest <code class="premium-badge">.apk</code> package from the official <a href="https://github.com/raviumeshkulkarni-web/Fluence/releases/latest" target="_blank" rel="noopener">GitHub Releases</a>. You may need to authorize "Install from Unknown Sources" on your device.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="install-step-item">
+                            <div class="install-step-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+                            </div>
+                            <div class="install-step-content">
+                                <div class="install-step-header">
+                                    <span class="install-step-title">Configure Cloud STT</span>
+                                    <span class="install-step-badge">API Key</span>
+                                </div>
+                                <p class="install-step-desc">Paste your Groq API Key inside settings. Cloud dictation utilizes Groq Whisper v3 to achieve instant, sub-second transcription speeds.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="install-step-item">
+                            <div class="install-step-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v6c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 11v6c0 1.66 4 3 9 3s9-1.34 9-3v-6"/></svg>
+                            </div>
+                            <div class="install-step-content">
+                                <div class="install-step-header">
+                                    <span class="install-step-title">Local Engine (Optional)</span>
+                                    <span class="install-step-badge">Offline</span>
+                                </div>
+                                <p class="install-step-desc">If you prefer 100% private offline operation, download the <code class="premium-badge">SenseVoice-Small</code> model weights (~230 MB) directly within settings.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="install-step-item">
+                            <div class="install-step-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                            </div>
+                            <div class="install-step-content">
+                                <div class="install-step-header">
+                                    <span class="install-step-title">Accessibility Service</span>
+                                    <span class="install-step-badge">Permissions</span>
+                                </div>
+                                <p class="install-step-desc">Under system <code class="premium-badge">Settings &rarr; Accessibility</code>, activate the <code class="premium-badge">Fluence Accessibility Service</code>. This is required to detect focus and inject text.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 5 -->
+                        <div class="install-step-item">
+                            <div class="install-step-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+                            </div>
+                            <div class="install-step-content">
+                                <div class="install-step-header">
+                                    <span class="install-step-title">Overlay Permission</span>
+                                    <span class="install-step-badge">Overlay</span>
+                                </div>
+                                <p class="install-step-desc">Enable "Display over other apps" settings to let the floating voice dictation bubble stay visible and accessible over different keyboards.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 6 -->
+                        <div class="install-step-item">
+                            <div class="install-step-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><path d="M12 6a6 6 0 1 0 6 6 6 6 0 0 0-6-6zm0 10a4 4 0 1 1 4-4 4 4 0 0 1-4 4z"/></svg>
+                            </div>
+                            <div class="install-step-content">
+                                <div class="install-step-header">
+                                    <span class="install-step-title">Dictation Controls</span>
+                                    <span class="install-step-badge">Gestures</span>
+                                </div>
+                                <p class="install-step-desc">
+                                    <kbd class="premium-kbd">Single Tap</kbd> the floating bubble to trigger voice recording. <kbd class="premium-kbd">Long Press</kbd> the bubble to launch the AI rewrite/command input.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Setup Wizard Stepper -->

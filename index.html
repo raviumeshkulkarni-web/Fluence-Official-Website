@@ -16,6 +16,12 @@
 </head>
 <body>
 
+    <!-- Page Transition Overlay -->
+    <div class="page-transition-overlay" id="page-transition"></div>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress-bar" id="scroll-progress"></div>
+
     <!-- Subtle full-page background waveform canvas -->
     <canvas id="scroll-waveform-canvas" aria-hidden="true"></canvas>
 
@@ -70,29 +76,32 @@
     <main>
 
         <!-- Hero Section -->
-        <section class="hero hero-product" id="hero-sec">
+        <section class="hero hero-product gradient-bg-animate" id="hero-sec">
             <div class="hero-noise"></div>
+            <div class="float-shape float-shape-1"></div>
+            <div class="float-shape float-shape-2"></div>
+            <div class="float-shape float-shape-3"></div>
             <div class="hero-copy">
                 <div class="hero-badges">
                 </div>
-                <span class="hero-eyebrow">System-wide voice typing for real apps</span>
-                <h1>Crystallize your cognition at the <span class="text-gradient">speed of thought</span></h1>
-                <p>Press a hotkey on Windows or tap the Android bubble. Fluence listens, transcribes the full thought, and inserts polished text at the active cursor without locking you into a custom keyboard.</p>
-                <div class="hero-proof-list" aria-label="Fluence product proof">
+                <span class="hero-eyebrow hero-eyebrow-animated">System-wide voice typing for real apps</span>
+                <h1 class="hero-h1-animated">Crystallize your cognition at the <span class="text-gradient text-gradient-animated">speed of thought</span></h1>
+                <p class="hero-p-animated">Press a hotkey on Windows or tap the Android bubble. Fluence listens, transcribes the full thought, and inserts polished text at the active cursor without locking you into a custom keyboard.</p>
+                <div class="hero-proof-list hero-proof-animated" aria-label="Fluence product proof">
                     <span>Works in VS Code, Chrome, Word, notes, chats</span>
                     <span>Cloud Whisper or local SenseVoice</span>
                     <span>Open source with no analytics scripts</span>
                 </div>
-                <div class="hero-ctas">
-                    <a href="windows.html" class="btn-primary" id="hero-btn-dl">
+                <div class="hero-ctas hero-ctas-animated">
+                    <a href="windows.html" class="btn-primary" id="hero-btn-dl" data-magnetic>
                         Try Windows hotkey dictation
                     </a>
-                    <a href="android.html" class="btn-secondary" id="hero-btn-android-dl">
+                    <a href="android.html" class="btn-secondary" id="hero-btn-android-dl" data-magnetic>
                         Try Android bubble dictation
                     </a>
                 </div>
             </div>
-            <div class="hero-product-stage" aria-label="Fluence running across desktop and mobile">
+            <div class="hero-product-stage hero-product-stage-animated" aria-label="Fluence running across desktop and mobile">
                 <div class="hero-desktop-shot">
                     <img src="assets/general.png" alt="Fluence Windows settings for hotkeys and recording behavior">
                 </div>
@@ -483,7 +492,7 @@
             <h2>Get Fluence for Your Device</h2>
             <div class="download-grid">
                 <!-- Windows Card -->
-                <div class="glass-panel download-card">
+                <div class="glass-panel download-card tilt-card">
                     <div class="download-card-header">
                         <div class="card-badge badge-windows">Desktop</div>
                         <h3>Fluence for Windows</h3>
@@ -496,21 +505,21 @@
                         <li><strong>Credential Manager:</strong> Safe local hardware-backed storage of your secret API keys.</li>
                     </ul>
                     <div class="download-actions">
-                        <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop/releases/latest" class="btn-primary">
+                        <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop/releases/latest" class="btn-primary" data-magnetic>
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 9h-4V3H9v6H5l7 7 7-7zm-8 2V5h2v6h1.17L12 13.17 9.83 11H11zm-6 7h14v2H5z"/></svg>
                             Download EXE Installer
                         </a>
-                        <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop/releases/latest" class="btn-secondary">
+                        <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop/releases/latest" class="btn-secondary" data-magnetic>
                             Download MSI Package
                         </a>
-                        <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop" class="btn-secondary" target="_blank" rel="noopener">
+                        <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop" class="btn-secondary" target="_blank" rel="noopener" data-magnetic>
                             View on GitHub
                         </a>
                     </div>
                 </div>
 
                 <!-- Android Card -->
-                <div class="glass-panel download-card">
+                <div class="glass-panel download-card tilt-card">
                     <div class="download-card-header">
                         <div class="card-badge badge-android">Mobile</div>
                         <h3>Fluence for Android</h3>
@@ -523,11 +532,11 @@
                         <li><strong>Keystore Security:</strong> Secret API key encryption via Android system Keystore.</li>
                     </ul>
                     <div class="download-actions">
-                        <a href="https://github.com/raviumeshkulkarni-web/Fluence/releases/latest" class="btn-primary">
+                        <a href="https://github.com/raviumeshkulkarni-web/Fluence/releases/latest" class="btn-primary" data-magnetic>
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 9h-4V3H9v6H5l7 7 7-7zm-8 2V5h2v6h1.17L12 13.17 9.83 11H11zm-6 7h14v2H5z"/></svg>
                             Download APK (.apk)
                         </a>
-                        <a href="https://github.com/raviumeshkulkarni-web/Fluence" class="btn-secondary" target="_blank" rel="noopener">
+                        <a href="https://github.com/raviumeshkulkarni-web/Fluence" class="btn-secondary" target="_blank" rel="noopener" data-magnetic>
                             View on GitHub
                         </a>
                     </div>

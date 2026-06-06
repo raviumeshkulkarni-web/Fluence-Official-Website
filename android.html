@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fluence for Android ðŸŽ™ï¸ | System-Wide Voice Dictation & Offline STT</title>
+    <title>Fluence for Android 🎙️ | System-Wide Voice Dictation & Offline STT</title>
     <meta name="description" content="Fluence for Android is an open-source, system-wide voice dictation and AI assistant. Easily configure local-to-cloud Whisper or 100% local offline transcription.">
     
     <!-- Google Fonts: Sora (Display), Hanken Grotesk (Body), Geist Mono (Mono) -->
@@ -15,6 +15,12 @@
     <link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
+
+    <!-- Page Transition Overlay -->
+    <div class="page-transition-overlay" id="page-transition"></div>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress-bar" id="scroll-progress"></div>
 
     <!-- Subtle full-page background waveform canvas -->
     <canvas id="scroll-waveform-canvas" aria-hidden="true"></canvas>
@@ -68,25 +74,27 @@
 
     <main>
         <!-- Dedicated Android Hero Section -->
-        <section class="hero hero-bg" id="hero-sec" style="padding-top: 140px; padding-bottom: 60px;">
+        <section class="hero hero-bg gradient-bg-animate" id="hero-sec" style="padding-bottom: 40px;">
             <div class="hero-noise"></div>
+            <div class="float-shape float-shape-1"></div>
+            <div class="float-shape float-shape-2"></div>
 
-            <div class="hero-badges">
+            <div class="hero-badges hero-badges-animated">
                 <div class="status-live-tag">
                     <span class="live-dot" style="background-color: var(--color-green);"></span>
                     Floating bubble, keyboard context, offline option
                 </div>
             </div>
-            <h1>Tap the bubble. Speak into any <span class="text-gradient" style="--gradient-start: #a855f7; --gradient-end: #ff4b4b;">Android</span> text field.</h1>
-            <p>Fluence sits beside your keyboard as an accessibility service overlay, records offline or via Groq API, inserts text securely, and stores API keys inside Android's Hardware Keystore with zero telemetry.</p>
-            <div class="hero-ctas">
-                <a href="https://github.com/raviumeshkulkarni-web/Fluence/releases/latest" class="btn-primary" style="background: linear-gradient(135deg, #a855f7 0%, #e11d48 100%);">
+            <h1 class="hero-h1-animated">Tap the bubble. Speak into any <span class="text-gradient text-gradient-animated" style="--gradient-start: #a855f7; --gradient-end: #ff4b4b;">Android</span> text field.</h1>
+            <p class="hero-p-animated">Fluence sits beside your keyboard as an accessibility service overlay, records offline or via Groq API, inserts text securely, and stores API keys inside Android's Hardware Keystore with zero telemetry.</p>
+            <div class="hero-ctas hero-ctas-animated">
+                <a href="https://github.com/raviumeshkulkarni-web/Fluence/releases/latest" class="btn-primary" data-magnetic style="background: linear-gradient(135deg, #a855f7 0%, #e11d48 100%);">
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M19 9h-4V3H9v6H5l7 7 7-7zm-8 2V5h2v6h1.17L12 13.17 9.83 11H11zm-6 7h14v2H5z"/>
                     </svg>
                     Download Android APK
                 </a>
-                <a href="https://github.com/raviumeshkulkarni-web/Fluence" class="btn-secondary" target="_blank" rel="noopener">
+                <a href="https://github.com/raviumeshkulkarni-web/Fluence" class="btn-secondary" target="_blank" rel="noopener" data-magnetic>
                     Inspect the Android code
                 </a>
             </div>

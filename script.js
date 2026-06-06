@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initWindowsWizard();
     initDocsScrollSpy();
     initMobileMenu();
+    initScrollProgress();
+    initMagneticEffect();
+    init3DTiltCards();
 });
 
 /* =========================================================
@@ -1207,6 +1210,98 @@ function initMobileMenu() {
         link.addEventListener('click', () => {
             header.classList.remove('mobile-menu-active');
             toggleBtn.setAttribute('aria-expanded', 'false');
+        });
+    });
+}
+
+/* =========================================================
+   ENHANCEMENT 1: Scroll Progress Bar
+   Updates a thin bar at the top showing page scroll position
+   ========================================================= */
+function initScrollProgress() {
+    const progressBar = document.getElementById('scroll-progress');
+    if (!progressBar) return;
+    
+    function updateProgress() {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        progressBar.style.width = `${Math.min(progress, 100)}%`;
+    }
+    
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+}
+
+/* =========================================================
+   ENHANCEMENT 5: Magnetic Button Effect
+   Buttons with data-magnetic attribute follow cursor slightly
+   ========================================================= */
+function initMagneticEffect() {
+    const magneticElements = document.querySelectorAll('[data-magnetic]');
+    
+    magneticElements.forEach(el => {
+        let rect = null;
+        let centerX = 0;
+        let centerY = 0;
+        
+        el.addEventListener('mouseenter', () => {
+            // Disable transition temporarily to get accurate position
+            el.style.transition = 'none';
+            rect = el.getBoundingClientRect();
+            // Calculate absolute page coordinates (independent of scrolling)
+            centerX = rect.left + rect.width / 2 + window.scrollX;
+            centerY = rect.top + rect.height / 2 + window.scrollY;
+            
+            // Apply a responsive follow transition
+            el.style.transition = 'transform 0.2s cubic-bezier(0.25, 1, 0.5, 1)';
+        });
+        
+        el.addEventListener('mousemove', e => {
+            if (!rect) return;
+            const deltaX = (e.pageX - centerX) * 0.35;
+            const deltaY = (e.pageY - centerY) * 0.35;
+            el.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+        });
+        
+        el.addEventListener('mouseleave', () => {
+            // Apply a smooth slide-back transition on leave
+            el.style.transition = 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)';
+            el.style.transform = 'translate(0, 0)';
+            rect = null;
+        });
+    });
+}
+
+/* =========================================================
+   ENHANCEMENT 13: 3D Tilt Card Effect
+   Cards with tilt-card class respond to mouse position
+   ========================================================= */
+function init3DTiltCards() {
+    const tiltCards = document.querySelectorAll('.tilt-card');
+    
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    
+    tiltCards.forEach(card => {
+        const inner = card.querySelector('.tilt-card-inner') || card;
+        
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = ((y - centerY) / centerY) * -8;
+            const rotateY = ((x - centerX) / centerX) * 8;
+            
+            inner.style.setProperty('--tilt-x', `${rotateX}deg`);
+            inner.style.setProperty('--tilt-y', `${rotateY}deg`);
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            inner.style.setProperty('--tilt-x', '0deg');
+            inner.style.setProperty('--tilt-y', '0deg');
         });
     });
 }

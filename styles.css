@@ -414,7 +414,7 @@ main {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 120px 40px 40px 40px;
+    padding: 0 40px 40px 40px;
     display: flex;
     flex-direction: column;
     gap: 60px;
@@ -431,7 +431,7 @@ main {
     margin: 0 auto;
     gap: 28px;
     position: relative;
-    padding-top: 2rem;
+    padding-top: 110px;
 }
 
 .hero-bg {
@@ -447,6 +447,8 @@ main {
     opacity: 0.04;
     pointer-events: none;
     z-index: 1;
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
 }
 
 /* Hero Pulse Rings (SVG sound wave ripples) */
@@ -483,7 +485,7 @@ main {
     100% { opacity: 0;    transform: scale(1.1); }
 }
 
-.hero > *:not(.hero-noise):not(.hero-pulse-rings) {
+.hero > *:not(.hero-noise):not(.hero-pulse-rings):not(.float-shape) {
     position: relative;
     z-index: 2;
 }
@@ -2032,8 +2034,12 @@ footer {
 /* Responsive adjustments */
 @media (max-width: 768px) {
     main {
-        padding: 100px 24px 40px 24px;
+        padding: 0 24px 40px 24px;
         gap: 40px;
+    }
+    
+    .hero {
+        padding-top: 90px;
     }
     
     header {
@@ -3804,17 +3810,19 @@ footer {
 .hero-product {
     width: 100%;
     max-width: 1200px;
-    min-height: calc(100vh - 160px);
+    min-height: calc(100vh - 120px);
     display: grid;
     grid-template-columns: 1.15fr 0.85fr;
     align-items: center;
     text-align: left;
     gap: clamp(24px, 4vw, 56px);
-    padding: 34px 0 18px 0;
+    padding: 110px 0 18px 0;
     isolation: isolate;
 }
 
 .hero-product-stage {
+    grid-column: 2;
+    grid-row: 1;
     position: relative;
     min-height: 580px;
     width: 100%;
@@ -3912,9 +3920,11 @@ footer {
         grid-template-columns: 1fr;
         min-height: auto;
         text-align: center;
-        padding-top: 40px;
+        padding-top: 90px;
     }
     .hero-copy {
+        grid-column: auto;
+        grid-row: auto;
         align-items: center;
     }
     .hero-product .hero-badges {
@@ -3924,6 +3934,8 @@ footer {
         justify-content: center;
     }
     .hero-product-stage {
+        grid-column: auto;
+        grid-row: auto;
         max-width: 760px;
         min-height: 540px;
         margin: 0 auto;
@@ -3959,6 +3971,8 @@ footer {
    Hero Copy Element Spacing & Visual Optimizations
    ========================================================================== */
 .hero-copy {
+    grid-column: 1;
+    grid-row: 1;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -4435,5 +4449,519 @@ footer {
         box-sizing: border-box;
         display: flex;
         justify-content: center;
+    }
+}
+
+/* ==========================================================================
+   ENHANCEMENT 1: Scroll Progress Bar
+   ========================================================================== */
+.scroll-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-violet), var(--color-teal));
+    z-index: 200;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+}
+
+.scroll-progress-bar::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 60px;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6));
+    filter: blur(2px);
+}
+
+/* ==========================================================================
+   ENHANCEMENT 2: Staggered Hero Entrance Animation
+   ========================================================================== */
+.hero-badge-animated {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: hero-stagger-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-badges-animated {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: hero-stagger-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.05s forwards;
+}
+
+.hero-eyebrow-animated {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: hero-stagger-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+}
+
+.hero-h1-animated {
+    opacity: 0;
+    transform: translateY(24px);
+    animation: hero-stagger-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+}
+
+.hero-p-animated {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: hero-stagger-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards;
+}
+
+.hero-proof-animated {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: hero-stagger-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
+}
+
+.hero-ctas-animated {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: hero-stagger-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.55s forwards;
+}
+
+.hero-product-stage-animated {
+    opacity: 0;
+    transform: translateY(32px) scale(0.95);
+    animation: hero-stage-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+}
+
+@keyframes hero-stagger-in {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes hero-stage-in {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ==========================================================================
+   ENHANCEMENT 4: Number Counter Animation
+   ========================================================================== */
+.counter-wrapper {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.05em;
+}
+
+.counter-value {
+    font-variant-numeric: tabular-nums;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.counter-value.animating {
+    animation: counter-catch 0.1s steps(1) forwards;
+}
+
+@keyframes counter-catch {
+    from { opacity: 0.7; }
+    to { opacity: 1; }
+}
+
+.counter-suffix {
+    display: inline-block;
+}
+
+/* ==========================================================================
+   ENHANCEMENT 5: Magnetic Buttons
+   ========================================================================== */
+[data-magnetic] {
+    will-change: transform;
+}
+
+/* ==========================================================================
+   ENHANCEMENT 6: Text Split Animation (Word by Word Reveal)
+   ========================================================================== */
+.split-text {
+    display: inline;
+}
+
+.split-word {
+    display: inline-block;
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(8px);
+    transition: opacity 0.5s ease, filter 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.split-word.revealed {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+}
+
+.text-gradient-animated {
+    background: linear-gradient(135deg, var(--color-violet), var(--color-teal), var(--color-violet-light));
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-shift 4s ease infinite;
+}
+
+@keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* ==========================================================================
+   ENHANCEMENT 7: Parallax Scroll Layers
+   ========================================================================== */
+.parallax-layer {
+    will-change: transform;
+    transition: transform 0.1s linear;
+}
+
+.parallax-layer-slow {
+    will-change: transform;
+    transition: transform 0.15s linear;
+}
+
+.parallax-layer-fast {
+    will-change: transform;
+    transition: transform 0.08s linear;
+}
+
+/* ==========================================================================
+   ENHANCEMENT 8: Enhanced Hover Micro-interactions
+   ========================================================================== */
+/* Link underline animation */
+.nav-item {
+    position: relative;
+}
+
+.nav-item::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--color-teal);
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-item:hover::after {
+    width: 100%;
+}
+
+/* Button press feedback */
+.btn-primary, .btn-secondary, .btn-nav-download {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::before, .btn-secondary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.btn-primary:hover::before, .btn-secondary:hover::before {
+    opacity: 1;
+}
+
+.btn-primary:active, .btn-secondary:active {
+    transform: scale(0.97);
+}
+
+.btn-nav-download:active {
+    transform: translateY(-1px) scale(0.98);
+}
+
+/* Logo hover effect */
+.logo-link:hover .logo-text {
+    letter-spacing: -0.02em;
+}
+
+.logo-link:hover svg circle {
+    animation: logo-spin 0.8s ease;
+}
+
+@keyframes logo-spin {
+    0% { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: 100; }
+}
+
+/* ==========================================================================
+   ENHANCEMENT 9: Animated Gradient Backgrounds
+   ========================================================================== */
+.gradient-bg-animate {
+    position: relative;
+}
+
+.gradient-bg-animate::before {
+    content: '';
+    position: absolute;
+    inset: -50%;
+    background: radial-gradient(circle at 30% 40%, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(0, 242, 254, 0.05) 0%, transparent 45%);
+    animation: gradient-orb 12s ease-in-out infinite;
+    z-index: -1;
+    pointer-events: none;
+}
+
+@keyframes gradient-orb {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.6;
+    }
+    25% {
+        transform: translate(5%, -3%) scale(1.05);
+        opacity: 0.8;
+    }
+    50% {
+        transform: translate(-3%, 5%) scale(0.95);
+        opacity: 0.5;
+    }
+    75% {
+        transform: translate(-5%, -2%) scale(1.02);
+        opacity: 0.7;
+    }
+}
+
+/* ==========================================================================
+   ENHANCEMENT 10: Floating Ambient Elements
+   ========================================================================== */
+.float-shape {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0.15;
+    animation: float-bob 6s ease-in-out infinite;
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+}
+
+.float-shape-1 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, transparent 70%);
+    top: 10%;
+    right: -100px;
+    animation-delay: 0s;
+}
+
+.float-shape-2 {
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(0, 242, 254, 0.2) 0%, transparent 70%);
+    bottom: 20%;
+    left: -60px;
+    animation-delay: -2s;
+}
+
+.float-shape-3 {
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.25) 0%, transparent 70%);
+    top: 50%;
+    right: 10%;
+    animation-delay: -4s;
+}
+
+@keyframes float-bob {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    33% { transform: translateY(-15px) rotate(2deg); }
+    66% { transform: translateY(10px) rotate(-1deg); }
+}
+
+/* ==========================================================================
+   ENHANCEMENT 11: Page Transition Overlay
+   ========================================================================== */
+.page-transition-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--color-bg);
+    z-index: 10000;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.page-transition-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* ==========================================================================
+   ENHANCEMENT 12: Loading Skeleton Shimmer
+   ========================================================================== */
+.skeleton {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-surface);
+    border-radius: 8px;
+}
+
+.skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.04) 50%,
+        transparent 100%
+    );
+    animation: skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.skeleton-text {
+    height: 1em;
+    margin: 0.5em 0;
+}
+
+.skeleton-text.short { width: 60%; }
+.skeleton-text.medium { width: 80%; }
+.skeleton-text.full { width: 100%; }
+
+.skeleton-heading {
+    height: 2em;
+    width: 70%;
+    margin-bottom: 1em;
+}
+
+.skeleton-image {
+    width: 100%;
+    aspect-ratio: 16/9;
+}
+
+/* ==========================================================================
+   ENHANCEMENT 13: 3D Tilt Card Effect
+   ========================================================================== */
+.tilt-card {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+}
+
+.tilt-card-inner {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-style: preserve-3d;
+}
+
+.tilt-card:hover .tilt-card-inner {
+    transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+}
+
+.tilt-card-face {
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+}
+
+.tilt-card-back {
+    transform: rotateY(180deg);
+}
+
+/* ==========================================================================
+   Enhanced Glass Panel with 3D depth
+   ========================================================================== */
+.glass-panel-3d {
+    transform-style: preserve-3d;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.glass-panel-3d::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        transparent 50%
+    );
+    border-radius: inherit;
+    transform: translateZ(1px);
+    pointer-events: none;
+}
+
+.glass-panel-3d::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        225deg,
+        rgba(255, 255, 255, 0.05) 0%,
+        transparent 40%
+    );
+    border-radius: inherit;
+    transform: translateZ(-1px);
+    pointer-events: none;
+}
+
+/* ==========================================================================
+   Enhanced Reveal Animations with Stagger
+   ========================================================================== */
+.stagger-children > * {
+    opacity: 0;
+    transform: translateY(24px);
+}
+
+.stagger-children.animate > *:nth-child(1) { animation: stagger-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s forwards; }
+.stagger-children.animate > *:nth-child(2) { animation: stagger-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.12s forwards; }
+.stagger-children.animate > *:nth-child(3) { animation: stagger-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.19s forwards; }
+.stagger-children.animate > *:nth-child(4) { animation: stagger-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.26s forwards; }
+.stagger-children.animate > *:nth-child(5) { animation: stagger-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.33s forwards; }
+.stagger-children.animate > *:nth-child(6) { animation: stagger-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.40s forwards; }
+
+@keyframes stagger-in {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+   Reduced Motion Compliance for All New Animations
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+    .scroll-waveform-canvas,
+    .desktop-waveform-canvas,
+    .android-waveform-canvas { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .scroll-progress-bar,
+    .split-word,
+    .float-shape,
+    .page-transition-overlay,
+    .skeleton::after,
+    .gradient-bg-animate::before,
+    .text-gradient-animated {
+        animation: none !important;
+        transition: none !important;
+    }
+    
+    .hero-badge-animated,
+    .hero-badges-animated,
+    .hero-eyebrow-animated,
+    .hero-h1-animated,
+    .hero-p-animated,
+    .hero-proof-animated,
+    .hero-ctas-animated,
+    .hero-product-stage-animated {
+        opacity: 1;
+        transform: none;
+    }
+    
+    .tilt-card-inner {
+        transform: none !important;
     }
 }

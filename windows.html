@@ -16,6 +16,12 @@
 </head>
 <body>
 
+    <!-- Page Transition Overlay -->
+    <div class="page-transition-overlay" id="page-transition"></div>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress-bar" id="scroll-progress"></div>
+
     <!-- Subtle full-page background waveform canvas -->
     <canvas id="scroll-waveform-canvas" aria-hidden="true"></canvas>
 
@@ -69,8 +75,10 @@
 
     <main>
         <!-- Dedicated Windows Hero Section -->
-        <section class="hero hero-bg" id="hero-sec" style="padding-top: 140px; padding-bottom: 60px;">
+<section class="hero hero-bg gradient-bg-animate" id="hero-sec" style="padding-bottom: 40px;">
             <div class="hero-noise"></div>
+            <div class="float-shape float-shape-1"></div>
+            <div class="float-shape float-shape-2"></div>
 
             <!-- Pulsing concentric sound wave rings -->
             <svg class="hero-pulse-rings" viewBox="0 0 700 700" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -81,22 +89,22 @@
                 <circle cx="350" cy="350" r="310"/>
             </svg>
 
-            <div class="hero-badges">
+<div class="hero-badges hero-badges-animated">
                 <div class="status-live-tag">
                     <span class="live-dot" style="background-color: var(--accent-cyan);"></span>
                     Tray app, global hotkey, native text insertion
                 </div>
             </div>
-            <h1>Tray icon, global hotkey, text injection. <span class="text-gradient" style="--gradient-start: #a855f7; --gradient-end: #00f2fe;">Voice typing</span> that lives in your OS.</h1>
-            <p>Fluence runs in your Windows system tray, listens via a global hotkey, and injects context-aware transcripts directly into the active window. Zero clipboard pollution, works in any application.</p>
-            <div class="hero-ctas">
-                <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop/releases/latest" class="btn-primary" style="background: linear-gradient(135deg, #a855f7 0%, #00f2fe 100%);">
+            <h1 class="hero-h1-animated">Tray icon, global hotkey, text injection. <span class="text-gradient text-gradient-animated" style="--gradient-start: #a855f7; --gradient-end: #00f2fe;">Voice typing</span> that lives in your OS.</h1>
+            <p class="hero-p-animated">Fluence runs in your Windows system tray, listens via a global hotkey, and injects context-aware transcripts directly into the active window. Zero clipboard pollution, works in any application.</p>
+            <div class="hero-ctas hero-ctas-animated">
+                <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop/releases/latest" class="btn-primary" data-magnetic style="background: linear-gradient(135deg, #a855f7 0%, #00f2fe 100%);">
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M19 9h-4V3H9v6H5l7 7 7-7zm-8 2V5h2v6h1.17L12 13.17 9.83 11H11zm-6 7h14v2H5z"/>
                     </svg>
                     Download Windows installer
                 </a>
-                <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop" class="btn-secondary" target="_blank" rel="noopener">
+                <a href="https://github.com/raviumeshkulkarni-web/Fluence-Desktop" class="btn-secondary" target="_blank" rel="noopener" data-magnetic>
                     Inspect the Windows code
                 </a>
             </div>

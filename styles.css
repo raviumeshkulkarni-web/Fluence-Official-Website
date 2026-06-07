@@ -66,6 +66,13 @@
     padding: 0;
 }
 
+@media (max-width: 768px) {
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+    }
+}
+
 body {
     background-color: var(--bg-obsidian);
     color: var(--text-white);
@@ -5222,9 +5229,11 @@ footer {
     .nav-links {
         position: fixed;
         top: 0;
-        right: -100%; /* Start hidden off-screen */
+        right: 0; /* Align to right for transform */
+        transform: translateX(100%); /* Start hidden off-screen */
         width: 300px;
         height: 100vh;
+        overflow-y: auto; /* Prevent clipping */
         background: rgba(10, 10, 14, 0.98);
         backdrop-filter: blur(25px);
         -webkit-backdrop-filter: blur(25px);
@@ -5235,13 +5244,13 @@ footer {
         padding: 120px 40px 40px 40px;
         gap: 24px;
         z-index: 105;
-        transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
     }
 
     /* When menu is active, slide it in */
     #site-header.mobile-menu-active .nav-links {
-        right: 0;
+        transform: translateX(0);
     }
 
     /* Adjust link item sizing for touch targets */

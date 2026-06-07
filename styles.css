@@ -4755,19 +4755,25 @@ footer {
     }
     .hero-desktop-shot {
         width: 90%;
-        left: 0;
+        left: 5%;
+        right: auto;
         top: 10px;
+        bottom: auto;
     }
     .hero-phone-shot {
-        width: 35%;
-        right: 0;
-        bottom: 10px;
+        width: 32%;
+        right: 5%;
+        left: auto;
+        bottom: 20px;
+        top: auto;
     }
     .hero-cursor-card {
-        width: 180px;
-        left: 2%;
-        bottom: 120px;
-        padding: 10px;
+        width: 170px;
+        left: 5%;
+        right: auto;
+        bottom: 40px;
+        top: auto;
+        padding: 12px;
         z-index: 30;
     }
     .hero-cursor-card strong {

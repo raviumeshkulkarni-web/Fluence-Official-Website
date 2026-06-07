@@ -466,31 +466,31 @@
         <section class="faq-section" id="faq-sec">
             <h2 class="reveal-up">Frequently Asked Questions</h2>
             <div class="faq-group">
-                <details name="faq-accordion" class="glass-panel faq-item reveal-up" open>
+                <details name="faq-accordion" class="faq-item reveal-up" open>
                     <summary>Is Fluence free to use?</summary>
                     <div class="faq-content">
                         <p>Yes, Fluence is free and open-source under the Apache 2.0 license. Since transcription is processed using API keys, you only pay for your own usage. Groq offers a generous free tier for developers, and even on paid tiers, Whisper transcription costs a fraction of a cent per hour of usage. Offline mode using SenseVoice has no API cost whatsoever.</p>
                     </div>
                 </details>
-                <details name="faq-accordion" class="glass-panel faq-item reveal-up" data-delay="100">
+                <details name="faq-accordion" class="faq-item reveal-up" data-delay="100">
                     <summary>Does Fluence track my keystrokes or usage?</summary>
                     <div class="faq-content">
                         <p>No, Fluence does not record, store, or transmit keystrokes, typing speed, session length, usage frequency, or any behavioral data. There are no analytics libraries, no crash reporters, and no background telemetry beacons in the codebase. Every line of this is verifiable since the project is fully open source.</p>
                     </div>
                 </details>
-                <details name="faq-accordion" class="glass-panel faq-item reveal-up" data-delay="200">
+                <details name="faq-accordion" class="faq-item reveal-up" data-delay="200">
                     <summary>How is my data privacy protected?</summary>
                     <div class="faq-content">
                         <p>Fluence is built on strong privacy principles. There is no telemetry and no server logging of any kind. Audio is recorded, sent securely to the Whisper API, transcribed, and instantly discarded from both the API and your device. Your Groq API key is stored inside the Android Keystore using hardware-backed encryption, never in plain text. In offline mode, no audio or data ever leaves your device at all.</p>
                     </div>
                 </details>
-                <details name="faq-accordion" class="glass-panel faq-item reveal-up" data-delay="300">
+                <details name="faq-accordion" class="faq-item reveal-up" data-delay="300">
                     <summary>Can it run completely offline?</summary>
                     <div class="faq-content">
                         <p>Yes, Fluence supports offline, on-device voice dictation. Toggle "Offline Transcription" in settings and the app downloads Alibaba's optimized SenseVoice-Small ONNX model (~230 MB, one-time download). Once downloaded, all transcription runs locally on your device with no internet connectivity or data egress needed. Offline mode also works with AI Agent Mode for local text editing commands.</p>
                     </div>
                 </details>
-                <details name="faq-accordion" class="glass-panel faq-item reveal-up" data-delay="400">
+                <details name="faq-accordion" class="faq-item reveal-up" data-delay="400">
                     <summary>Does it support languages other than English?</summary>
                     <div class="faq-content">
                         <p>Yes. Whisper Large v3 supports 99+ languages with high accuracy and automatic language detection. Just speak in your native language and it transcribes correctly. SenseVoice offline mode also supports multiple languages including Chinese, Japanese, Korean, and more, with automatic detection.</p>

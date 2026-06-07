@@ -383,7 +383,7 @@ function initScrollReveal() {
    3. Interactive mouse spotlight glows on feature & download cards
    ========================================================= */
 function initFeatureCardGlow() {
-    const cards = document.querySelectorAll('.feature-card-vertical, .download-card, .problem-card, .solution-card');
+    const cards = document.querySelectorAll('.feature-card-vertical, .download-card, .problem-card, .solution-card, .faq-item');
     cards.forEach(card => {
         card.addEventListener('mousemove', e => {
             const rect = card.getBoundingClientRect();

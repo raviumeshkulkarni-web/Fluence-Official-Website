@@ -4144,6 +4144,44 @@ footer {
     font-weight: 600;
 }
 
+@media (max-width: 768px) {
+    .tauri-wizard-window {
+        max-width: 100%;
+    }
+    .wizard-step {
+        padding: 16px;
+    }
+    .wizard-form-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .wizard-hotkey-display {
+        width: 100%;
+        text-align: center;
+        box-sizing: border-box;
+    }
+    .wizard-provider-card {
+        padding: 6px;
+    }
+    .wizard-provider-card__name {
+        font-size: 11px;
+        word-break: break-word;
+    }
+    .wizard-mode-option {
+        padding: 6px;
+    }
+    .wizard-mode-option__title {
+        font-size: 11px;
+    }
+    .desktop-title {
+        display: none; /* Prevents long titles from overflowing small screens */
+    }
+    .wizard-test-area {
+        max-width: 100%;
+    }
+}
+
 /* ====================================================
    Fluence Documentation Portal Layout Styles
    ==================================================== */

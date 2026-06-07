@@ -68,8 +68,11 @@
 
 @media (max-width: 768px) {
     html, body {
-        overflow-x: hidden;
+        overflow-x: clip;
         width: 100%;
+    }
+    .wizard-step {
+        padding: 16px;
     }
 }
 
@@ -80,7 +83,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow-x: hidden;
+    overflow-x: clip;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
 }
@@ -2895,7 +2898,11 @@ footer {
         transform-origin: center top;
         margin: 0;
     }
-}
+    .desktop-frame {
+        transform: scale(0.9);
+        transform-origin: center top;
+        margin: 0 auto;
+    }
     .simulator-instruction {
         z-index: 10;
         position: relative;
@@ -3688,7 +3695,8 @@ footer {
     max-width: 380px;
 }
 
-.wizard-step-content {
+.wizard-step-content,
+.step-content {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -3700,6 +3708,10 @@ footer {
 .wizard-step-content--wide {
     max-width: 360px;
     margin-top: 4px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .wizard-step-content--centered {

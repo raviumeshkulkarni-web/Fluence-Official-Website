@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initBackToTop();
     initSaveStatusReveal();
     initCursorMarquee();
+    init3DTiltCards();
 });
 
 /* =========================================================
@@ -33,6 +34,7 @@ function initScrollWaveform() {
     var canvas = document.getElementById('scroll-waveform-canvas');
     if (!canvas) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { canvas.style.display='none'; return; }
+    if (window.innerWidth <= 768) { canvas.style.display = 'none'; return; }
 
     var ctx = canvas.getContext('2d');
     var W = 0, H = 0;
@@ -57,8 +59,29 @@ function initScrollWaveform() {
     }
     var env = function(x) { return Math.sin((x / W) * Math.PI); };
 
+    var isIntersecting = false;
+    var rafId = null;
+
+    function startLoop() {
+        if (!rafId && isIntersecting) {
+            lastTime = null;
+            rafId = requestAnimationFrame(loop);
+        }
+    }
+
+    function stopLoop() {
+        if (rafId) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+        }
+    }
+
     function loop(ts) {
-        requestAnimationFrame(loop);
+        if (!isIntersecting) {
+            rafId = null;
+            return;
+        }
+        rafId = requestAnimationFrame(loop);
         if (lastTime === null) lastTime = ts;
         var dt = Math.min((ts - lastTime) / 1000, 0.1);
         lastTime = ts;
@@ -104,7 +127,26 @@ function initScrollWaveform() {
         g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#A855F7',0.18)); g.addColorStop(1,'transparent');
         ctx.strokeStyle=g; ctx.lineWidth=1.0; ctx.stroke();
     }
-    requestAnimationFrame(loop);
+
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            isIntersecting = entry.isIntersecting;
+            if (isIntersecting) {
+                startLoop();
+            } else {
+                stopLoop();
+            }
+        });
+    }, { rootMargin: '50px' });
+    observer.observe(canvas);
+
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            stopLoop();
+        } else {
+            startLoop();
+        }
+    });
 }
 
 /* =========================================================
@@ -116,6 +158,7 @@ function initHeroProductMotion() {
     const stage = document.querySelector('.hero-product-stage');
     if (!stage) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(pointer: coarse)').matches) return;
 
     const desktop = stage.querySelector('.hero-desktop-shot');
     const phone = stage.querySelector('.hero-phone-shot');
@@ -126,7 +169,7 @@ function initHeroProductMotion() {
     let targetY = 0;
     let currentX = 0;
     let currentY = 0;
-    let isVisible = true;
+    let isVisible = false;
     let rafId = null;
 
     const visibilityObserver = new IntersectionObserver((entries) => {
@@ -163,8 +206,6 @@ function initHeroProductMotion() {
         cursor.style.setProperty('--hero-y', `${currentY * 5}px`);
         rafId = requestAnimationFrame(loop);
     }
-
-    rafId = requestAnimationFrame(loop);
 }
 
 /* =========================================================
@@ -173,7 +214,7 @@ function initHeroProductMotion() {
    Always animated at idle; demo trigger boosts amplitude.
    ========================================================= */
 function initDemoWaveform() {
-    var canvas = document.getElementById('desktop-waveform-canvas');
+    var canvas = document.getElementById('desktop-waveform-canvas') || document.getElementById('demo-waveform-canvas');
     if (!canvas) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
@@ -182,6 +223,8 @@ function initDemoWaveform() {
     var phase = 0;
     var lastTime = null;
     var demoActive = false;  // boosted when demo is running
+    var isIntersecting = false;
+    var rafId = null;
 
     function resize() {
         var dpr = window.devicePixelRatio || 1;
@@ -195,8 +238,22 @@ function initDemoWaveform() {
     window.addEventListener('resize', resize, { passive: true });
     setTimeout(resize, 100);
 
+    function startLoop() {
+        if (!rafId && isIntersecting) {
+            lastTime = null;
+            rafId = requestAnimationFrame(loop);
+        }
+    }
+
+    function stopLoop() {
+        if (rafId) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+        }
+    }
+
     // Expose a method so the Windows demo JS can boost amplitude during dictation
-    window._demoWaveformActivate = function() { demoActive = true; };
+    window._demoWaveformActivate = function() { demoActive = true; startLoop(); };
     window._demoWaveformDeactivate = function() { demoActive = false; };
 
     function hexAlpha(hex, alpha) {
@@ -205,7 +262,11 @@ function initDemoWaveform() {
     }
 
     function loop(ts) {
-        requestAnimationFrame(loop);
+        if (!isIntersecting) {
+            rafId = null;
+            return;
+        }
+        rafId = requestAnimationFrame(loop);
         if (lastTime === null) lastTime = ts;
         var dt = Math.min((ts - lastTime) / 1000, 0.1);
         lastTime = ts;
@@ -259,7 +320,26 @@ function initDemoWaveform() {
         g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#F3E8FF',0.9)); g.addColorStop(1,'transparent');
         ctx.strokeStyle=g; ctx.lineWidth=2.0; ctx.stroke();
     }
-    requestAnimationFrame(loop);
+
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            isIntersecting = entry.isIntersecting;
+            if (isIntersecting) {
+                startLoop();
+            } else {
+                stopLoop();
+            }
+        });
+    }, { rootMargin: '50px' });
+    observer.observe(canvas);
+
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            stopLoop();
+        } else {
+            startLoop();
+        }
+    });
 }
 
 
@@ -279,6 +359,8 @@ function initAndroidDemoWaveform() {
     var phase = 0;
     var lastTime = null;
     var demoActive = false;
+    var isIntersecting = false;
+    var rafId = null;
 
     function resize() {
         var dpr = window.devicePixelRatio || 1;
@@ -292,7 +374,21 @@ function initAndroidDemoWaveform() {
     window.addEventListener('resize', resize, { passive: true });
     setTimeout(resize, 100);
 
-    window._androidWaveformActivate   = function() { demoActive = true; };
+    function startLoop() {
+        if (!rafId && isIntersecting) {
+            lastTime = null;
+            rafId = requestAnimationFrame(loop);
+        }
+    }
+
+    function stopLoop() {
+        if (rafId) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+        }
+    }
+
+    window._androidWaveformActivate   = function() { demoActive = true; startLoop(); };
     window._androidWaveformDeactivate = function() { demoActive = false; };
 
     function hexAlpha(hex, alpha) {
@@ -301,7 +397,11 @@ function initAndroidDemoWaveform() {
     }
 
     function loop(ts) {
-        requestAnimationFrame(loop);
+        if (!isIntersecting) {
+            rafId = null;
+            return;
+        }
+        rafId = requestAnimationFrame(loop);
         if (lastTime === null) lastTime = ts;
         var dt = Math.min((ts - lastTime) / 1000, 0.1);
         lastTime = ts;
@@ -355,7 +455,26 @@ function initAndroidDemoWaveform() {
         g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#F3E8FF',0.9)); g.addColorStop(1,'transparent');
         ctx.strokeStyle=g; ctx.lineWidth=2.0; ctx.stroke();
     }
-    requestAnimationFrame(loop);
+
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            isIntersecting = entry.isIntersecting;
+            if (isIntersecting) {
+                startLoop();
+            } else {
+                stopLoop();
+            }
+        });
+    }, { rootMargin: '50px' });
+    observer.observe(canvas);
+
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            stopLoop();
+        } else {
+            startLoop();
+        }
+    });
 }/* =========================================================
    NEW 2. Scroll-Reveal IntersectionObserver
    ========================================================= */
@@ -383,6 +502,7 @@ function initScrollReveal() {
    3. Interactive mouse spotlight glows on feature & download cards
    ========================================================= */
 function initFeatureCardGlow() {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
     const cards = document.querySelectorAll('.feature-card-vertical, .download-card, .problem-card, .solution-card, .faq-item, .quick-install-box, .platform-card-doc');
     cards.forEach(card => {
         card.addEventListener('mousemove', e => {
@@ -413,12 +533,31 @@ function initFeatureCardGlow() {
     let startX = 0;
     let startScrollX = 0;
     const speed = 0.5; // scrolling speed in pixels per frame
-    let isIntersecting = true;
+    let isIntersecting = false;
+    let rafId = null;
+
+    function startLoop() {
+        if (!rafId && isIntersecting && !isDragging) {
+            rafId = requestAnimationFrame(loop);
+        }
+    }
+
+    function stopLoop() {
+        if (rafId) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+        }
+    }
 
     // IntersectionObserver to pause requestAnimationFrame when off-screen for performance
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             isIntersecting = entry.isIntersecting;
+            if (isIntersecting) {
+                startLoop();
+            } else {
+                stopLoop();
+            }
         });
     }, { rootMargin: '50px' });
     observer.observe(wrapper);
@@ -435,7 +574,16 @@ function initFeatureCardGlow() {
         startX = getClientX(e);
         startScrollX = x;
         marquee.classList.add('grabbing');
+        stopLoop();
     }
+
+    // Drag move and end listeners on window to ensure robustness when cursor leaves marquee bounds
+    window.addEventListener('mousemove', drag);
+    window.addEventListener('touchmove', drag, { passive: true });
+    window.addEventListener('mouseup', endDrag);
+    window.addEventListener('touchend', endDrag);
+    window.addEventListener('touchcancel', endDrag);
+    window.addEventListener('mouseleave', endDrag);
 
     function drag(e) {
         if (!isDragging) return;
@@ -456,33 +604,27 @@ function initFeatureCardGlow() {
         if (!isDragging) return;
         isDragging = false;
         marquee.classList.remove('grabbing');
+        startLoop();
     }
 
     // Drag start event listeners on the marquee element itself
     marquee.addEventListener('mousedown', startDrag);
     marquee.addEventListener('touchstart', startDrag, { passive: true });
 
-    // Drag move and end listeners on window to ensure robustness when cursor leaves marquee bounds
-    window.addEventListener('mousemove', drag);
-    window.addEventListener('touchmove', drag, { passive: true });
-    window.addEventListener('mouseup', endDrag);
-    window.addEventListener('touchend', endDrag);
-    window.addEventListener('touchcancel', endDrag);
-    window.addEventListener('mouseleave', endDrag);
-
     // Continuous Animation loop
     function loop() {
-        if (isIntersecting && !isDragging) {
-            x -= speed;
-            const halfWidth = marquee.scrollWidth / 2;
-            if (halfWidth > 0 && x < -halfWidth) {
-                x += halfWidth;
-            }
-            marquee.style.transform = `translate3d(${x}px, 0, 0)`;
+        if (!isIntersecting || isDragging) {
+            rafId = null;
+            return;
         }
-        requestAnimationFrame(loop);
+        x -= speed;
+        const halfWidth = marquee.scrollWidth / 2;
+        if (halfWidth > 0 && x < -halfWidth) {
+            x += halfWidth;
+        }
+        marquee.style.transform = `translate3d(${x}px, 0, 0)`;
+        rafId = requestAnimationFrame(loop);
     }
-    requestAnimationFrame(loop);
 }
 
 /* =========================================================
@@ -1148,29 +1290,48 @@ function initDocsScrollSpy() {
     const docsNavItems = document.querySelectorAll('.docs-nav-item');
     if (docsSections.length === 0 || docsNavItems.length === 0) return;
 
-    function scrollSpy() {
-        let currentSectionId = '';
-        const scrollThreshold = 140; // Header height + padding
+    const observerOptions = {
+        root: null,
+        rootMargin: '-20% 0px -60% 0px',
+        threshold: 0
+    };
 
-        docsSections.forEach(section => {
-            const sectionTop = section.getBoundingClientRect().top;
-            if (sectionTop <= scrollThreshold) {
-                currentSectionId = section.getAttribute('id');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const sectionId = entry.target.getAttribute('id');
+                if (!sectionId) return;
+
+                let activeItem = null;
+                docsNavItems.forEach(item => {
+                    if (item.getAttribute('href') === `#${sectionId}`) {
+                        item.classList.add('active');
+                        activeItem = item;
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+
+                if (activeItem) {
+                    if (window.innerWidth <= 768) {
+                        const container = document.querySelector('.docs-nav ul');
+                        if (container) {
+                            const left = activeItem.offsetLeft - (container.clientWidth / 2) + (activeItem.offsetWidth / 2);
+                            container.scrollTo({ left, behavior: 'smooth' });
+                        }
+                    } else {
+                        const container = document.querySelector('.docs-sidebar');
+                        if (container) {
+                            const top = activeItem.offsetTop - (container.clientHeight / 2) + (activeItem.offsetHeight / 2);
+                            container.scrollTo({ top, behavior: 'smooth' });
+                        }
+                    }
+                }
             }
         });
+    }, observerOptions);
 
-        if (currentSectionId) {
-            docsNavItems.forEach(item => {
-                item.classList.remove('active');
-                if (item.getAttribute('href') === `#${currentSectionId}`) {
-                    item.classList.add('active');
-                }
-            });
-        }
-    }
-
-    window.addEventListener('scroll', scrollSpy);
-    scrollSpy(); // run initially
+    docsSections.forEach(section => observer.observe(section));
 }
 
 
@@ -1183,16 +1344,26 @@ function initMobileMenu() {
     const navLinks = document.querySelectorAll('.nav-links a');
     
     if (!toggleBtn || !header) return;
+
+    function openMenu() {
+        header.classList.add('mobile-menu-active');
+        toggleBtn.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+        header.classList.remove('mobile-menu-active');
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+    }
     
     toggleBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         const isOpen = header.classList.contains('mobile-menu-active');
         if (isOpen) {
-            header.classList.remove('mobile-menu-active');
-            toggleBtn.setAttribute('aria-expanded', 'false');
+            closeMenu();
         } else {
-            header.classList.add('mobile-menu-active');
-            toggleBtn.setAttribute('aria-expanded', 'true');
+            openMenu();
         }
     });
     
@@ -1201,8 +1372,7 @@ function initMobileMenu() {
         if (header.classList.contains('mobile-menu-active')) {
             const isClickInside = header.contains(e.target);
             if (!isClickInside) {
-                header.classList.remove('mobile-menu-active');
-                toggleBtn.setAttribute('aria-expanded', 'false');
+                closeMenu();
             }
         }
     });
@@ -1210,10 +1380,19 @@ function initMobileMenu() {
     // Close menu when clicking a link (useful for hash links)
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
-            header.classList.remove('mobile-menu-active');
-            toggleBtn.setAttribute('aria-expanded', 'false');
+            closeMenu();
         });
     });
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            if (header.classList.contains('mobile-menu-active')) {
+                closeMenu();
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+    }, { passive: true });
 }
 
 /* =========================================================
@@ -1240,6 +1419,7 @@ function initScrollProgress() {
    Buttons with data-magnetic attribute follow cursor slightly
    ========================================================= */
 function initMagneticEffect() {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
     const magneticElements = document.querySelectorAll('[data-magnetic]');
     
     magneticElements.forEach(el => {
@@ -1280,6 +1460,7 @@ function initMagneticEffect() {
    Cards with tilt-card class respond to mouse position
    ========================================================= */
 function init3DTiltCards() {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
     const tiltCards = document.querySelectorAll('.tilt-card');
     
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -1385,12 +1566,31 @@ function initCursorMarquee() {
     let startX = 0;
     let startScrollX = 0;
     const speed = 0.5; // scrolling speed in pixels per frame
-    let isIntersecting = true;
+    let isIntersecting = false;
+    let rafId = null;
+
+    function startLoop() {
+        if (!rafId && isIntersecting && !isDragging) {
+            rafId = requestAnimationFrame(loop);
+        }
+    }
+
+    function stopLoop() {
+        if (rafId) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+        }
+    }
 
     // IntersectionObserver to pause requestAnimationFrame when off-screen for performance
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             isIntersecting = entry.isIntersecting;
+            if (isIntersecting) {
+                startLoop();
+            } else {
+                stopLoop();
+            }
         });
     }, { rootMargin: '50px' });
     observer.observe(wrapper);
@@ -1406,7 +1606,15 @@ function initCursorMarquee() {
         startX = getClientX(e);
         startScrollX = x;
         marquee.classList.add('grabbing');
+        stopLoop();
     }
+
+    // Drag move and end listeners on window to ensure robustness when cursor leaves marquee bounds
+    window.addEventListener('mousemove', drag);
+    window.addEventListener('touchmove', drag, { passive: true });
+    window.addEventListener('mouseup', endDrag);
+    window.addEventListener('touchend', endDrag);
+    window.addEventListener('touchcancel', endDrag);
 
     function drag(e) {
         if (!isDragging) return;
@@ -1427,30 +1635,25 @@ function initCursorMarquee() {
         if (!isDragging) return;
         isDragging = false;
         marquee.classList.remove('grabbing');
+        startLoop();
     }
 
     // Drag start event listeners on the marquee element itself
     marquee.addEventListener('mousedown', startDrag);
     marquee.addEventListener('touchstart', startDrag, { passive: true });
 
-    // Drag move and end listeners on window to ensure robustness when cursor leaves marquee bounds
-    window.addEventListener('mousemove', drag);
-    window.addEventListener('touchmove', drag, { passive: true });
-    window.addEventListener('mouseup', endDrag);
-    window.addEventListener('touchend', endDrag);
-    window.addEventListener('touchcancel', endDrag);
-
     // Continuous Animation loop
     function loop() {
-        if (isIntersecting && !isDragging) {
-            x -= speed;
-            const halfWidth = marquee.scrollWidth / 2;
-            if (halfWidth > 0 && x < -halfWidth) {
-                x += halfWidth;
-            }
-            marquee.style.transform = `translate3d(${x}px, 0, 0)`;
+        if (!isIntersecting || isDragging) {
+            rafId = null;
+            return;
         }
-        requestAnimationFrame(loop);
+        x -= speed;
+        const halfWidth = marquee.scrollWidth / 2;
+        if (halfWidth > 0 && x < -halfWidth) {
+            x += halfWidth;
+        }
+        marquee.style.transform = `translate3d(${x}px, 0, 0)`;
+        rafId = requestAnimationFrame(loop);
     }
-    requestAnimationFrame(loop);
 }

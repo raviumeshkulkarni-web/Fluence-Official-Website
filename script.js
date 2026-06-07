@@ -396,8 +396,7 @@ function initFeatureCardGlow() {
 
 /* =========================================================
    3b. Features Marquee — pause CSS animation when off-screen
-   ========================================================= */
-function initMarqueeInteraction() {
+   ========================================================= */function initMarqueeInteraction() {
     const wrapper = document.getElementById('features-marquee-wrapper');
     const marquee = document.getElementById('features-marquee');
     if (!wrapper || !marquee) return;
@@ -405,13 +404,84 @@ function initMarqueeInteraction() {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion) return;
 
+    // Override the CSS animation
+    marquee.style.animation = 'none';
+
+    let x = 0;
+    let isDragging = false;
+    let startX = 0;
+    let startScrollX = 0;
+    const speed = 0.5; // scrolling speed in pixels per frame
+    let isIntersecting = true;
+
+    // IntersectionObserver to pause requestAnimationFrame when off-screen for performance
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            marquee.style.animationPlayState = entry.isIntersecting ? 'running' : 'paused';
+            isIntersecting = entry.isIntersecting;
         });
     }, { rootMargin: '50px' });
-
     observer.observe(wrapper);
+
+    // Helper to extract clientX from mouse or touch event
+    function getClientX(e) {
+        return e.touches ? e.touches[0].clientX : e.clientX;
+    }
+
+    function startDrag(e) {
+        // Only allow primary mouse button drag
+        if (e.type === 'mousedown' && e.button !== 0) return;
+        isDragging = true;
+        startX = getClientX(e);
+        startScrollX = x;
+        marquee.classList.add('grabbing');
+    }
+
+    function drag(e) {
+        if (!isDragging) return;
+        const currentX = getClientX(e);
+        const dx = currentX - startX;
+        x = startScrollX + dx;
+        
+        // Wrap x immediately during dragging so wrapping is seamless
+        const halfWidth = marquee.scrollWidth / 2;
+        if (halfWidth > 0) {
+            while (x > 0) x -= halfWidth;
+            while (x < -halfWidth) x += halfWidth;
+        }
+        marquee.style.transform = `translate3d(${x}px, 0, 0)`;
+    }
+
+    function endDrag() {
+        if (!isDragging) return;
+        isDragging = false;
+        marquee.classList.remove('grabbing');
+    }
+
+    // Drag start event listeners on the marquee element itself
+    marquee.addEventListener('mousedown', startDrag);
+    marquee.addEventListener('touchstart', startDrag, { passive: true });
+
+    // Drag move and end listeners on window to ensure robustness when cursor leaves marquee bounds
+    window.addEventListener('mousemove', drag);
+    window.addEventListener('touchmove', drag, { passive: true });
+    window.addEventListener('mouseup', endDrag);
+    window.addEventListener('touchend', endDrag);
+    window.addEventListener('touchcancel', endDrag);
+    window.addEventListener('mouseleave', endDrag);
+
+    // Continuous Animation loop
+    function loop() {
+        if (isIntersecting && !isDragging) {
+            x -= speed;
+            const halfWidth = marquee.scrollWidth / 2;
+            if (halfWidth > 0 && x < -halfWidth) {
+                x += halfWidth;
+            }
+            marquee.style.transform = `translate3d(${x}px, 0, 0)`;
+        }
+        requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
 }
 
 /* =========================================================

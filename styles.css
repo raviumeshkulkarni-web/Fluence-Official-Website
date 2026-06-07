@@ -91,8 +91,12 @@ h4, h5, h6 {
     font-weight: 600;
 }
 
-p,li,span,label,input,button,textarea,select,a {
+p,li,label,input,button,textarea,select,a {
     font-family: var(--font-body);
+}
+
+span {
+    font-family: inherit;
 }
 
 /* Generic In-Text Links (High legibility, no classes affected) */
@@ -452,7 +456,7 @@ main {
 .hero-bg {
     background:
       radial-gradient(ellipse 70% 60% at 50% 40%, rgba(168, 85, 247, 0.1) 0%, transparent 65%),
-      radial-gradient(ellipse 50% 40% at 80% 15%, rgba(0, 242, 254, 0.06) 0%, transparent 55%);
+      radial-gradient(ellipse 50% 40% at 70% 15%, rgba(0, 242, 254, 0.06) 0%, transparent 55%);
 }
 
 .hero-noise {
@@ -464,6 +468,8 @@ main {
     z-index: 1;
     grid-column: 1 / -1;
     grid-row: 1 / -1;
+    -webkit-mask-image: radial-gradient(ellipse 48% 48% at 50% 50%, black 50%, transparent 100%);
+    mask-image: radial-gradient(ellipse 48% 48% at 50% 50%, black 50%, transparent 100%);
 }
 
 /* Hero Pulse Rings (SVG sound wave ripples) */
@@ -3243,9 +3249,10 @@ footer {
 
 .download-card-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin-bottom: 8px;
+    text-align: center;
 }
 
 .download-card h3 {
@@ -3259,6 +3266,7 @@ footer {
     color: var(--accent-cyan);
     margin-bottom: 24px;
     letter-spacing: 0.02em;
+    text-align: center;
 }
 
 .download-features-list {
@@ -4391,7 +4399,7 @@ footer {
 }
 
 .hero-desktop-shot {
-    left: -4%;
+    left: 8%;
     top: 24px;
     width: min(560px, 92%);
     aspect-ratio: 1024 / 768;
@@ -4401,27 +4409,34 @@ footer {
 }
 
 .hero-phone-shot {
-    left: 4%;
-    bottom: -40px;
+    left: -5%;
+    bottom: 20px;
     width: min(230px, 38%);
     aspect-ratio: 464 / 1024;
     border-radius: 32px;
-    transform: translate3d(var(--hero-x, 0), var(--hero-y, 0), 0) rotateY(10deg) rotateZ(2deg);
+    transform: translate3d(var(--hero-x, 0), var(--hero-y, 0), 0);
     animation: product-drift-b 7s ease-in-out infinite;
 }
 
 .hero-desktop-shot img,
-.hero-phone-shot img,
-.feature-shot img {
+.hero-phone-shot img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
 }
 
+.feature-shot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+}
+
 .hero-cursor-card {
-    top: 470px;
-    right: 6%;
+    top: 360px;
+    right: 8%;
     width: 270px;
     border-radius: 16px;
     padding: 18px;
@@ -4453,6 +4468,24 @@ footer {
     height: 38px;
     background: var(--color-teal);
     animation: cursor-blink 1s steps(2, start) infinite;
+}
+
+@keyframes product-drift-a {
+    0%, 100% {
+        transform: translate3d(var(--hero-x, 0), var(--hero-y, 0), 0) rotateY(-8deg) rotateX(3deg);
+    }
+    50% {
+        transform: translate3d(var(--hero-x, 0), calc(var(--hero-y, 0) - 8px), 0) rotateY(-8.5deg) rotateX(2.5deg);
+    }
+}
+
+@keyframes product-drift-b {
+    0%, 100% {
+        transform: translate3d(var(--hero-x, 0), var(--hero-y, 0), 0);
+    }
+    50% {
+        transform: translate3d(var(--hero-x, 0), calc(var(--hero-y, 0) - 12px), 0);
+    }
 }
 
 @media (max-width: 1080px) {
@@ -4568,83 +4601,93 @@ footer {
     display: flex;
     gap: 16px;
     margin-top: 16px;
+    align-self: center;
 }
 
 /* ==========================================================================
    Proof Panel Stacked Layout
    ========================================================================== */
-.proof-panel {
+/* ==========================================================================
+   Centered Text-Only Feature List (Zero Fluff, Professional Font)
+   ========================================================================== */
+.feature-text-only-section {
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    align-items: center;
+    text-align: center;
+    gap: 48px;
     width: 100%;
-    margin: 40px 0 20px 0;
-    text-align: left;
+    margin: 80px 0 60px 0;
 }
 
-.proof-panel-header {
+.feature-text-only-header {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    align-items: center;
+    gap: 12px;
+    max-width: 680px;
 }
 
-.proof-panel-header .section-kicker {
+.feature-text-only-header .section-kicker {
     font-family: var(--font-mono);
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: 600;
     color: var(--color-teal);
     text-transform: uppercase;
     letter-spacing: 0.08em;
 }
 
-.proof-panel-header h3 {
-    font-size: 24px;
+.feature-text-only-header h3 {
+    font-size: clamp(26px, 4.5vw, 42px);
     font-weight: 700;
     letter-spacing: -0.02em;
     color: var(--text-white);
-    line-height: 1.25;
+    line-height: 1.15;
 }
 
-.proof-grid {
+.feature-text-only-layout {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 56px;
     width: 100%;
+    max-width: 760px;
+    margin-top: 16px;
 }
 
-.proof-item {
+.feature-text-only-item {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-    padding-bottom: 20px;
+    align-items: center;
+    gap: 12px;
+    position: relative;
 }
 
-.proof-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-}
-
-.proof-number {
+.feature-text-only-number {
     font-family: var(--font-mono);
     font-size: 14px;
     font-weight: 600;
-    color: var(--color-violet-light);
+    color: var(--color-teal);
+    letter-spacing: 0.05em;
+    display: inline-block;
 }
 
-.proof-item h4 {
-    font-size: 18px;
+.feature-text-only-title {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 3vw, 24px);
     font-weight: 600;
     color: var(--text-white);
-    margin: 2px 0 4px 0;
+    margin: 0;
+    letter-spacing: -0.01em;
 }
 
-.proof-item p {
-    font-size: 14.5px;
-    line-height: 1.5;
+.feature-text-only-desc {
+    font-size: clamp(14.5px, 2vw, 16px);
+    line-height: 1.65;
     color: var(--color-text-muted);
     margin: 0;
+    max-width: 640px;
 }
+
 
 /* ==========================================================================
    Product Surface Bento Card Visuals
@@ -4652,14 +4695,26 @@ footer {
 .feature-card-vertical.product-feature-card {
     height: 410px; /* Slightly taller to accommodate visuals comfortably */
     padding: 28px 28px 0 28px; /* Bottom padded by offset images */
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    background: rgba(10, 10, 14, 0.65);
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
 }
 
-/* Specific Spotlight Border highlighted state in screenshot */
+.feature-card-vertical.product-feature-card::before,
+.feature-card-vertical.product-feature-card::after {
+    display: none !important;
+    content: none !important;
+}
+
+.feature-card-vertical.product-feature-card:hover {
+    box-shadow: none !important;
+    border-color: transparent !important;
+}
+
+/* Specific Spotlight Border highlighted state in screenshot - disabled border/shadow */
 #feat-agent {
-    border: 1.5px solid rgba(168, 85, 247, 0.4);
-    box-shadow: 0 0 24px rgba(168, 85, 247, 0.12);
+    border: none !important;
+    box-shadow: none !important;
 }
 
 .feature-tag {
@@ -4776,6 +4831,9 @@ footer {
     width: max-content;
     gap: 24px;
     cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: pan-y;
 }
 
 .marquee-group {
@@ -4849,12 +4907,14 @@ footer {
     opacity: 1;
 }
 
-.download-card:has(.badge-windows) {
+.download-card:has(.badge-windows),
+.download-card.download-card-windows {
     --glow-color: rgba(0, 242, 254, 0.1);
     --border-glow-color: rgba(0, 242, 254, 0.35);
 }
 
-.download-card:has(.badge-android) {
+.download-card:has(.badge-android),
+.download-card.download-card-android {
     --glow-color: rgba(168, 85, 247, 0.1);
     --border-glow-color: rgba(168, 85, 247, 0.35);
 }
@@ -5216,8 +5276,8 @@ footer {
     animation: gradient-orb 12s ease-in-out infinite;
     z-index: -1;
     pointer-events: none;
-    -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 50%, black 30%, transparent 100%);
-    mask-image: radial-gradient(ellipse 75% 65% at 50% 50%, black 30%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 45% 45% at 50% 50%, black 20%, transparent 100%);
+    mask-image: radial-gradient(ellipse 45% 45% at 50% 50%, black 20%, transparent 100%);
 }
 
 @keyframes gradient-orb {

@@ -3493,6 +3493,10 @@ footer {
     .desktop-content {
         padding: 16px;
         height: 380px;
+        min-width: 0;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     }
 }
 
@@ -4158,9 +4162,23 @@ footer {
 @media (max-width: 768px) {
     .tauri-wizard-window {
         max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+    .desktop-body--wizard {
+        min-width: 0;
+        max-width: 100%;
+    }
+    .wizard-shell, .wizard-shell--inner, .wizard-steps {
+        min-width: 0;
+        max-width: 100%;
     }
     .wizard-step {
         padding: 16px;
+        min-width: 0;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
     }
     .wizard-form-row {
         flex-direction: column;

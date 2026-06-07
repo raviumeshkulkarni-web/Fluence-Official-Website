@@ -3443,18 +3443,25 @@ footer {
     .desktop-frame {
         height: auto;
         min-height: 480px;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
     }
     .desktop-body {
         flex-direction: column;
+        min-width: 0;
+        max-width: 100%;
     }
     .desktop-sidebar {
         width: 100%;
+        max-width: 100%;
         border-right: none;
         border-bottom: 1.5px solid rgba(255, 255, 255, 0.04);
         padding: 12px;
         flex-direction: row;
         overflow-x: auto;
         gap: 8px;
+        box-sizing: border-box;
     }
     .desktop-sidebar::-webkit-scrollbar {
         display: none; /* Hide scrollbar for tab list */

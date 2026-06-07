@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initActiveNavHighlight();
     initBackToTop();
     initSaveStatusReveal();
+    initCursorSliderDrag();
 });
 
 /* =========================================================
@@ -1366,4 +1367,51 @@ function initSaveStatusReveal() {
         }
     });
     observer.observe(status, { attributes: true, attributeFilter: ['style'] });
+}
+
+function initCursorSliderDrag() {
+    const wrapper = document.getElementById('cursor-slider-wrapper');
+    const slider = document.getElementById('cursor-slider');
+    if (!wrapper || !slider) return;
+
+    let isDragging = false;
+    let startX = 0;
+    let startScrollLeft = 0;
+
+    function getClientX(e) {
+        return e.touches ? e.touches[0].clientX : e.clientX;
+    }
+
+    function startDrag(e) {
+        if (e.type === 'mousedown') {
+            if (e.button !== 0) return;
+            e.preventDefault();
+        }
+        isDragging = true;
+        startX = getClientX(e);
+        startScrollLeft = wrapper.scrollLeft;
+        slider.classList.add('grabbing');
+    }
+
+    function drag(e) {
+        if (!isDragging) return;
+        const currentX = getClientX(e);
+        const dx = currentX - startX;
+        wrapper.scrollLeft = startScrollLeft - dx;
+    }
+
+    function endDrag() {
+        if (!isDragging) return;
+        isDragging = false;
+        slider.classList.remove('grabbing');
+    }
+
+    slider.addEventListener('mousedown', startDrag);
+    slider.addEventListener('touchstart', startDrag, { passive: true });
+
+    window.addEventListener('mousemove', drag);
+    window.addEventListener('touchmove', drag, { passive: true });
+    window.addEventListener('mouseup', endDrag);
+    window.addEventListener('touchend', endDrag);
+    window.addEventListener('touchcancel', endDrag);
 }

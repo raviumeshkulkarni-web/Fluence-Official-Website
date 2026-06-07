@@ -142,23 +142,87 @@
                     <h3>Built around the cursor, not a marketing demo.</h3>
                 </div>
                 
-                <div class="feature-text-only-layout">
-                    <div class="feature-text-only-item">
-                        <span class="feature-text-only-number">01</span>
-                        <h4 class="feature-text-only-title">Waits for the full thought</h4>
-                        <p class="feature-text-only-desc">Fluence transcribes complete phrases so punctuation, homophones, and technical terms get more context than word-by-word streaming.</p>
-                    </div>
-                    
-                    <div class="feature-text-only-item">
-                        <span class="feature-text-only-number">02</span>
-                        <h4 class="feature-text-only-title">Writes into the app you already use</h4>
-                        <p class="feature-text-only-desc">On Windows it uses a global shortcut. On Android it uses an overlay bubble and accessibility service to insert text into active fields.</p>
-                    </div>
-                    
-                    <div class="feature-text-only-item">
-                        <span class="feature-text-only-number">03</span>
-                        <h4 class="feature-text-only-title">Lets privacy decide the engine</h4>
-                        <p class="feature-text-only-desc">Use cloud Whisper when speed matters, or switch to SenseVoice offline when the audio must stay on the device.</p>
+                <div class="cursor-slider-wrapper" id="cursor-slider-wrapper">
+                    <div class="cursor-slider" id="cursor-slider">
+                        <!-- Slide 1 -->
+                        <div class="cursor-slide-item">
+                            <div class="cursor-slide-text">
+                                <span class="cursor-slide-number">01</span>
+                                <h4 class="cursor-slide-title">Waits for the full thought</h4>
+                                <p class="cursor-slide-desc">Fluence transcribes complete phrases so punctuation, homophones, and technical terms get more context than word-by-word streaming.</p>
+                            </div>
+                            <div class="cursor-slide-visual">
+                                <div class="cursor-visual visual-thought">
+                                    <div class="waveform-mini">
+                                        <span class="bar"></span>
+                                        <span class="bar"></span>
+                                        <span class="bar"></span>
+                                        <span class="bar"></span>
+                                        <span class="bar"></span>
+                                    </div>
+                                    <div class="transcript-bubbles">
+                                        <div class="t-bubble">"I think"</div>
+                                        <div class="t-bubble accent">"...therefore I dictate"</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2 -->
+                        <div class="cursor-slide-item">
+                            <div class="cursor-slide-text">
+                                <span class="cursor-slide-number">02</span>
+                                <h4 class="cursor-slide-title">Writes into the app you already use</h4>
+                                <p class="cursor-slide-desc">On Windows it uses a global shortcut. On Android it uses an overlay bubble and accessibility service to insert text into active fields.</p>
+                            </div>
+                            <div class="cursor-slide-visual">
+                                <div class="cursor-visual visual-injection">
+                                    <div class="editor-header">
+                                        <div class="editor-dots">
+                                            <span class="dot red"></span>
+                                            <span class="dot yellow"></span>
+                                            <span class="dot green"></span>
+                                        </div>
+                                        <span class="editor-filename">active_editor.py</span>
+                                    </div>
+                                    <div class="editor-content">
+                                        <div class="code-line"><span class="c-keyword">def</span> <span class="c-func">crystallize_thought</span>():</div>
+                                        <div class="code-line indent-1">speech = listen()</div>
+                                        <div class="code-line indent-1"><span class="c-comment"># Injecting...</span></div>
+                                        <div class="code-line indent-1">active_cursor.insert(<span class="c-str">"Fluence dictates!"</span>)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 3 -->
+                        <div class="cursor-slide-item">
+                            <div class="cursor-slide-text">
+                                <span class="cursor-slide-number">03</span>
+                                <h4 class="cursor-slide-title">Lets privacy decide the engine</h4>
+                                <p class="cursor-slide-desc">Use cloud Whisper when speed matters, or switch to SenseVoice offline when the audio must stay on the device.</p>
+                            </div>
+                            <div class="cursor-slide-visual">
+                                <div class="cursor-visual visual-privacy">
+                                    <div class="privacy-nodes">
+                                        <div class="p-node">
+                                            <span class="p-icon">🎙️</span>
+                                            <span class="p-label">Voice</span>
+                                        </div>
+                                        <div class="p-arrow">→</div>
+                                        <div class="p-node">
+                                            <span class="p-icon">🧠</span>
+                                            <span class="p-label">Whisper API</span>
+                                        </div>
+                                        <div class="p-arrow">→</div>
+                                        <div class="p-node">
+                                            <span class="p-icon">✍️</span>
+                                            <span class="p-label">Cursor</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -2891,8 +2891,12 @@ footer {
 @media (max-width: 480px) {
     .device-frame {
         transform: scale(0.9);
-        transform-origin: center center;
-        margin: -30px 0;
+        transform-origin: center top;
+        margin: 0 0 -65px 0;
+    }
+    .simulator-instruction {
+        z-index: 10;
+        position: relative;
     }
 }
 
@@ -4742,13 +4746,14 @@ footer {
         bottom: 10px;
     }
     .hero-cursor-card {
-        width: 220px;
-        left: 5%;
-        bottom: 40px;
-        padding: 12px;
+        width: 180px;
+        left: 2%;
+        bottom: 120px;
+        padding: 10px;
+        z-index: 30;
     }
     .hero-cursor-card strong {
-        font-size: 15px;
+        font-size: 13px;
     }
 }
 

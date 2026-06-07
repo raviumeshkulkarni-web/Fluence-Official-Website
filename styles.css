@@ -2499,10 +2499,14 @@ footer {
 
 /* Founder Note Section */
 .founder-note {
-    padding: 5rem 1.5rem;
+    padding: 4rem 1.5rem 1rem 1.5rem;
     display: flex;
     justify-content: center;
     width: 100%;
+}
+
+.founder-note + .section-divider {
+    margin: -24px auto;
 }
 
 .founder-note-inner {
@@ -2553,8 +2557,6 @@ footer {
 }
 
 /* Unified Glassmorphic Card */
-.problem-card,
-.solution-card,
 .feature-card-vertical,
 .roadmap-card,
 .faq-item,
@@ -2573,8 +2575,6 @@ footer {
 }
 
 /* Unified Hover Glow */
-.problem-card:hover,
-.solution-card:hover,
 .feature-card-vertical:hover,
 .roadmap-card:hover,
 .faq-item:hover,
@@ -2584,6 +2584,68 @@ footer {
     background-color: rgba(26, 26, 32, 0.75);
     box-shadow: 0 8px 32px rgba(168, 85, 247, 0.15);
     transform: translateY(-2px);
+}
+
+/* Standalone Borderless Cardless Glows */
+.problem-card,
+.solution-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+.problem-card::before,
+.solution-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.problem-card::before {
+    background: radial-gradient(350px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(168, 85, 247, 0.12), transparent 80%);
+}
+
+.solution-card::before {
+    background: radial-gradient(350px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(0, 242, 254, 0.12), transparent 80%);
+}
+
+.problem-card:hover::before,
+.solution-card:hover::before {
+    opacity: 1;
+}
+
+.problem-card > *,
+.solution-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+.problem-card {
+    background: radial-gradient(circle at center, rgba(168, 85, 247, 0.08) 0%, rgba(168, 85, 247, 0.02) 60%, transparent 100%);
+}
+
+.solution-card {
+    background: radial-gradient(circle at center, rgba(0, 242, 254, 0.08) 0%, rgba(0, 242, 254, 0.02) 60%, transparent 100%);
+}
+
+.problem-card:hover,
+.solution-card:hover {
+    transform: translateY(-2px);
+    background: radial-gradient(circle at center, rgba(168, 85, 247, 0.12) 0%, rgba(168, 85, 247, 0.03) 60%, transparent 100%);
 }
 
 /* Quick Install Box - now lives beside the Setup Wizard */
@@ -3242,9 +3304,19 @@ footer {
 }
 
 .download-card {
+    position: relative;
+    overflow: hidden;
     padding: 40px;
+    display: flex;
+    flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
+    border-radius: 24px;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
 }
 
 .download-card-header {
@@ -4910,11 +4982,6 @@ footer {
 }
 
 /* Download card spotlight glows and border reveals */
-.download-card {
-    position: relative;
-    overflow: hidden;
-}
-
 .download-card::before {
     content: '';
     position: absolute;
@@ -4928,36 +4995,33 @@ footer {
 }
 
 .download-card::after {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    padding: 1px;
-    background: radial-gradient(200px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), var(--border-glow-color, rgba(168, 85, 247, 0.35)), transparent 70%);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    z-index: 2;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.5s ease;
+    display: none !important;
 }
 
-.download-card:hover::before,
-.download-card:hover::after {
+.download-card:hover::before {
     opacity: 1;
 }
 
 .download-card:has(.badge-windows),
 .download-card.download-card-windows {
-    --glow-color: rgba(0, 242, 254, 0.1);
-    --border-glow-color: rgba(0, 242, 254, 0.35);
+    --glow-color: rgba(0, 242, 254, 0.12);
+    background: radial-gradient(circle at center, rgba(0, 242, 254, 0.08) 0%, rgba(0, 242, 254, 0.02) 60%, transparent 100%);
 }
 
 .download-card:has(.badge-android),
 .download-card.download-card-android {
-    --glow-color: rgba(168, 85, 247, 0.1);
-    --border-glow-color: rgba(168, 85, 247, 0.35);
+    --glow-color: rgba(168, 85, 247, 0.12);
+    background: radial-gradient(circle at center, rgba(168, 85, 247, 0.08) 0%, rgba(168, 85, 247, 0.02) 60%, transparent 100%);
+}
+
+.download-card.download-card-windows:hover {
+    background: radial-gradient(circle at center, rgba(0, 242, 254, 0.12) 0%, rgba(0, 242, 254, 0.03) 60%, transparent 100%);
+    transform: translateY(-2px);
+}
+
+.download-card.download-card-android:hover {
+    background: radial-gradient(circle at center, rgba(168, 85, 247, 0.12) 0%, rgba(168, 85, 247, 0.03) 60%, transparent 100%);
+    transform: translateY(-2px);
 }
 
 /* Keep inner content of download card above the glow absolute overlay layers */

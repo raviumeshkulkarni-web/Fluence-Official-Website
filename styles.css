@@ -5189,6 +5189,36 @@ footer {
         background-color: transparent;
     }
 
+    .nav-container {
+        background: transparent;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border: none;
+        box-shadow: none;
+        position: relative;
+    }
+
+    .nav-container::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: rgba(10, 10, 14, 0.55);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 999px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        pointer-events: none;
+        transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .nav-container.is-scrolled::before {
+        background: rgba(10, 10, 14, 0.78);
+        border-color: rgba(255, 255, 255, 0.12);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    }
+
     .nav-links {
         position: fixed;
         top: 0;

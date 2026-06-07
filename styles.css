@@ -1093,8 +1093,10 @@ main {
     padding: 8px 16px;
     border-radius: 999px;
     border: 1px solid rgba(255, 255, 255, 0.05);
-    margin-top: 8px;
+    margin-top: 16px;
     pointer-events: none;
+    position: relative;
+    z-index: 40;
 }
 
 .simulator-instruction svg {
@@ -2887,13 +2889,13 @@ footer {
         font-size: 15px;
     }
 }
-
 @media (max-width: 480px) {
     .device-frame {
         transform: scale(0.9);
         transform-origin: center top;
-        margin: 0 0 -65px 0;
+        margin: 0;
     }
+}
     .simulator-instruction {
         z-index: 10;
         position: relative;

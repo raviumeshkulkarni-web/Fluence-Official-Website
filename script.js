@@ -18,7 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initMobileMenu();
     initScrollProgress();
     initMagneticEffect();
-    init3DTiltCards();
+    initActiveNavHighlight();
+    initBackToTop();
+    initSaveStatusReveal();
 });
 
 /* =========================================================
@@ -123,6 +125,18 @@ function initHeroProductMotion() {
     let targetY = 0;
     let currentX = 0;
     let currentY = 0;
+    let isVisible = true;
+    let rafId = null;
+
+    const visibilityObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            isVisible = entry.isIntersecting;
+            if (isVisible && !rafId) {
+                rafId = requestAnimationFrame(loop);
+            }
+        });
+    }, { rootMargin: '100px' });
+    visibilityObserver.observe(stage);
 
     stage.addEventListener('mousemove', e => {
         const rect = stage.getBoundingClientRect();
@@ -136,6 +150,8 @@ function initHeroProductMotion() {
     });
 
     function loop() {
+        rafId = null;
+        if (!isVisible) return;
         currentX += (targetX - currentX) * 0.08;
         currentY += (targetY - currentY) * 0.08;
         desktop.style.setProperty('--hero-x', `${currentX * 10}px`);
@@ -144,10 +160,10 @@ function initHeroProductMotion() {
         phone.style.setProperty('--hero-y', `${currentY * -10}px`);
         cursor.style.setProperty('--hero-x', `${currentX * 7}px`);
         cursor.style.setProperty('--hero-y', `${currentY * 5}px`);
-        requestAnimationFrame(loop);
+        rafId = requestAnimationFrame(loop);
     }
 
-    requestAnimationFrame(loop);
+    rafId = requestAnimationFrame(loop);
 }
 
 /* =========================================================
@@ -379,68 +395,23 @@ function initFeatureCardGlow() {
 }
 
 /* =========================================================
-   3b. Interactive Marquee Pause/Resume
+   3b. Features Marquee — pause CSS animation when off-screen
    ========================================================= */
 function initMarqueeInteraction() {
     const wrapper = document.getElementById('features-marquee-wrapper');
     const marquee = document.getElementById('features-marquee');
     if (!wrapper || !marquee) return;
-    
-    let isDown = false;
-    let startX;
-    let scrollLeft;
-    let isPaused = false;
-    let speed = 0.8; // px per frame
-    let animationId;
 
-    // Auto-scroll loop
-    function autoScroll() {
-        if (!isPaused && !isDown) {
-            wrapper.scrollLeft += speed;
-            const group = marquee.querySelector('.marquee-group');
-            if (group) {
-                // If we've scrolled past the first group (plus the 24px gap between groups)
-                if (wrapper.scrollLeft >= group.offsetWidth + 24) {
-                    wrapper.scrollLeft = 0;
-                }
-            }
-        }
-        animationId = requestAnimationFrame(autoScroll);
-    }
-    
-    autoScroll();
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
 
-    // Drag to scroll events
-    wrapper.addEventListener('mousedown', (e) => {
-        isDown = true;
-        marquee.classList.add('grabbing');
-        startX = e.pageX - wrapper.offsetLeft;
-        scrollLeft = wrapper.scrollLeft;
-        // Pause auto-scroll while dragging is handled by the `!isDown` condition
-    });
-    
-    window.addEventListener('mouseup', () => {
-        if (!isDown) return;
-        isDown = false;
-        marquee.classList.remove('grabbing');
-    });
-    
-    window.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - wrapper.offsetLeft;
-        const walk = (x - startX) * 1.2; 
-        wrapper.scrollLeft = scrollLeft - walk;
-    });
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            marquee.style.animationPlayState = entry.isIntersecting ? 'running' : 'paused';
+        });
+    }, { rootMargin: '50px' });
 
-    // Toggle pause on click
-    wrapper.addEventListener('click', (e) => {
-        // If it was a drag, don't pause/play
-        if (typeof startX !== 'undefined' && Math.abs(e.pageX - wrapper.offsetLeft - startX) > 5) {
-            return;
-        }
-        isPaused = !isPaused;
-    });
+    observer.observe(wrapper);
 }
 
 /* =========================================================
@@ -460,7 +431,9 @@ function initComparisonBars() {
                     setTimeout(() => {
                         bar.style.width = targetWidth + '%';
                         bar.classList.add('bar-animated');
-                    }, i * 160); // stagger bars within group by 160ms
+                        const value = bar.querySelector('.bar-value');
+                        if (value) value.classList.add('bar-value-visible');
+                    }, i * 160);
                 });
                 observer.unobserve(group);
             }
@@ -474,21 +447,11 @@ function initComparisonBars() {
 
 /* 1. Navbar Scroll Effect */
 function initNavbarScroll() {
-    const header = document.querySelector('header');
-    if (!header) return;
+    const navContainer = document.querySelector('.nav-container');
+    if (!navContainer) return;
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            header.style.backgroundColor = 'rgba(10, 10, 10, 0.75)';
-            header.style.backdropFilter = 'blur(20px)';
-            header.style.webkitBackdropFilter = 'blur(20px)';
-            header.style.borderBottom = '1px solid rgba(255, 255, 255, 0.08)';
-        } else {
-            header.style.backgroundColor = 'transparent';
-            header.style.backdropFilter = 'none';
-            header.style.webkitBackdropFilter = 'none';
-            header.style.borderBottom = 'none';
-        }
-    });
+        navContainer.classList.toggle('is-scrolled', window.scrollY > 50);
+    }, { passive: true });
 }
 
 /* 2. Platform Switcher (Android | Windows) */
@@ -824,7 +787,7 @@ function initWindowsWizard() {
     const prevBtn = wizardWindow.querySelector('#prev-btn');
     const nextBtn = wizardWindow.querySelector('#next-btn');
     const progressFill = wizardWindow.querySelector('#progress-fill');
-    const stepDots = wizardWindow.querySelectorAll('.step-dot');
+    const stepDots = wizardWindow.querySelectorAll('.wizard-step-dot');
 
     // Titlebar Close Button simulation
     const closeTitlebarBtn = wizardWindow.querySelector('#sim-wiz-close');
@@ -895,7 +858,7 @@ function initWindowsWizard() {
                 nextBtn.classList.add('hidden');
             } else {
                 nextBtn.classList.remove('hidden');
-                nextBtn.textContent = step === 1 ? 'Get Started' : (step === TOTAL_STEPS - 1 ? 'Finish Setup' : 'Continue â†’');
+                nextBtn.textContent = step === 1 ? 'Get Started' : (step === TOTAL_STEPS - 1 ? 'Finish Setup' : 'Continue →');
             }
         }
     }
@@ -914,19 +877,11 @@ function initWindowsWizard() {
     }
 
     // Step 2: Provider selection
-    const providerCards = wizardWindow.querySelectorAll('.provider-card');
+    const providerCards = wizardWindow.querySelectorAll('.wizard-provider-card');
     providerCards.forEach(card => {
         card.addEventListener('click', () => {
-            providerCards.forEach(c => {
-                c.classList.remove('selected');
-                c.style.borderColor = 'rgba(255,255,255,0.08)';
-                c.style.background = 'rgba(255,255,255,0.02)';
-                c.style.color = '#b9cacb';
-            });
+            providerCards.forEach(c => c.classList.remove('selected'));
             card.classList.add('selected');
-            card.style.borderColor = '';
-            card.style.background = '';
-            card.style.color = '';
 
             const preset = card.dataset.provider;
             wizardData.provider = preset;
@@ -1037,45 +992,21 @@ function initWindowsWizard() {
     }
 
     // Step 3: Recording Mode Selection
-    const modeOptions = wizardWindow.querySelectorAll('.mode-option');
+    const modeOptions = wizardWindow.querySelectorAll('.wizard-mode-option');
     modeOptions.forEach(btn => {
         btn.addEventListener('click', () => {
-            modeOptions.forEach(b => {
-                b.classList.remove('selected');
-                b.style.borderColor = 'rgba(255,255,255,0.08)';
-                b.style.background = 'rgba(255,255,255,0.02)';
-                b.style.color = '#b9cacb';
-            });
+            modeOptions.forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
-            btn.style.borderColor = '';
-            btn.style.background = '';
-            btn.style.color = '';
             wizardData.recordingMode = btn.dataset.mode;
         });
     });
 
     // Step 4: Position Option Selection
-    const positionOptions = wizardWindow.querySelectorAll('.position-option');
+    const positionOptions = wizardWindow.querySelectorAll('.wizard-position-option');
     positionOptions.forEach(btn => {
         btn.addEventListener('click', () => {
-            positionOptions.forEach(b => {
-                b.classList.remove('selected');
-                b.style.borderColor = 'rgba(255,255,255,0.08)';
-                b.style.background = 'rgba(255,255,255,0.02)';
-                b.style.color = '#b9cacb';
-                const pDot = b.querySelector('.position-dot');
-                if (pDot) pDot.style.background = '#849495';
-                const preview = b.querySelector('.position-preview');
-                if (preview) preview.style.borderColor = 'rgba(255,255,255,0.1)';
-            });
+            positionOptions.forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
-            btn.style.borderColor = '';
-            btn.style.background = '';
-            btn.style.color = '';
-            const pDot = btn.querySelector('.position-dot');
-            if (pDot) pDot.style.background = '#d18cff';
-            const preview = btn.querySelector('.position-preview');
-            if (preview) preview.style.borderColor = 'rgba(209,140,255,0.2)';
             wizardData.overlayPosition = btn.dataset.pos;
         });
     });
@@ -1089,23 +1020,23 @@ function initWindowsWizard() {
         testRecordBtn.addEventListener('click', () => {
             if (!isTestRecording) {
                 isTestRecording = true;
-                testRecordBtn.textContent = 'â¹ Stop Recording';
-                testRecordBtn.style.background = 'linear-gradient(135deg, #ef4444, #c0392b)';
+                testRecordBtn.textContent = '⏹ Stop Recording';
+                testRecordBtn.classList.add('wizard-test-record-btn--recording');
                 if (testResult) {
                     testResult.classList.remove('placeholder');
                     testResult.textContent = 'Recording... speak now';
                 }
             } else {
                 isTestRecording = false;
-                testRecordBtn.textContent = 'â³ Transcribing...';
-                testRecordBtn.style.background = '';
+                testRecordBtn.textContent = '⏳ Transcribing...';
+                testRecordBtn.classList.remove('wizard-test-record-btn--recording');
                 testRecordBtn.disabled = true;
 
                 setTimeout(() => {
                     if (testResult) {
                         testResult.textContent = 'Hello! This is a test of Fluence voice typing setup on Windows.';
                     }
-                    testRecordBtn.textContent = 'ðŸŽ™ Try Again';
+                    testRecordBtn.textContent = '🎙 Try Again';
                     testRecordBtn.disabled = false;
                 }, 1500);
             }
@@ -1304,4 +1235,65 @@ function init3DTiltCards() {
             inner.style.setProperty('--tilt-y', '0deg');
         });
     });
+}
+
+/* =========================================================
+   Phase 3 — Active nav highlight, back-to-top, save-status
+   ========================================================= */
+function initActiveNavHighlight() {
+    const navLinks = document.querySelectorAll('.nav-item[href^="#"]');
+    if (!navLinks.length) return;
+
+    const sectionMap = new Map();
+    navLinks.forEach(link => {
+        const id = link.getAttribute('href').slice(1);
+        const section = document.getElementById(id);
+        if (section) sectionMap.set(section, link);
+    });
+    if (!sectionMap.size) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const link = sectionMap.get(entry.target);
+            if (!link) return;
+            if (entry.isIntersecting) {
+                navLinks.forEach(l => l.classList.remove('is-active'));
+                link.classList.add('is-active');
+            }
+        });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+
+    sectionMap.forEach((_, section) => observer.observe(section));
+}
+
+function initBackToTop() {
+    const btn = document.getElementById('back-to-top');
+    if (!btn) return;
+
+    let visible = false;
+    window.addEventListener('scroll', () => {
+        const shouldShow = window.scrollY > 600;
+        if (shouldShow !== visible) {
+            visible = shouldShow;
+            btn.classList.toggle('is-visible', visible);
+        }
+    }, { passive: true });
+
+    btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
+function initSaveStatusReveal() {
+    const status = document.getElementById('save-status');
+    if (!status) return;
+
+    const observer = new MutationObserver(() => {
+        const isShown = status.style.opacity !== '0' && status.style.opacity !== '';
+        status.classList.toggle('is-visible', isShown);
+        if (isShown) {
+            setTimeout(() => status.classList.remove('is-visible'), 2500);
+        }
+    });
+    observer.observe(status, { attributes: true, attributeFilter: ['style'] });
 }

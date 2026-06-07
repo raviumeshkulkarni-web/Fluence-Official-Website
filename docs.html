@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Sora:wght@600;700;800&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
     
     <!-- Custom Style Sheet -->
-    <link rel="stylesheet" href="styles.css?v=3">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -72,7 +72,12 @@
         </div>
     </header>
 
-    <main class="docs-main">
+    
+
+    <!-- Skip link for keyboard users -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <main id="main-content" class="docs-main">
         <div class="docs-wrapper">
             
             <!-- Left Sidebar Navigation -->
@@ -293,6 +298,11 @@
     </footer>
 
     <!-- Interactive script -->
-    <script src="script.js?v=3"></script>
+    <script src="script.js"></script>
+
+    <!-- Back to top button -->
+    <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+    </button>
 </body>
 </html>

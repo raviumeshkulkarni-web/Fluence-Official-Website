@@ -2153,7 +2153,7 @@ footer {
    Animated Bar Graph Comparison
    ===================================================== */
 .comparison-bar-section {
-    padding: 40px;
+    padding: 40px 0;
     display: flex;
     flex-direction: column;
     gap: 32px;
@@ -2301,7 +2301,7 @@ footer {
 
 @media (max-width: 768px) {
     .comparison-bar-section {
-        padding: 24px 20px;
+        padding: 24px 0;
         gap: 24px;
     }
     .bar-row-name {

@@ -113,12 +113,12 @@
                     <h3>Platform Support</h3>
                     <p>Fluence supports two distinct runtime environments designed to integrate natively with your daily workflow:</p>
                     <div class="platform-cards-grid">
-                        <div class="glass-panel platform-card-doc">
+                        <div class="platform-card-doc">
                             <h4>Windows Application</h4>
                             <p>Powered by Tauri. Sits lightweight in your system tray and triggers via global hotkeys to write into any desktop software.</p>
                             <a href="windows.html" class="text-link">Explore Windows Features</a>
                         </div>
-                        <div class="glass-panel platform-card-doc">
+                        <div class="platform-card-doc">
                             <h4>Android Application</h4>
                             <p>Powered by Jetpack Compose. Utilizes Android Accessibility Services to float a bubble near your active text cursor on mobile.</p>
                             <a href="android.html" class="text-link">Explore Android Features</a>
@@ -231,25 +231,25 @@
                     <p>Common issues and how to resolve them.</p>
 
                     <div class="faq-group docs-faq-group">
-                        <details name="docs-faq" class="glass-panel faq-item reveal-up">
+                        <details name="docs-faq" class="faq-item reveal-up">
                             <summary>The Android bubble is not appearing in certain apps</summary>
                             <div class="faq-content">
                                 <p>Make sure the Accessibility Service is toggled on in your system settings. Certain high-security text boxes, like banking password fields, block accessibility helpers by design to prevent overlay attacks.</p>
                             </div>
                         </details>
-                        <details name="docs-faq" class="glass-panel faq-item reveal-up" data-delay="100">
+                        <details name="docs-faq" class="faq-item reveal-up" data-delay="100">
                             <summary>I get a transcription error in Cloud Mode</summary>
                             <div class="faq-content">
                                 <p>Check your internet connection first. If online, open settings and confirm your Groq API key is valid and has no trailing whitespaces. If you trigger multiple short dictations in rapid succession, you might temporarily hit Groq's rate limits.</p>
                             </div>
                         </details>
-                        <details name="docs-faq" class="glass-panel faq-item reveal-up" data-delay="200">
+                        <details name="docs-faq" class="faq-item reveal-up" data-delay="200">
                             <summary>How much storage does Offline Mode require?</summary>
                             <div class="faq-content">
                                 <p>The SenseVoice model and Silero VAD weights require about 230 MB of local storage space. Ensure your phone or desktop C: drive has adequate free capacity before toggling the download.</p>
                             </div>
                         </details>
-                        <details name="docs-faq" class="glass-panel faq-item reveal-up" data-delay="300">
+                        <details name="docs-faq" class="faq-item reveal-up" data-delay="300">
                             <summary>Why does the Windows overlay pill not have close buttons?</summary>
                             <div class="faq-content">
                                 <p>Clicking overlay buttons on Windows forces desktop systems to transfer active window focus away from your editor. To keep typing fluidly in your main app, the Windows pill displays status only and does not capture input focus.</p>

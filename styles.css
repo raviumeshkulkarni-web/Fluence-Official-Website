@@ -3452,6 +3452,11 @@ footer {
     }
 }
 
+/* Static screenshot fallback — replaces interactive Windows mockup on phone view */
+.hero-static-screenshot {
+    display: none;
+}
+
 @media (max-width: 768px) {
     .desktop-frame {
         height: auto;
@@ -3506,6 +3511,21 @@ footer {
         max-width: 100%;
         box-sizing: border-box;
         overflow: hidden;
+    }
+    .hero-static-screenshot {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-sizing: border-box;
+    }
+    .desktop-frame {
+        display: none;
+    }
+    .desktop-frame + .simulator-instruction {
+        display: none;
     }
 }
 
@@ -4595,6 +4615,11 @@ footer {
     .platform-cards-grid {
         grid-template-columns: 1fr;
         gap: 16px;
+    }
+    #troubleshooting.reveal-up {
+        opacity: 1;
+        transform: none;
+        transition: none;
     }
 }
 

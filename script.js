@@ -839,7 +839,21 @@ function initSimulator() {
             slideshowSlides.forEach(s => s.classList.remove('active'));
             
             // Close Notepad mockup if open
-            if (desktopEditor) desktopEditor.classList.remove('active');
+            if (desktopEditor) {
+                desktopEditor.classList.remove('active');
+                // Reset tabs state
+                const demoTabItem = document.getElementById('editor-tab-demo');
+                const logsTabItem = document.getElementById('editor-tab-logs');
+                if (demoTabItem) demoTabItem.classList.add('active');
+                if (logsTabItem) {
+                    logsTabItem.style.display = 'none';
+                    logsTabItem.classList.remove('active');
+                }
+            }
+            
+            // Close Explorer mockup if open
+            const explorerMock = document.getElementById('explorer-mockup');
+            if (explorerMock) explorerMock.classList.remove('active');
             
             // Add active classes to current tab and slide
             tab.classList.add('active');
@@ -847,9 +861,33 @@ function initSimulator() {
             const targetSlide = document.querySelector(`.desktop-slideshow [data-slide="${targetTab}"]`);
             if (targetSlide) {
                 targetSlide.classList.add('active');
+                
+                // Trigger chart animations if Dashboard is selected
+                if (targetTab === 'dashboard') {
+                    const bars = targetSlide.querySelectorAll('.chart-bar');
+                    bars.forEach((bar, i) => {
+                        bar.classList.remove('animated');
+                        setTimeout(() => {
+                            bar.classList.add('animated');
+                        }, 50 + i * 50);
+                    });
+                }
             }
         });
     });
+
+    // Auto-animate chart bars on page load (since Dashboard is active by default)
+    setTimeout(() => {
+        const activeSlide = document.querySelector('.desktop-slideshow [data-slide="dashboard"]');
+        if (activeSlide) {
+            const bars = activeSlide.querySelectorAll('.chart-bar');
+            bars.forEach((bar, i) => {
+                setTimeout(() => {
+                    bar.classList.add('animated');
+                }, 100 + i * 50);
+            });
+        }
+    }, 500);
 
     // --- Windows Dictation Simulation Sequence ---
     function startWindowsSimulation() {
@@ -917,6 +955,118 @@ function initSimulator() {
         if (isSimulating) return;
         if (desktopEditor) desktopEditor.classList.remove('active');
         if (desktopEditorBody) desktopEditorBody.innerHTML = originalWindowsText;
+    }
+
+    // --- File Explorer Mockup interactions ---
+    const explorerMock = document.getElementById('explorer-mockup');
+    const openDataBtn = document.getElementById('btn-open-data-folder');
+    const closeExplorerBtn = document.getElementById('explorer-close');
+
+    if (openDataBtn && explorerMock) {
+        openDataBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            explorerMock.classList.add('active');
+        });
+    }
+
+    if (closeExplorerBtn && explorerMock) {
+        closeExplorerBtn.addEventListener('click', () => {
+            explorerMock.classList.remove('active');
+        });
+    }
+
+    // Drag-and-drop simple header physics for simulated window
+    if (explorerMock) {
+        const header = explorerMock.querySelector('.explorer-header');
+        let isDraggingW = false;
+        let startWX, startWY, baseLX, baseTY;
+
+        header.addEventListener('mousedown', (e) => {
+            isDraggingW = true;
+            startWX = e.clientX;
+            startWY = e.clientY;
+            baseLX = explorerMock.offsetLeft;
+            baseTY = explorerMock.offsetTop;
+            document.body.style.userSelect = 'none';
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isDraggingW) return;
+            const dx = e.clientX - startWX;
+            const dy = e.clientY - startWY;
+            explorerMock.style.left = `${baseLX + dx}px`;
+            explorerMock.style.top = `${baseTY + dy}px`;
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDraggingW = false;
+            document.body.style.userSelect = '';
+        });
+    }
+
+    // --- Log Viewer mockup interactions ---
+    const viewLogsBtn = document.getElementById('btn-view-logs');
+    const demoTabItem = document.getElementById('editor-tab-demo');
+    const logsTabItem = document.getElementById('editor-tab-logs');
+    const editorCloseBtn = document.getElementById('editor-close-btn');
+
+    const simulatedLogsContent = 
+`[2026-06-08 15:12:37] [INFO] Starting Fluence v1.1.2 Settings Engine...
+[2026-06-08 15:12:37] [INFO] Initializing secure Windows Credential Manager provider
+[2026-06-08 15:12:38] [INFO] Loading custom dictionary: 12 entries compiled
+[2026-06-08 15:12:38] [INFO] System tray icon created successfully
+[2026-06-08 15:12:38] [INFO] Global hotkey registered: Ctrl+Shift+Space
+[2026-06-08 15:12:40] [INFO] SenseVoice offline engine initialized (ONNX small-v2)
+[2026-06-08 15:12:42] [INFO] Testing Groq Whisper API connectivity... SUCCESS (324ms)
+[2026-06-08 15:12:42] [INFO] Ready for voice typing. Active cursor focus listening.`;
+
+    if (viewLogsBtn && desktopEditor && desktopEditorBody) {
+        viewLogsBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            desktopEditor.classList.add('active');
+            
+            // Set Tab active state
+            if (demoTabItem) demoTabItem.classList.remove('active');
+            if (logsTabItem) {
+                logsTabItem.style.display = 'block';
+                logsTabItem.classList.add('active');
+            }
+            
+            // Inject logs text
+            desktopEditorBody.textContent = simulatedLogsContent;
+        });
+    }
+
+    if (editorCloseBtn && desktopEditor) {
+        editorCloseBtn.addEventListener('click', () => {
+            desktopEditor.classList.remove('active');
+            // Reset tabs
+            if (demoTabItem) demoTabItem.classList.add('active');
+            if (logsTabItem) {
+                logsTabItem.style.display = 'none';
+                logsTabItem.classList.remove('active');
+            }
+            if (desktopEditorBody) {
+                desktopEditorBody.textContent = 'Click "Try Hotkey Dictation" in the sidebar to simulate typing in any Windows app...';
+            }
+        });
+    }
+
+    // Toggle tabs manually in mockup
+    if (demoTabItem && logsTabItem) {
+        demoTabItem.addEventListener('click', () => {
+            if (isSimulating) return; // disable during dictation simulation
+            demoTabItem.classList.add('active');
+            logsTabItem.classList.remove('active');
+            desktopEditorBody.textContent = 'Click "Try Hotkey Dictation" in the sidebar to simulate typing in any Windows app...';
+        });
+
+        logsTabItem.addEventListener('click', () => {
+            if (isSimulating) return;
+            logsTabItem.classList.add('active');
+            demoTabItem.classList.remove('active');
+            desktopEditorBody.textContent = simulatedLogsContent;
+        });
     }
 
     // Attach click events

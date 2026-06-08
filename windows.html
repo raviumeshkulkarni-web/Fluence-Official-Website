@@ -121,12 +121,24 @@
                     
                     <div class="desktop-body">
                         <div class="desktop-sidebar">
-                            <button class="sidebar-tab active" data-tab="general">
+                            <!-- Dashboard Section -->
+                            <button class="sidebar-tab active" data-tab="dashboard">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="7" height="7"></rect>
+                                    <rect x="14" y="3" width="7" height="7"></rect>
+                                    <rect x="14" y="14" width="7" height="7"></rect>
+                                    <rect x="3" y="14" width="7" height="7"></rect>
+                                </svg>
+                                Dashboard
+                            </button>
+
+                            <div class="sidebar-header-label">CONFIGURATION</div>
+                            <button class="sidebar-tab" data-tab="general">
                                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <circle cx="12" cy="12" r="3"></circle>
                                     <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                                 </svg>
-                                General Preferences
+                                General
                             </button>
                             <button class="sidebar-tab" data-tab="providers">
                                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -134,15 +146,33 @@
                                     <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
                                     <line x1="12" y1="22.08" x2="12" y2="12"></line>
                                 </svg>
-                                AI Providers
+                                Providers
                             </button>
                             <button class="sidebar-tab" data-tab="dictionary">
                                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                                     <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5v-15z"></path>
                                 </svg>
-                                Custom Dictionary
+                                Dictionary
                             </button>
+
+                            <div class="sidebar-header-label">DATA</div>
+                            <button class="sidebar-tab" data-tab="history">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                                History
+                            </button>
+                            <button class="sidebar-tab" data-tab="about">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                </svg>
+                                About
+                            </button>
+                            
                             <div class="sidebar-separator"></div>
                             <button class="sidebar-action-btn" id="btn-desktop-demo">
                                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -158,7 +188,52 @@
                             <div class="desktop-slideshow-container">
                                 <!-- Slideshow images wrapper -->
                                 <div class="desktop-slideshow" id="desktop-slideshow">
-                                    <div class="slideshow-slide active" data-slide="general">
+                                    <!-- NEW: Dashboard Overview -->
+                                    <div class="slideshow-slide active" data-slide="dashboard">
+                                        <div class="dashboard-panel">
+                                            <div class="dashboard-header">
+                                                <h3>Fluence Overview</h3>
+                                                <div class="status-indicator">
+                                                    <span class="status-dot"></span>
+                                                    <span>System Active &amp; Listening</span>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="stats-grid">
+                                                <div class="stat-card">
+                                                    <div class="stat-value">42,850</div>
+                                                    <div class="stat-label">Words Dictated</div>
+                                                    <div class="stat-sub">~285.6K characters typed</div>
+                                                </div>
+                                                <div class="stat-card">
+                                                    <div class="stat-value">4h 12m</div>
+                                                    <div class="stat-label">Voice Time</div>
+                                                    <div class="stat-sub">Avg. session: 12 seconds</div>
+                                                </div>
+                                                <div class="stat-card">
+                                                    <div class="stat-value">0.28s</div>
+                                                    <div class="stat-label">Avg. Latency</div>
+                                                    <div class="stat-sub">Groq LPU Large v3</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="chart-section">
+                                                <h4>Weekly Dictation Activity</h4>
+                                                <div class="bar-chart-container">
+                                                    <div class="chart-bar-col"><div class="chart-bar" style="--bar-val: 45%;"></div><span>Mon</span></div>
+                                                    <div class="chart-bar-col"><div class="chart-bar" style="--bar-val: 68%;"></div><span>Tue</span></div>
+                                                    <div class="chart-bar-col"><div class="chart-bar" style="--bar-val: 85%;"></div><span>Wed</span></div>
+                                                    <div class="chart-bar-col"><div class="chart-bar" style="--bar-val: 40%;"></div><span>Thu</span></div>
+                                                    <div class="chart-bar-col"><div class="chart-bar" style="--bar-val: 95%;"></div><span>Fri</span></div>
+                                                    <div class="chart-bar-col"><div class="chart-bar" style="--bar-val: 30%;"></div><span>Sat</span></div>
+                                                    <div class="chart-bar-col"><div class="chart-bar" style="--bar-val: 15%;"></div><span>Sun</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Legacy Slides with modified data-slide links -->
+                                    <div class="slideshow-slide" data-slide="general">
                                         <img src="assets/general.png" alt="General Settings">
                                         <div class="slide-caption">Configure global shortcuts, recording modes (Hold vs Toggle), and auto-start.</div>
                                     </div>
@@ -170,6 +245,82 @@
                                         <img src="assets/dictionary.png" alt="Custom Dictionary">
                                         <div class="slide-caption">Add auto-corrections for technical terms, names, or abbreviations to improve output accuracy.</div>
                                     </div>
+
+                                    <!-- NEW: History Panel -->
+                                    <div class="slideshow-slide" data-slide="history">
+                                        <div class="history-panel">
+                                            <div class="history-header">
+                                                <h3>Transcription History</h3>
+                                                <button class="btn-clear-history" id="btn-clear-history">Clear All</button>
+                                            </div>
+                                            <div class="history-list scroll-container">
+                                                <div class="history-item">
+                                                    <div class="history-item-top">
+                                                        <span class="history-time">Today, 10:42 AM</span>
+                                                        <span class="history-badge badge-cloud">Groq Whisper</span>
+                                                    </div>
+                                                    <p class="history-text">"Fluence transcribes sentences in under a second with human-level accuracy."</p>
+                                                    <div class="history-meta">2.5s duration · 74 characters</div>
+                                                </div>
+                                                <div class="history-item">
+                                                    <div class="history-item-top">
+                                                        <span class="history-time">Yesterday, 3:15 PM</span>
+                                                        <span class="history-badge badge-offline">Offline SenseVoice</span>
+                                                    </div>
+                                                    <p class="history-text">"Crystallize your cognition at the speed of thought."</p>
+                                                    <div class="history-meta">4.1s duration · 46 characters</div>
+                                                </div>
+                                                <div class="history-item">
+                                                    <div class="history-item-top">
+                                                        <span class="history-time">Yesterday, 1:04 PM</span>
+                                                        <span class="history-badge badge-cloud">Groq Whisper</span>
+                                                    </div>
+                                                    <p class="history-text">"Make sure the API keys are stored inside Windows Credential Manager."</p>
+                                                    <div class="history-meta">1.8s duration · 62 characters</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- NEW: About Panel -->
+                                    <div class="slideshow-slide" data-slide="about">
+                                        <div class="about-panel">
+                                            <div class="about-panel-inner">
+                                                <h3>About Fluence</h3>
+                                                <p class="about-subtitle">AI-powered voice typing for Windows</p>
+                                                
+                                                <div class="about-logo-card">
+                                                    <div class="about-logo-icon">
+                                                        <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <circle cx="16" cy="16" r="13" stroke="url(#about-logo-grad)" stroke-width="2.2" stroke-dasharray="1.8 3" stroke-linecap="round"/>
+                                                            <circle cx="16" cy="16" r="9" stroke="url(#about-logo-grad)" stroke-width="2.2" stroke-dasharray="2 3" stroke-linecap="round"/>
+                                                            <circle cx="16" cy="16" r="5" stroke="url(#about-logo-grad)" stroke-width="2.2" stroke-dasharray="2 2" stroke-linecap="round"/>
+                                                            <circle cx="16" cy="16" r="1.5" fill="url(#about-logo-grad)"/>
+                                                            <defs>
+                                                                <linearGradient id="about-logo-grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                                                                    <stop offset="0%" stop-color="#A855F7"/>
+                                                                    <stop offset="100%" stop-color="#00f2fe"/>
+                                                                </linearGradient>
+                                                            </defs>
+                                                        </svg>
+                                                    </div>
+                                                    <div class="about-logo-title">fluence</div>
+                                                    <div class="about-version">Version 1.1.2</div>
+                                                    
+                                                    <p class="about-desc">
+                                                        Fluence brings AI-powered voice typing to your Windows desktop. Press your hotkey anywhere, speak naturally, and Fluence transcribes your voice directly into any focused application.
+                                                    </p>
+                                                    
+                                                    <div class="about-actions">
+                                                        <button class="about-link-btn" id="btn-open-data-folder">Open Data Folder</button>
+                                                        <button class="about-link-btn" id="btn-view-logs">View Logs</button>
+                                                    </div>
+                                                    
+                                                    <div class="about-footer-text">Powered by Tauri v2 · Rust · WebView2</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             
@@ -177,15 +328,72 @@
                             <div class="desktop-editor-mockup" id="desktop-editor">
                                 <div class="editor-header">
                                     <div class="editor-tabs">
-                                        <div class="editor-tab-item active">fluence_demo.txt</div>
+                                        <div class="editor-tab-item active" id="editor-tab-demo">fluence_demo.txt</div>
+                                        <div class="editor-tab-item" id="editor-tab-logs" style="display: none;">fluence_app.log</div>
+                                    </div>
+                                    <button class="editor-close-btn" id="editor-close-btn" style="background: none; border: none; color: var(--text-muted); cursor: pointer; margin-left: auto; display: flex; align-items: center; justify-content: center; font-size: 16px; padding: 4px; transition: color 0.2s;" aria-label="Close Editor">&times;</button>
+                                </div>
+                                <div class="editor-body scroll-container" id="desktop-editor-body">Click "Try Hotkey Dictation" in the sidebar to simulate typing in any Windows app...</div>
+                            </div>
+
+                            <!-- Simulated Windows File Explorer overlay -->
+                            <div class="explorer-mockup" id="explorer-mockup">
+                                <div class="explorer-header">
+                                    <div class="explorer-title">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px; color: #f59e0b; flex-shrink: 0;">
+                                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                                        </svg>
+                                        AppData\Roaming\fluence
+                                    </div>
+                                    <button class="explorer-close" id="explorer-close">&times;</button>
+                                </div>
+                                <div class="explorer-body">
+                                    <div class="explorer-sidebar-nav">
+                                        <div class="sidebar-nav-item active">This PC</div>
+                                        <div class="sidebar-nav-item">Downloads</div>
+                                        <div class="sidebar-nav-item">Documents</div>
+                                        <div class="sidebar-nav-item">AppData</div>
+                                    </div>
+                                    <div class="explorer-files-view scroll-container">
+                                        <div class="file-item">
+                                            <span class="file-icon">📁</span>
+                                            <span class="file-name">models</span>
+                                            <span class="file-size">--</span>
+                                        </div>
+                                        <div class="file-item">
+                                            <span class="file-icon">📄</span>
+                                            <span class="file-name">config.json</span>
+                                            <span class="file-size">2 KB</span>
+                                        </div>
+                                        <div class="file-item">
+                                            <span class="file-icon">📄</span>
+                                            <span class="file-name">dictionary.txt</span>
+                                            <span class="file-size">1 KB</span>
+                                        </div>
+                                        <div class="file-item">
+                                            <span class="file-icon">📄</span>
+                                            <span class="file-name">history.db</span>
+                                            <span class="file-size">24 KB</span>
+                                        </div>
+                                        <div class="file-item">
+                                            <span class="file-icon">📄</span>
+                                            <span class="file-name">fluence.log</span>
+                                            <span class="file-size">4 KB</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="editor-body" id="desktop-editor-body">Click "Try Hotkey Dictation" in the sidebar to simulate typing in any Windows app...</div>
                             </div>
 
                             <!-- Animated Windows 11 Dictation Overlay Pill with live canvas -->
                             <div class="desktop-overlay-pill" id="desktop-overlay-pill">
-                                <div class="overlay-waveform-container">
+                                <!-- SVG Microphone Icon -->
+                                <svg class="pill-mic-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+                                    <path d="M19 10v1a7 7 0 0 1-14 0v-1"></path>
+                                    <line x1="12" x2="12" y1="19" y2="22"></line>
+                                </svg>
+                                <!-- Waveform wrapper -->
+                                <div class="overlay-waveform-container" id="overlay-waveform-container">
                                     <canvas id="desktop-waveform-canvas"></canvas>
                                 </div>
                             </div>
@@ -364,14 +572,24 @@
                                     <p class="wizard-step-desc">Your AI-powered voice typing assistant for Windows. Speak naturally, and Fluence transcribes your voice into any application instantly.</p>
                                     <div class="wizard-step-content">
                                         <div class="wizard-bullet-row">
-                                            <span class="wizard-bullet-row__icon">🎤</span>
+                                            <span class="wizard-bullet-row__icon">
+                                                <svg class="wizard-bullet-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px; color: var(--color-violet-light); flex-shrink: 0; display: block;">
+                                                    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+                                                    <path d="M19 10v1a7 7 0 0 1-14 0v-1"></path>
+                                                    <line x1="12" x2="12" y1="19" y2="22"></line>
+                                                </svg>
+                                            </span>
                                             <div class="wizard-bullet-row__body">
                                                 <div class="wizard-bullet-row__title">Universal Voice Typing</div>
                                                 <div class="wizard-bullet-row__sub">Works in any app: Editors, Browsers, Word</div>
                                             </div>
                                         </div>
                                         <div class="wizard-bullet-row">
-                                            <span class="wizard-bullet-row__icon">🤖</span>
+                                            <span class="wizard-bullet-row__icon">
+                                                <svg class="wizard-bullet-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px; color: var(--color-teal-light); flex-shrink: 0; display: block;">
+                                                    <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
+                                                </svg>
+                                            </span>
                                             <div class="wizard-bullet-row__body">
                                                 <div class="wizard-bullet-row__title">AI Agent Mode</div>
                                                 <div class="wizard-bullet-row__sub">Long press hotkey to execute formatting commands</div>

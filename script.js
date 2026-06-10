@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initHeroProductMotion();
     initDemoWaveform();
     initAndroidDemoWaveform();
+    initPhoneDemoVideo();
     initScrollReveal();
     initFeatureCardGlow();
     initComparisonBars();
@@ -26,134 +27,289 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* =========================================================
-   1. Subtle Full-Page Background Waveform
-   Scroll-driven, gentle always-on canvas in the background.
-   Scroll velocity raises amplitude like voice audio in app.
+   1. Premium 3D Immersive Aurora Nebula Background
+   Full-page canvas — layered depth ribbons, glow orbs,
+   particles, mouse parallax, scroll reactivity.
+   Performance: FPS-capped, visibility-paused.
    ========================================================= */
 function initScrollWaveform() {
     var canvas = document.getElementById('scroll-waveform-canvas');
     if (!canvas) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { canvas.style.display='none'; return; }
-    if (window.innerWidth <= 768) { canvas.style.display = 'none'; return; }
+
+    // On tiny phones (<= 360px), disable for perf; 361px+ gets mobile mode
+    var isMobile = window.innerWidth <= 768;
+    if (window.innerWidth <= 360) { canvas.style.display = 'none'; return; }
 
     var ctx = canvas.getContext('2d');
     var W = 0, H = 0;
     var lastTime = null;
     var phase = 0;
     var scrollY = window.scrollY, lastScrollY = scrollY;
-    var smoothedAmplitude = 0;
+    var smoothedAmplitude = 0.3; // Start with visible amplitude immediately
+    var mouseX = 0.5, mouseY = 0.5;
+    var targetMouseX = 0.5, targetMouseY = 0.5;
+
+    // FPS cap: 30fps desktop, 20fps mobile
+    var targetFPS = isMobile ? 20 : 30;
+    var frameInterval = 1000 / targetFPS;
+    var lastFrameTime = 0;
+
+    // Particle system (desktop + medium tablets only)
+    var particles = [];
+    var PARTICLE_COUNT = isMobile ? 0 : 70;
+
+    function initParticles() {
+        particles = [];
+        for (var i = 0; i < PARTICLE_COUNT; i++) {
+            particles.push({
+                x: Math.random() * W,
+                y: Math.random() * H,
+                vx: (Math.random() - 0.5) * 0.18,
+                vy: (Math.random() - 0.5) * 0.10,
+                r: Math.random() * 2.2 + 0.5,
+                alpha: Math.random() * 0.55 + 0.15,
+                hue: Math.random() < 0.65 ? 0 : 1,
+                twinklePhase: Math.random() * Math.PI * 2,
+                twinkleSpeed: Math.random() * 0.6 + 0.3
+            });
+        }
+    }
 
     function resize() {
-        var dpr = window.devicePixelRatio || 1;
+        isMobile = window.innerWidth <= 768;
+        PARTICLE_COUNT = isMobile ? 0 : 70;
+        targetFPS = isMobile ? 20 : 30;
+        frameInterval = 1000 / targetFPS;
+        var dpr = Math.min(window.devicePixelRatio || 1, 2);
         W = window.innerWidth; H = window.innerHeight;
-        canvas.width = W * dpr; canvas.height = H * dpr;
+        canvas.width = Math.round(W * dpr);
+        canvas.height = Math.round(H * dpr);
         ctx.setTransform(1,0,0,1,0,0); ctx.scale(dpr, dpr);
+        initParticles();
     }
     window.addEventListener('resize', resize, { passive: true });
     resize();
     window.addEventListener('scroll', function() { scrollY = window.scrollY; }, { passive: true });
+    window.addEventListener('mousemove', function(e) {
+        targetMouseX = e.clientX / Math.max(W,1);
+        targetMouseY = e.clientY / Math.max(H,1);
+    }, { passive: true });
 
     function hexAlpha(hex, alpha) {
         var r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
         return 'rgba('+r+','+g+','+b+','+alpha+')';
     }
-    var env = function(x) { return Math.sin((x / W) * Math.PI); };
 
-    var isIntersecting = false;
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    var isVisible = false;
     var rafId = null;
 
     function startLoop() {
-        if (!rafId && isIntersecting) {
+        if (!rafId && isVisible) {
             lastTime = null;
+            lastFrameTime = 0;
             rafId = requestAnimationFrame(loop);
         }
     }
 
     function stopLoop() {
-        if (rafId) {
-            cancelAnimationFrame(rafId);
-            rafId = null;
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+    }
+
+    // Draw a glowing aurora ribbon with linear gradient fade at edges
+    function drawAuroraRibbon(yCenter, amplitudeMul, phaseOffset, color, alpha, lineWidth, freqMul, activeAmp, mouseOffX, mouseOffY) {
+        ctx.beginPath();
+        ctx.moveTo(0, yCenter);
+        var step = isMobile ? 6 : 3;
+        for (var x = 0; x <= W; x += step) {
+            var env = Math.sin((x / W) * Math.PI);
+            var a = (x / W) * 2 * Math.PI * freqMul + phase + phaseOffset + mouseOffX * Math.PI * 0.6;
+            var v = Math.sin(x * 0.05 + phase * 1.5) * smoothedAmplitude * 5;
+            var y = yCenter + (Math.sin(a) * activeAmp * amplitudeMul + v + mouseOffY * H * 0.05) * env;
+            ctx.lineTo(x, y);
+        }
+        // Horizontal fade gradient — full color in middle, transparent at edges
+        var grad = ctx.createLinearGradient(0, 0, W, 0);
+        grad.addColorStop(0, 'transparent');
+        grad.addColorStop(0.08, hexAlpha(color, alpha * 0.4));
+        grad.addColorStop(0.35, hexAlpha(color, alpha));
+        grad.addColorStop(0.5,  hexAlpha(color, alpha));
+        grad.addColorStop(0.65, hexAlpha(color, alpha));
+        grad.addColorStop(0.92, hexAlpha(color, alpha * 0.4));
+        grad.addColorStop(1, 'transparent');
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = lineWidth;
+        ctx.stroke();
+    }
+
+    // Draw a large blurred glow orb (colored radial blob)
+    function drawGlowOrb(x, y, radius, color, alpha) {
+        var grd = ctx.createRadialGradient(x, y, 0, x, y, radius);
+        grd.addColorStop(0, hexAlpha(color, alpha));
+        grd.addColorStop(0.4, hexAlpha(color, alpha * 0.5));
+        grd.addColorStop(0.8, hexAlpha(color, alpha * 0.1));
+        grd.addColorStop(1, 'transparent');
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = grd;
+        ctx.fill();
+    }
+
+    function drawParticles(dt) {
+        if (PARTICLE_COUNT === 0) return;
+        for (var i = 0; i < particles.length; i++) {
+            var p = particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.twinklePhase += p.twinkleSpeed * dt;
+            if (p.x < -10) p.x = W + 10;
+            if (p.x > W + 10) p.x = -10;
+            if (p.y < -10) p.y = H + 10;
+            if (p.y > H + 10) p.y = -10;
+            var pa = p.alpha * (0.5 + 0.5 * Math.sin(p.twinklePhase));
+            var color = p.hue === 0 ? '#C084FC' : '#67E8F9';
+            // Glow halo
+            var grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 5);
+            grd.addColorStop(0, hexAlpha(color, pa * 0.8));
+            grd.addColorStop(0.3, hexAlpha(color, pa * 0.3));
+            grd.addColorStop(1, 'transparent');
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r * 5, 0, Math.PI * 2);
+            ctx.fillStyle = grd;
+            ctx.fill();
+            // Core bright dot
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = hexAlpha(color, pa);
+            ctx.fill();
         }
     }
 
     function loop(ts) {
-        if (!isIntersecting) {
-            rafId = null;
-            return;
-        }
+        if (!isVisible) { rafId = null; return; }
         rafId = requestAnimationFrame(loop);
+
+        var elapsed = ts - (lastFrameTime || ts);
+        if (elapsed < frameInterval) return;
+        lastFrameTime = ts - (elapsed % frameInterval);
+
         if (lastTime === null) lastTime = ts;
         var dt = Math.min((ts - lastTime) / 1000, 0.1);
         lastTime = ts;
 
+        // Smooth mouse position
+        mouseX = lerp(mouseX, targetMouseX, 0.05);
+        mouseY = lerp(mouseY, targetMouseY, 0.05);
+
+        // Scroll velocity drives amplitude boost
         var rawV = Math.abs(scrollY - lastScrollY);
         lastScrollY = scrollY;
-        smoothedAmplitude = smoothedAmplitude * 0.6 + Math.min(rawV / 30, 1.0) * 0.4;
+        // Amplitude decays slowly to 0.25 idle floor (always visible)
+        var target = 0.25 + Math.min(rawV / 20, 0.75);
+        smoothedAmplitude = smoothedAmplitude * 0.92 + target * 0.08;
 
-        var speed = 1.0 + smoothedAmplitude * 4.0;
+        // Phase: speed varies with amplitude
+        var speed = 0.5 + smoothedAmplitude * 2.0;
         phase = (phase + speed * dt * 2 * Math.PI) % (1000 * Math.PI);
-        var p1 = phase, p2 = -phase * 0.7;
-        var activeAmp = (smoothedAmplitude * 0.9 + 0.08) * H * 0.18;
+
+        // Amplitude in pixels — H*0.30 guarantees visible waves at idle
+        var activeAmp = smoothedAmplitude * H * 0.30;
+        var scrollFrac = scrollY / Math.max(H, 1);
+        var mouseOffX = (mouseX - 0.5) * 0.15;
+        var mouseOffY = (mouseY - 0.5) * 0.10;
+
+        // Clear to fully transparent
         ctx.clearRect(0, 0, W, H);
 
-        var x, e, a, v, g;
-        // Wave 1: violet bg, freq 1.5, amp 0.5
-        ctx.beginPath(); ctx.moveTo(0, H*0.5);
-        for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*1.5+p1; v=Math.sin(x*0.1+p1*3)*smoothedAmplitude*4; ctx.lineTo(x, H*0.5+(Math.sin(a)*activeAmp*0.5+v)*e); }
-        g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#A855F7',0.38)); g.addColorStop(1,'transparent');
-        ctx.strokeStyle=g; ctx.lineWidth=1.5; ctx.stroke();
+        // ── LARGE BACKGROUND GLOW ORBS (depth anchors) ──
+        var orbPhase = phase * 0.1;
+        drawGlowOrb(
+            W * (0.25 + Math.sin(orbPhase * 0.3) * 0.08),
+            H * (0.40 + Math.cos(orbPhase * 0.2) * 0.10),
+            Math.min(W, H) * (isMobile ? 0.28 : 0.32),
+            '#7C3AED', isMobile ? 0.20 : 0.22
+        );
+        drawGlowOrb(
+            W * (0.78 + Math.cos(orbPhase * 0.25) * 0.07),
+            H * (0.60 + Math.sin(orbPhase * 0.35) * 0.08),
+            Math.min(W, H) * (isMobile ? 0.22 : 0.28),
+            '#0891B2', isMobile ? 0.14 : 0.18
+        );
+        if (!isMobile) {
+            drawGlowOrb(
+                W * (0.55 + Math.sin(orbPhase * 0.18) * 0.06),
+                H * (0.20 + Math.cos(orbPhase * 0.28) * 0.07),
+                Math.min(W, H) * 0.20,
+                '#A855F7', 0.16
+            );
+        }
 
-        // Wave 2: violet mid, freq 2.5, amp 0.7
-        ctx.beginPath(); ctx.moveTo(0, H*0.5);
-        for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*2.5+p2; v=Math.sin(x*0.15-p2*4)*smoothedAmplitude*3; ctx.lineTo(x, H*0.5+(Math.sin(a)*activeAmp*0.7+v)*e); }
-        g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#A855F7',0.38)); g.addColorStop(1,'transparent');
-        ctx.strokeStyle=g; ctx.lineWidth=1.8; ctx.stroke();
+        // ── AURORA RIBBONS ──
+        // Layer 1 – deep violet, slowest parallax
+        var y1 = H * (0.35 + scrollFrac * 0.08);
+        drawAuroraRibbon(y1, 1.0, 0, '#8B5CF6', isMobile ? 0.50 : 0.55, isMobile ? 2.5 : 3.5, 1.1, activeAmp, mouseOffX, mouseOffY * 0.6);
 
-        // Wave 3: forefront F3E8FF, freq 1.2, amp 0.9
-        ctx.beginPath(); ctx.moveTo(0, H*0.5);
-        for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*1.2+(p1-p2)*0.5; v=Math.sin(x*0.08+p1*5)*smoothedAmplitude*5; ctx.lineTo(x, H*0.5+(Math.sin(a)*activeAmp*0.9+v)*e); }
-        g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#C4B5FD',0.55)); g.addColorStop(1,'transparent');
-        ctx.strokeStyle=g; ctx.lineWidth=2.0; ctx.stroke();
+        // Layer 2 – bright amethyst, mid parallax
+        var y2 = H * (0.52 + scrollFrac * 0.06);
+        drawAuroraRibbon(y2, 0.85, -phase * 0.55, '#A855F7', isMobile ? 0.60 : 0.65, isMobile ? 3.0 : 4.5, 1.6, activeAmp, mouseOffX * 0.8, mouseOffY * 0.7);
 
-        // Ghost echo upper
-        ctx.beginPath(); ctx.moveTo(0, H*0.25);
-        for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*2.0+p2*0.8; v=Math.sin(x*0.1+p2*2)*smoothedAmplitude*2; ctx.lineTo(x, H*0.25+(Math.sin(a)*activeAmp*0.4+v)*e); }
-        g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#A855F7',0.18)); g.addColorStop(1,'transparent');
-        ctx.strokeStyle=g; ctx.lineWidth=1.0; ctx.stroke();
+        // Layer 3 – lavender highlight/forefront
+        var y3 = H * (0.65 + scrollFrac * 0.04);
+        drawAuroraRibbon(y3, 1.1, phase * 0.30, '#C4B5FD', isMobile ? 0.65 : 0.70, isMobile ? 3.5 : 5.0, 0.9, activeAmp, mouseOffX * 1.1, mouseOffY);
 
-        // Ghost echo lower
-        ctx.beginPath(); ctx.moveTo(0, H*0.75);
-        for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*1.6+p1*0.9; v=Math.sin(x*0.1+p1*2)*smoothedAmplitude*2; ctx.lineTo(x, H*0.75+(Math.sin(a)*activeAmp*0.4+v)*e); }
-        g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#A855F7',0.18)); g.addColorStop(1,'transparent');
-        ctx.strokeStyle=g; ctx.lineWidth=1.0; ctx.stroke();
+        if (!isMobile) {
+            // Layer 4 – upper violet, fastest parallax
+            var y4 = H * (0.20 - scrollFrac * 0.10);
+            drawAuroraRibbon(y4, 0.70, phase * 0.28, '#7C3AED', 0.45, 2.5, 2.2, activeAmp, mouseOffX * 0.7, mouseOffY * 0.5);
+
+            // Layer 5 – teal accent, lower third
+            var y5 = H * (0.78 - scrollFrac * 0.06);
+            drawAuroraRibbon(y5, 0.80, -phase * 0.40, '#06B6D4', 0.45, 3.0, 1.4, activeAmp, mouseOffX * 0.9, mouseOffY * 0.6);
+
+            // Layer 6 – wide slow teal sweep
+            var y6 = H * (0.88 - scrollFrac * 0.03);
+            drawAuroraRibbon(y6, 0.55, phase * 0.15, '#00f2fe', 0.28, 2.0, 0.7, activeAmp, mouseOffX * 0.5, mouseOffY * 0.3);
+        }
+
+        // ── PARTICLES (desktop) ──
+        drawParticles(dt);
+
+        // ── VIGNETTE: keeps top navbar and content edges clean ──
+        // Top vignette — strong fade so navbar text is always readable
+        var vigTop = ctx.createLinearGradient(0, 0, 0, H * 0.18);
+        vigTop.addColorStop(0, 'rgba(0,0,0,0.92)');
+        vigTop.addColorStop(0.5, 'rgba(0,0,0,0.35)');
+        vigTop.addColorStop(1, 'transparent');
+        ctx.fillStyle = vigTop;
+        ctx.fillRect(0, 0, W, H * 0.18);
+
+        // Bottom vignette
+        var vigBot = ctx.createLinearGradient(0, H * 0.78, 0, H);
+        vigBot.addColorStop(0, 'transparent');
+        vigBot.addColorStop(0.6, 'rgba(0,0,0,0.30)');
+        vigBot.addColorStop(1, 'rgba(0,0,0,0.70)');
+        ctx.fillStyle = vigBot;
+        ctx.fillRect(0, H * 0.78, W, H * 0.22);
     }
 
+    // IntersectionObserver: pause when canvas scrolled off-screen
     var observer = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry) {
-            isIntersecting = entry.isIntersecting;
-            if (isIntersecting) {
-                startLoop();
-            } else {
-                stopLoop();
-            }
+            isVisible = entry.isIntersecting;
+            if (isVisible) { startLoop(); }
+            else { stopLoop(); }
         });
-    }, { rootMargin: '50px' });
+    }, { rootMargin: '200px' });
     observer.observe(canvas);
 
     document.addEventListener('visibilitychange', function() {
-        if (document.hidden) {
-            stopLoop();
-        } else {
-            startLoop();
-        }
+        if (document.hidden) { stopLoop(); }
+        else { startLoop(); }
     });
 }
 
-/* =========================================================
-   1a. Product hero motion
-   Pointer movement adds a small amount of depth to the
-   screenshot collage without taking over the page.
-   ========================================================= */
 function initHeroProductMotion() {
     const stage = document.querySelector('.hero-product-stage');
     if (!stage) return;
@@ -407,7 +563,7 @@ function initAndroidDemoWaveform() {
         lastTime = ts;
 
         // Amplitude: idle gentle floor; demo active = voice-like fluctuation
-        var target = demoActive ? (0.4 + Math.sin(ts * 0.003) * 0.4) : 0;
+        var target = demoActive ? (0.4 + Math.sin(ts * 0.003) * 0.4) : 0.12;
         smoothedAmplitude = smoothedAmplitude * 0.85 + target * 0.15;
 
         // Phase integration: exact AuraVisualizer._loop
@@ -475,8 +631,42 @@ function initAndroidDemoWaveform() {
             startLoop();
         }
     });
-}/* =========================================================
-   NEW 2. Scroll-Reveal IntersectionObserver
+}
+/* =========================================================
+   1b. Phone Demo Video Player
+   ========================================================= */
+function initPhoneDemoVideo() {
+    var video = document.getElementById('phone-demo-video');
+    if (!video) return;
+    
+    var startTime = 5;
+    
+    video.addEventListener('loadedmetadata', function() {
+        video.currentTime = startTime;
+    });
+    
+    video.addEventListener('timeupdate', function() {
+        if (video.currentTime < startTime) {
+            video.currentTime = startTime;
+        }
+    });
+    
+    video.addEventListener('seeked', function() {
+        if (video.currentTime < startTime) {
+            video.currentTime = startTime;
+        }
+    });
+    
+    video.addEventListener('ended', function() {
+        video.currentTime = startTime;
+        video.play();
+    });
+    
+    video.playbackRate = 1.5;
+}
+
+/* =========================================================
+   2. Scroll-Reveal IntersectionObserver
    ========================================================= */
 function initScrollReveal() {
     const targets = document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right');
@@ -493,7 +683,7 @@ function initScrollReveal() {
                 observer.unobserve(el);
             }
         });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
 
     targets.forEach(el => observer.observe(el));
 }
@@ -839,21 +1029,7 @@ function initSimulator() {
             slideshowSlides.forEach(s => s.classList.remove('active'));
             
             // Close Notepad mockup if open
-            if (desktopEditor) {
-                desktopEditor.classList.remove('active');
-                // Reset tabs state
-                const demoTabItem = document.getElementById('editor-tab-demo');
-                const logsTabItem = document.getElementById('editor-tab-logs');
-                if (demoTabItem) demoTabItem.classList.add('active');
-                if (logsTabItem) {
-                    logsTabItem.style.display = 'none';
-                    logsTabItem.classList.remove('active');
-                }
-            }
-            
-            // Close Explorer mockup if open
-            const explorerMock = document.getElementById('explorer-mockup');
-            if (explorerMock) explorerMock.classList.remove('active');
+            if (desktopEditor) desktopEditor.classList.remove('active');
             
             // Add active classes to current tab and slide
             tab.classList.add('active');
@@ -861,33 +1037,9 @@ function initSimulator() {
             const targetSlide = document.querySelector(`.desktop-slideshow [data-slide="${targetTab}"]`);
             if (targetSlide) {
                 targetSlide.classList.add('active');
-                
-                // Trigger chart animations if Dashboard is selected
-                if (targetTab === 'dashboard') {
-                    const bars = targetSlide.querySelectorAll('.chart-bar');
-                    bars.forEach((bar, i) => {
-                        bar.classList.remove('animated');
-                        setTimeout(() => {
-                            bar.classList.add('animated');
-                        }, 50 + i * 50);
-                    });
-                }
             }
         });
     });
-
-    // Auto-animate chart bars on page load (since Dashboard is active by default)
-    setTimeout(() => {
-        const activeSlide = document.querySelector('.desktop-slideshow [data-slide="dashboard"]');
-        if (activeSlide) {
-            const bars = activeSlide.querySelectorAll('.chart-bar');
-            bars.forEach((bar, i) => {
-                setTimeout(() => {
-                    bar.classList.add('animated');
-                }, 100 + i * 50);
-            });
-        }
-    }, 500);
 
     // --- Windows Dictation Simulation Sequence ---
     function startWindowsSimulation() {
@@ -955,118 +1107,6 @@ function initSimulator() {
         if (isSimulating) return;
         if (desktopEditor) desktopEditor.classList.remove('active');
         if (desktopEditorBody) desktopEditorBody.innerHTML = originalWindowsText;
-    }
-
-    // --- File Explorer Mockup interactions ---
-    const explorerMock = document.getElementById('explorer-mockup');
-    const openDataBtn = document.getElementById('btn-open-data-folder');
-    const closeExplorerBtn = document.getElementById('explorer-close');
-
-    if (openDataBtn && explorerMock) {
-        openDataBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            explorerMock.classList.add('active');
-        });
-    }
-
-    if (closeExplorerBtn && explorerMock) {
-        closeExplorerBtn.addEventListener('click', () => {
-            explorerMock.classList.remove('active');
-        });
-    }
-
-    // Drag-and-drop simple header physics for simulated window
-    if (explorerMock) {
-        const header = explorerMock.querySelector('.explorer-header');
-        let isDraggingW = false;
-        let startWX, startWY, baseLX, baseTY;
-
-        header.addEventListener('mousedown', (e) => {
-            isDraggingW = true;
-            startWX = e.clientX;
-            startWY = e.clientY;
-            baseLX = explorerMock.offsetLeft;
-            baseTY = explorerMock.offsetTop;
-            document.body.style.userSelect = 'none';
-        });
-
-        window.addEventListener('mousemove', (e) => {
-            if (!isDraggingW) return;
-            const dx = e.clientX - startWX;
-            const dy = e.clientY - startWY;
-            explorerMock.style.left = `${baseLX + dx}px`;
-            explorerMock.style.top = `${baseTY + dy}px`;
-        });
-
-        window.addEventListener('mouseup', () => {
-            isDraggingW = false;
-            document.body.style.userSelect = '';
-        });
-    }
-
-    // --- Log Viewer mockup interactions ---
-    const viewLogsBtn = document.getElementById('btn-view-logs');
-    const demoTabItem = document.getElementById('editor-tab-demo');
-    const logsTabItem = document.getElementById('editor-tab-logs');
-    const editorCloseBtn = document.getElementById('editor-close-btn');
-
-    const simulatedLogsContent = 
-`[2026-06-08 15:12:37] [INFO] Starting Fluence v1.1.2 Settings Engine...
-[2026-06-08 15:12:37] [INFO] Initializing secure Windows Credential Manager provider
-[2026-06-08 15:12:38] [INFO] Loading custom dictionary: 12 entries compiled
-[2026-06-08 15:12:38] [INFO] System tray icon created successfully
-[2026-06-08 15:12:38] [INFO] Global hotkey registered: Ctrl+Shift+Space
-[2026-06-08 15:12:40] [INFO] SenseVoice offline engine initialized (ONNX small-v2)
-[2026-06-08 15:12:42] [INFO] Testing Groq Whisper API connectivity... SUCCESS (324ms)
-[2026-06-08 15:12:42] [INFO] Ready for voice typing. Active cursor focus listening.`;
-
-    if (viewLogsBtn && desktopEditor && desktopEditorBody) {
-        viewLogsBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            desktopEditor.classList.add('active');
-            
-            // Set Tab active state
-            if (demoTabItem) demoTabItem.classList.remove('active');
-            if (logsTabItem) {
-                logsTabItem.style.display = 'block';
-                logsTabItem.classList.add('active');
-            }
-            
-            // Inject logs text
-            desktopEditorBody.textContent = simulatedLogsContent;
-        });
-    }
-
-    if (editorCloseBtn && desktopEditor) {
-        editorCloseBtn.addEventListener('click', () => {
-            desktopEditor.classList.remove('active');
-            // Reset tabs
-            if (demoTabItem) demoTabItem.classList.add('active');
-            if (logsTabItem) {
-                logsTabItem.style.display = 'none';
-                logsTabItem.classList.remove('active');
-            }
-            if (desktopEditorBody) {
-                desktopEditorBody.textContent = 'Click "Try Hotkey Dictation" in the sidebar to simulate typing in any Windows app...';
-            }
-        });
-    }
-
-    // Toggle tabs manually in mockup
-    if (demoTabItem && logsTabItem) {
-        demoTabItem.addEventListener('click', () => {
-            if (isSimulating) return; // disable during dictation simulation
-            demoTabItem.classList.add('active');
-            logsTabItem.classList.remove('active');
-            desktopEditorBody.textContent = 'Click "Try Hotkey Dictation" in the sidebar to simulate typing in any Windows app...';
-        });
-
-        logsTabItem.addEventListener('click', () => {
-            if (isSimulating) return;
-            logsTabItem.classList.add('active');
-            demoTabItem.classList.remove('active');
-            desktopEditorBody.textContent = simulatedLogsContent;
-        });
     }
 
     // Attach click events
@@ -1807,3 +1847,4 @@ function initCursorMarquee() {
         rafId = requestAnimationFrame(loop);
     }
 }
+

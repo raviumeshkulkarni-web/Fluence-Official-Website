@@ -50,22 +50,21 @@ function initScrollWaveform() {
     if (window.innerWidth <= 360) { container.style.display = 'none'; return; }
 
     // If VANTA is loaded, initialize it on the container
-    if (window.VANTA && typeof window.VANTA.FOG === 'function') {
+    if (window.VANTA && typeof window.VANTA.NET === 'function') {
         try {
-            window.vantaEffect = window.VANTA.FOG({
+            window.vantaEffect = window.VANTA.NET({
                 el: "#scroll-waveform-canvas",
                 mouseControls: true,
                 touchControls: true,
                 gyroControls: false,
                 minHeight: 200.00,
                 minWidth: 200.00,
-                highlightColor: 0x0a4859,
-                midtoneColor: 0x472878,
-                lowlightColor: 0x292937,
-                baseColor: 0x000000,
-                blurFactor: 0.54,
-                speed: 2.20,
-                zoom: 1.70
+                scale: 1.00,
+                scaleMobile: 1.00,
+                color: 0x43006b,
+                backgroundColor: 0x0,
+                points: 20.00,
+                showDots: false
             });
             return;
         } catch (e) {

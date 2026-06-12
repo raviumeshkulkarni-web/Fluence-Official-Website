@@ -259,6 +259,11 @@ code, pre, kbd, .font-mono, .technical-spec, .accuracy-val, .version-num, .api-s
     height: 100vh;
     z-index: -1;
     pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+}
+
+#scroll-waveform-canvas.vanta-initialized {
     opacity: 1;
 }
 
@@ -3598,46 +3603,27 @@ footer {
         max-width: 100%;
     }
     .desktop-sidebar {
-        width: 100%;
-        max-width: 100%;
-        border-right: none;
-        border-bottom: 1.5px solid rgba(255, 255, 255, 0.04);
-        padding: 12px;
-        flex-direction: row;
-        overflow-x: auto;
-        gap: 8px;
-        box-sizing: border-box;
-    }
-    .desktop-sidebar::-webkit-scrollbar {
-        display: none; /* Hide scrollbar for tab list */
-    }
-    .sidebar-tab {
-        padding: 8px 14px;
-        white-space: nowrap;
-        width: auto;
-    }
-    .sidebar-tab.active {
-        border-left: none;
-        border-bottom: 2px solid var(--primary-amethyst);
-        border-radius: 0;
-        padding-left: 14px;
-        padding-bottom: 6px;
-    }
-    .sidebar-separator {
         display: none;
     }
-    .sidebar-action-btn {
-        margin-top: 0;
-        width: auto;
-        padding: 8px 14px;
-    }
     .desktop-content {
-        padding: 16px;
-        height: 380px;
+        padding: 0;
+        height: auto;
+        aspect-ratio: 1024 / 768;
         min-width: 0;
         max-width: 100%;
         box-sizing: border-box;
         overflow: hidden;
+    }
+    .desktop-slideshow-container {
+        border: none;
+        background: transparent;
+    }
+    .slideshow-slide img {
+        height: 100%;
+        object-fit: contain;
+    }
+    .slide-caption {
+        display: none;
     }
 }
 

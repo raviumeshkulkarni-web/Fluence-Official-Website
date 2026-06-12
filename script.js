@@ -50,9 +50,9 @@ function initScrollWaveform() {
     if (window.innerWidth <= 360) { container.style.display = 'none'; return; }
 
     // If VANTA is loaded, initialize it on the container
-    if (window.VANTA && typeof window.VANTA.NET === 'function') {
+    if (window.VANTA && typeof window.VANTA.TOPOLOGY === 'function') {
         try {
-            window.vantaEffect = window.VANTA.NET({
+            window.vantaEffect = window.VANTA.TOPOLOGY({
                 el: "#scroll-waveform-canvas",
                 mouseControls: true,
                 touchControls: true,
@@ -61,11 +61,11 @@ function initScrollWaveform() {
                 minWidth: 200.00,
                 scale: 1.00,
                 scaleMobile: 1.00,
-                color: 0x43006b,
-                backgroundColor: 0x0,
-                points: 20.00,
-                showDots: false
+                color: 0x3a0864,
+                backgroundColor: 0x070707,
+                speed: 3.00
             });
+            container.classList.add('vanta-initialized');
             return;
         } catch (e) {
             console.error("Vanta initialization failed, falling back to 2D canvas:", e);
@@ -81,6 +81,7 @@ function initScrollWaveform() {
         canvas.style.display = 'block';
         container.appendChild(canvas);
     }
+    container.classList.add('vanta-initialized');
 
     var ctx = canvas.getContext('2d');
     var W = 0, H = 0;

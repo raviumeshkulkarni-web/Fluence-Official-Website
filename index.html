@@ -12,12 +12,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Sora:wght@600;700;800&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
     
     <!-- Custom Style Sheet -->
-    <link rel="stylesheet" href="styles.css?v=5">
+    <link rel="stylesheet" href="styles.css?v=6">
 
     <!-- Interactive script dependencies (Deferred to load in parallel and execute when ready) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.topology.min.js" defer></script>
-    <script src="script.js?v=5" defer></script>
+    <script src="script.js?v=6" defer></script>
 </head>
 <body>
 
@@ -26,6 +24,14 @@
 
     <!-- Scroll Progress Bar -->
     <div class="scroll-progress-bar" id="scroll-progress"></div>
+
+    <!-- Fixed ambient background aurora orbs -->
+    <div class="bg-ambient-aurora" aria-hidden="true">
+        <div class="bg-ambient-aurora-orb"></div>
+    </div>
+
+    <!-- Premium edge-to-edge mesh gradient -->
+    <div class="bg-ambient-aurora-grid" aria-hidden="true"></div>
 
     <!-- Subtle full-page background waveform canvas -->
     <div id="scroll-waveform-canvas" aria-hidden="true"></div>

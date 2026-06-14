@@ -101,10 +101,6 @@ function initScrollWaveform() {
     var particles = [];
     var PARTICLE_COUNT = isMobile ? 0 : 25; // Optimized count
 
-    // Grid dimensions for 3D mesh (covers full viewport)
-    var cols = isMobile ? 16 : 28;
-    var rows = isMobile ? 12 : 22;
-
     function initParticles() {
         particles = [];
         for (var i = 0; i < PARTICLE_COUNT; i++) {
@@ -125,8 +121,6 @@ function initScrollWaveform() {
     function resize() {
         isMobile = window.innerWidth <= 768;
         PARTICLE_COUNT = isMobile ? 0 : 25;
-        cols = isMobile ? 16 : 28;
-        rows = isMobile ? 12 : 22;
         targetFPS = isMobile ? 20 : 30;
         frameInterval = 1000 / targetFPS;
         var dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -155,7 +149,8 @@ function initScrollWaveform() {
     var rafId = null;
 
     function startLoop() {
-        if (!rafId && isVisible) {
+        var isScrollLocked = document.body.style.overflow === 'hidden';
+        if (!rafId && isVisible && !isScrollLocked) {
             lastTime = null;
             lastFrameTime = 0;
             rafId = requestAnimationFrame(loop);
@@ -211,7 +206,8 @@ function initScrollWaveform() {
     }
 
     function loop(ts) {
-        if (!isVisible) { rafId = null; return; }
+        var isScrollLocked = document.body.style.overflow === 'hidden';
+        if (!isVisible || isScrollLocked) { rafId = null; return; }
         rafId = requestAnimationFrame(loop);
 
         if (lastFrameTime === 0) {
@@ -232,174 +228,120 @@ function initScrollWaveform() {
         // Scroll velocity drives amplitude boost
         var rawV = Math.abs(scrollY - lastScrollY);
         lastScrollY = scrollY;
-        // Amplitude decays slowly to 0.25 idle floor (always visible)
-        var target = 0.25 + Math.min(rawV / 20, 0.75);
-        smoothedAmplitude = smoothedAmplitude * 0.92 + target * 0.08;
+        // Amplitude floor and decay
+        var target = 0.2 + Math.min(rawV / 25, 0.8);
+        smoothedAmplitude = smoothedAmplitude * 0.94 + target * 0.06;
 
-        // Phase: speed varies with amplitude
-        var speed = 0.4 + smoothedAmplitude * 1.8;
+        // Phase speed varies with amplitude
+        var speed = 0.3 + smoothedAmplitude * 1.5;
         phase = (phase + speed * dt * 2 * Math.PI) % (1000 * Math.PI);
 
-        // Amplitude in pixels
-        var activeAmp = smoothedAmplitude * H * 0.22;
-
-        // Clear to fully transparent
+        // Clear canvas
         ctx.clearRect(0, 0, W, H);
 
-        // ── PARTICLES (desktop) ──
+        // ── Draw Particles ──
         drawParticles(dt);
 
-        // ── 3D SOUND-WAVE WIREFRAME GRID MESH ──
-        var grid = [];
-        var fov = 450;
+        // ── Draw Fluid Waves ──
+        var waveCount = 3;
+        var colors = ['#A855F7', '#00f2fe', '#C084FC'];
+        var baseCenterY = [0.45, 0.55, 0.50];
         
-        // Tilt camera based on mouse
-        var activeCameraX = (mouseX - 0.5) * 160;
-        var activeCameraY = (mouseY - 0.5) * 100;
-
-        for (var r = 0; r < rows; r++) {
-            grid[r] = [];
-            var ny = r / (rows - 1);
-            var Yg = (ny - 0.5) * H * 1.5;
+        for (var i = 0; i < waveCount; i++) {
+            ctx.beginPath();
             
-            for (var c = 0; c < cols; c++) {
-                var nc = c / (cols - 1);
-                var Xg = (nc - 0.5) * W * 1.8;
+            var wavePhase = phase * (0.8 + i * 0.12);
+            var waveAmp = smoothedAmplitude * H * (0.16 - i * 0.03);
+            var waveFreq = (0.0018 + i * 0.0006);
+            
+            // Smoothly interpolate center Y toward mouse ClientY
+            var targetCenterY = H * baseCenterY[i];
+            if (mouseX > 0 && mouseX < 1) {
+                targetCenterY = targetCenterY * 0.85 + (mouseY * H) * 0.15;
+            }
+            
+            var env = function(x) { return Math.sin((x / W) * Math.PI); };
+            
+            ctx.moveTo(0, targetCenterY);
+            for (var x = 0; x <= W; x += 12) {
+                // Primary sine wave
+                var angle = x * waveFreq + wavePhase;
+                var yOffset = Math.sin(angle) * waveAmp;
                 
-                // Mathematical wave formula combining multiple frequencies
-                var angle1 = Xg * 0.0025 + phase;
-                var angle2 = Yg * 0.0035 - phase * 0.5;
-                var wave1 = Math.sin(angle1) * Math.cos(angle2);
+                // Secondary modulation wave
+                var angle2 = x * (waveFreq * 1.8) - wavePhase * 0.6;
+                var yOffset2 = Math.cos(angle2) * (waveAmp * 0.35);
                 
-                var angle3 = Xg * 0.001 - Yg * 0.0016 + phase * 1.25;
-                var wave2 = Math.sin(angle3) * 0.45;
+                // Edge envelope to fade out at screen borders
+                var e = env(x);
                 
-                // Ripple centered around the mouse cursor
-                var mouseWorldX = (mouseX - 0.5) * W * 1.5;
-                var mouseWorldY = (mouseY - 0.5) * H * 1.5;
-                var dx = Xg - mouseWorldX;
-                var dy = Yg - mouseWorldY;
-                var distToMouse = Math.sqrt(dx * dx + dy * dy);
-                var mouseRipple = 0;
-                if (distToMouse > 0) {
-                    var normDist = distToMouse / W;
-                    mouseRipple = Math.sin(normDist * 16 - phase * 1.8) * Math.exp(-normDist * 4.0) * 0.6;
+                // Mouse gravity attraction point
+                var mouseWorldX = mouseX * W;
+                var distToMouse = Math.abs(x - mouseWorldX);
+                var mouseInfluence = 0;
+                if (distToMouse < 250) {
+                    var influenceScale = (250 - distToMouse) / 250;
+                    mouseInfluence = Math.sin(x * 0.02 - phase) * (waveAmp * 0.4) * influenceScale;
                 }
-                
-                var waveHeight = (wave1 + wave2 + mouseRipple) * activeAmp;
-                
-                // Envelope to fade out waves at left/right and top/bottom boundaries
-                var envX = Math.sin(nc * Math.PI);
-                var envY = Math.sin(ny * Math.PI);
-                var env = envX * envY;
-                
-                var zOffset = waveHeight * env;
-                
-                // Depth: base depth + tilt term + wave perturbation
-                var baseZ = 450;
-                var tilt = 150;
-                var z = baseZ - (Yg / (H * 0.75)) * tilt + zOffset;
-                if (z < 100) z = 100;
-                
-                // Perspective projection math
-                var scale = fov / z;
-                var sx = (W / 2) + (Xg - activeCameraX) * scale;
-                var sy = (H / 2) + (Yg - activeCameraY) * scale;
-                
-                grid[r][c] = { sx: sx, sy: sy, z: z };
-            }
-        }
 
-        // Debug log to confirm loop activity and print actual values
-        if (ts % 2000 < 50) {
-            console.log("Fluence 3D Waveform Background rendering. Canvas size: " + canvas.width + "x" + canvas.height + ", Active Amp: " + activeAmp);
-            console.log("3D point (0,0):", grid[0] ? grid[0][0] : "undefined");
-            console.log("3D point (last,last):", grid[rows-1] ? grid[rows-1][cols-1] : "undefined");
-        }
-
-        // ── Draw Horizontal Mesh Lines ──
-        for (var r = 0; r < rows; r++) {
-            var ny = r / (rows - 1);
-            var edgeFade = Math.sin(ny * Math.PI);
-            var lineAlpha = 0.28 * edgeFade;
-            
-            if (lineAlpha <= 0.01) continue;
-            
-            ctx.beginPath();
-            ctx.moveTo(grid[r][0].sx, grid[r][0].sy);
-            for (var c = 1; c < cols; c++) {
-                ctx.lineTo(grid[r][c].sx, grid[r][c].sy);
+                var y = targetCenterY + (yOffset + yOffset2 + mouseInfluence) * e;
+                ctx.lineTo(x, y);
             }
             
-            var grad = ctx.createLinearGradient(0, 0, W, 0);
-            grad.addColorStop(0, 'rgba(168, 85, 247, 0)');
-            grad.addColorStop(0.2, hexAlpha('#A855F7', lineAlpha * 0.5));
-            grad.addColorStop(0.5, hexAlpha('#A855F7', lineAlpha));
-            grad.addColorStop(0.8, hexAlpha('#00f2fe', lineAlpha * 0.7));
-            grad.addColorStop(1, 'rgba(0, 242, 254, 0)');
-            
-            ctx.strokeStyle = grad;
-            ctx.lineWidth = isMobile ? 1.2 : 1.6;
-            ctx.stroke();
-        }
-
-        // ── Draw Vertical Mesh Lines ──
-        for (var c = 0; c < cols; c++) {
-            var nc = c / (cols - 1);
-            var envX = Math.sin(nc * Math.PI);
-            var colAlpha = 0.22 * envX;
-            if (colAlpha <= 0.01) continue;
-            
-            ctx.beginPath();
-            ctx.moveTo(grid[0][c].sx, grid[0][c].sy);
-            for (var r = 1; r < rows; r++) {
-                ctx.lineTo(grid[r][c].sx, grid[r][c].sy);
-            }
-            
-            var grad = ctx.createLinearGradient(0, H, 0, 0);
-            grad.addColorStop(0, 'rgba(168, 85, 247, 0)');
-            grad.addColorStop(0.3, hexAlpha('#A855F7', colAlpha * 0.8));
-            grad.addColorStop(0.6, hexAlpha('#00f2fe', colAlpha * 0.6));
-            grad.addColorStop(1, 'rgba(0, 242, 254, 0)');
-            
-            ctx.strokeStyle = grad;
-            ctx.lineWidth = isMobile ? 0.9 : 1.2;
-            ctx.stroke();
-        }
-
-        // ── Draw Constellation Stars (Grid Nodes) ──
-        for (var r = 0; r < rows; r++) {
-            var ny = r / (rows - 1);
-            for (var c = 0; c < cols; c++) {
-                var nc = c / (cols - 1);
-                var pt = grid[r][c];
-                var env = Math.sin(ny * Math.PI) * Math.sin(nc * Math.PI);
-                var nodeAlpha = 0.40 * env; // fade at edges
-                if (nodeAlpha <= 0.01) continue;
-
-                var scale = fov / pt.z;
-                var nodeRadius = (isMobile ? 0.75 : 1.15) * scale * 0.45;
+            if (i < 2) {
+                // Draw filled glow area below waves 1 and 2
+                ctx.lineTo(W, H);
+                ctx.lineTo(0, H);
+                ctx.closePath();
                 
-                // Color alternates or blends purple and teal
-                var color = (r + c) % 2 === 0 ? '#A855F7' : '#00f2fe';
+                var fillGrad = ctx.createLinearGradient(0, targetCenterY - waveAmp, 0, H);
+                fillGrad.addColorStop(0, hexAlpha(colors[i], 0.06 - i * 0.02));
+                fillGrad.addColorStop(1, 'rgba(0,0,0,0)');
                 
-                ctx.beginPath();
-                ctx.arc(pt.sx, pt.sy, nodeRadius, 0, Math.PI * 2);
-                ctx.fillStyle = hexAlpha(color, nodeAlpha);
+                ctx.fillStyle = fillGrad;
                 ctx.fill();
                 
-                // Draw a bright white core for closer, more prominent grid stars
-                if (pt.z < 420) {
-                    ctx.beginPath();
-                    ctx.arc(pt.sx, pt.sy, nodeRadius * 0.35, 0, Math.PI * 2);
-                    ctx.fillStyle = '#FFFFFF';
-                    ctx.fill();
+                // Stroke the top line
+                ctx.beginPath();
+                ctx.moveTo(0, targetCenterY);
+                // Re-run path generation for line stroke to avoid closing it to bottom
+                for (var x = 0; x <= W; x += 12) {
+                    var angle = x * waveFreq + wavePhase;
+                    var yOffset = Math.sin(angle) * waveAmp;
+                    var angle2 = x * (waveFreq * 1.8) - wavePhase * 0.6;
+                    var yOffset2 = Math.cos(angle2) * (waveAmp * 0.35);
+                    var e = env(x);
+                    
+                    var mouseWorldX = mouseX * W;
+                    var distToMouse = Math.abs(x - mouseWorldX);
+                    var mouseInfluence = 0;
+                    if (distToMouse < 250) {
+                        var influenceScale = (250 - distToMouse) / 250;
+                        mouseInfluence = Math.sin(x * 0.02 - phase) * (waveAmp * 0.4) * influenceScale;
+                    }
+
+                    var y = targetCenterY + (yOffset + yOffset2 + mouseInfluence) * e;
+                    ctx.lineTo(x, y);
                 }
             }
+            
+            ctx.strokeStyle = colors[i];
+            ctx.lineWidth = i === 2 ? 2.2 : 1.5;
+            ctx.globalAlpha = i === 2 ? 0.35 : 0.25;
+            
+            if (i === 2) {
+                ctx.shadowBlur = 18;
+                ctx.shadowColor = colors[i];
+            } else {
+                ctx.shadowBlur = 0;
+            }
+            
+            ctx.stroke();
         }
+        ctx.shadowBlur = 0; // Reset
+        ctx.globalAlpha = 1.0;
 
-        // ── VIGNETTE: keeps top navbar and content edges clean ──
-        // Top vignette — strong fade so navbar text is always readable
+        // ── Draw Vignette ──
         var vigTop = ctx.createLinearGradient(0, 0, 0, H * 0.18);
         vigTop.addColorStop(0, 'rgba(0,0,0,0.92)');
         vigTop.addColorStop(0.5, 'rgba(0,0,0,0.35)');
@@ -407,7 +349,6 @@ function initScrollWaveform() {
         ctx.fillStyle = vigTop;
         ctx.fillRect(0, 0, W, H * 0.18);
 
-        // Bottom vignette
         var vigBot = ctx.createLinearGradient(0, H * 0.78, 0, H);
         vigBot.addColorStop(0, 'transparent');
         vigBot.addColorStop(0.6, 'rgba(0,0,0,0.30)');
@@ -416,21 +357,25 @@ function initScrollWaveform() {
         ctx.fillRect(0, H * 0.78, W, H * 0.22);
     }
 
-    // IntersectionObserver: pause when canvas scrolled off-screen (run only in test environment)
+    // IntersectionObserver: pause when canvas scrolled off-screen
     var observer = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry) {
-            var isTestEnv = typeof window.tickAnimationFrame === 'function';
-            if (isTestEnv) {
-                isVisible = entry.isIntersecting;
-                if (isVisible) { startLoop(); }
-                else { stopLoop(); }
-            } else {
-                isVisible = true;
-                startLoop();
-            }
+            isVisible = entry.isIntersecting;
+            if (isVisible) { startLoop(); }
+            else { stopLoop(); }
         });
     }, { rootMargin: '200px' });
     observer.observe(container);
+
+    var bodyObserver = new MutationObserver(function() {
+        var isScrollLocked = document.body.style.overflow === 'hidden';
+        if (isScrollLocked) {
+            stopLoop();
+        } else {
+            startLoop();
+        }
+    });
+    bodyObserver.observe(document.body, { attributes: true, attributeFilter: ['style'] });
 
     document.addEventListener('visibilitychange', function() {
         if (document.hidden) { stopLoop(); }
@@ -513,14 +458,33 @@ function initDemoWaveform() {
     var isIntersecting = false;
     var rafId = null;
 
+    var canvasWidth = 160;
+    var canvasHeight = 32;
+    var dpr = 1;
+    var gWave12 = null;
+    var gWave3 = null;
+
     function resize() {
-        var dpr = window.devicePixelRatio || 1;
+        dpr = window.devicePixelRatio || 1;
         var w = canvas.clientWidth;
         var h = canvas.clientHeight;
         if (w === 0 || h === 0) return;
+        canvasWidth = w;
+        canvasHeight = h;
         canvas.width  = Math.round(w * dpr);
         canvas.height = Math.round(h * dpr);
         ctx.setTransform(1,0,0,1,0,0); ctx.scale(dpr, dpr);
+
+        // Cache gradients
+        gWave12 = ctx.createLinearGradient(0, 0, w, 0);
+        gWave12.addColorStop(0, 'transparent');
+        gWave12.addColorStop(0.5, hexAlpha('#A855F7', 0.4));
+        gWave12.addColorStop(1, 'transparent');
+
+        gWave3 = ctx.createLinearGradient(0, 0, w, 0);
+        gWave3.addColorStop(0, 'transparent');
+        gWave3.addColorStop(0.5, hexAlpha('#F3E8FF', 0.9));
+        gWave3.addColorStop(1, 'transparent');
     }
     window.addEventListener('resize', resize, { passive: true });
     setTimeout(resize, 100);
@@ -566,10 +530,9 @@ function initDemoWaveform() {
         var speed = 1.0 + smoothedAmplitude * 4.0;
         phase = (phase + speed * dt * 2 * Math.PI) % (1000 * Math.PI);
 
-        // Dynamic Backing Store check (using scale-invariant clientWidth/clientHeight)
-        var w = canvas.clientWidth  || 160;
-        var h = canvas.clientHeight || 32;
-        var dpr = window.devicePixelRatio || 1;
+        // Dynamic Backing Store check (using cached scale-invariant clientWidth/clientHeight)
+        var w = canvasWidth;
+        var h = canvasHeight;
         var expectedW = Math.round(w * dpr);
         var expectedH = Math.round(h * dpr);
         
@@ -577,6 +540,17 @@ function initDemoWaveform() {
             canvas.width  = expectedW;
             canvas.height = expectedH;
             ctx.setTransform(1,0,0,1,0,0); ctx.scale(dpr, dpr);
+            
+            // Re-create cached gradients with new width
+            gWave12 = ctx.createLinearGradient(0, 0, w, 0);
+            gWave12.addColorStop(0, 'transparent');
+            gWave12.addColorStop(0.5, hexAlpha('#A855F7', 0.4));
+            gWave12.addColorStop(1, 'transparent');
+
+            gWave3 = ctx.createLinearGradient(0, 0, w, 0);
+            gWave3.addColorStop(0, 'transparent');
+            gWave3.addColorStop(0.5, hexAlpha('#F3E8FF', 0.9));
+            gWave3.addColorStop(1, 'transparent');
         }
         
         var W = w;
@@ -587,25 +561,22 @@ function initDemoWaveform() {
         var p1 = phase, p2 = -phase * 0.7;
         // activeAmplitude formula: exact from AuraVisualizer._draw()
         var activeAmplitude = (smoothedAmplitude * 0.9 + 0.08) * (H * 0.48);
-        var x, e, a, v, g;
+        var x, e, a, v;
 
         // Wave 1: violet #A855F7, alpha 0.4, freq 1.5, amp 0.5
         ctx.beginPath(); ctx.moveTo(0, H/2);
         for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*1.5+p1; v=Math.sin(x*0.1+p1*3)*smoothedAmplitude*4; ctx.lineTo(x, H/2+(Math.sin(a)*activeAmplitude*0.5+v)*e); }
-        g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#A855F7',0.4)); g.addColorStop(1,'transparent');
-        ctx.strokeStyle=g; ctx.lineWidth=1.5; ctx.stroke();
+        ctx.strokeStyle=gWave12; ctx.lineWidth=1.5; ctx.stroke();
 
         // Wave 2: violet #A855F7, alpha 0.4, freq 2.5, amp 0.7
         ctx.beginPath(); ctx.moveTo(0, H/2);
         for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*2.5+p2; v=Math.sin(x*0.15-p2*4)*smoothedAmplitude*3; ctx.lineTo(x, H/2+(Math.sin(a)*activeAmplitude*0.7+v)*e); }
-        g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#A855F7',0.4)); g.addColorStop(1,'transparent');
-        ctx.strokeStyle=g; ctx.lineWidth=1.8; ctx.stroke();
+        ctx.strokeStyle=gWave12; ctx.lineWidth=1.8; ctx.stroke();
 
         // Wave 3: #F3E8FF forefront, alpha 0.9, freq 1.2, amp 0.9
         ctx.beginPath(); ctx.moveTo(0, H/2);
         for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*1.2+(p1-p2)*0.5; v=Math.sin(x*0.08+p1*5)*smoothedAmplitude*5; ctx.lineTo(x, H/2+(Math.sin(a)*activeAmplitude*0.9+v)*e); }
-        g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#F3E8FF',0.9)); g.addColorStop(1,'transparent');
-        ctx.strokeStyle=g; ctx.lineWidth=2.0; ctx.stroke();
+        ctx.strokeStyle=gWave3; ctx.lineWidth=2.0; ctx.stroke();
     }
 
     var observer = new IntersectionObserver(function(entries) {
@@ -649,14 +620,33 @@ function initAndroidDemoWaveform() {
     var isIntersecting = false;
     var rafId = null;
 
+    var canvasWidth = 160;
+    var canvasHeight = 32;
+    var dpr = 1;
+    var gWave12 = null;
+    var gWave3 = null;
+
     function resize() {
-        var dpr = window.devicePixelRatio || 1;
+        dpr = window.devicePixelRatio || 1;
         var w = canvas.clientWidth;
         var h = canvas.clientHeight;
         if (w === 0 || h === 0) return;
+        canvasWidth = w;
+        canvasHeight = h;
         canvas.width  = Math.round(w * dpr);
         canvas.height = Math.round(h * dpr);
         ctx.setTransform(1,0,0,1,0,0); ctx.scale(dpr, dpr);
+
+        // Cache gradients
+        gWave12 = ctx.createLinearGradient(0, 0, w, 0);
+        gWave12.addColorStop(0, 'transparent');
+        gWave12.addColorStop(0.5, hexAlpha('#A855F7', 0.4));
+        gWave12.addColorStop(1, 'transparent');
+
+        gWave3 = ctx.createLinearGradient(0, 0, w, 0);
+        gWave3.addColorStop(0, 'transparent');
+        gWave3.addColorStop(0.5, hexAlpha('#F3E8FF', 0.9));
+        gWave3.addColorStop(1, 'transparent');
     }
     window.addEventListener('resize', resize, { passive: true });
     setTimeout(resize, 100);
@@ -701,10 +691,9 @@ function initAndroidDemoWaveform() {
         var speed = 1.0 + smoothedAmplitude * 4.0;
         phase = (phase + speed * dt * 2 * Math.PI) % (1000 * Math.PI);
 
-        // Dynamic Backing Store check (using scale-invariant clientWidth/clientHeight)
-        var w = canvas.clientWidth  || 160;
-        var h = canvas.clientHeight || 32;
-        var dpr = window.devicePixelRatio || 1;
+        // Dynamic Backing Store check (using cached scale-invariant clientWidth/clientHeight)
+        var w = canvasWidth;
+        var h = canvasHeight;
         var expectedW = Math.round(w * dpr);
         var expectedH = Math.round(h * dpr);
         
@@ -712,6 +701,17 @@ function initAndroidDemoWaveform() {
             canvas.width  = expectedW;
             canvas.height = expectedH;
             ctx.setTransform(1,0,0,1,0,0); ctx.scale(dpr, dpr);
+
+            // Re-create cached gradients with new width
+            gWave12 = ctx.createLinearGradient(0, 0, w, 0);
+            gWave12.addColorStop(0, 'transparent');
+            gWave12.addColorStop(0.5, hexAlpha('#A855F7', 0.4));
+            gWave12.addColorStop(1, 'transparent');
+
+            gWave3 = ctx.createLinearGradient(0, 0, w, 0);
+            gWave3.addColorStop(0, 'transparent');
+            gWave3.addColorStop(0.5, hexAlpha('#F3E8FF', 0.9));
+            gWave3.addColorStop(1, 'transparent');
         }
         
         var W = w;
@@ -722,25 +722,22 @@ function initAndroidDemoWaveform() {
         var p1 = phase, p2 = -phase * 0.7;
         // activeAmplitude: exact AuraVisualizer formula
         var activeAmplitude = (smoothedAmplitude * 0.9 + 0.08) * (H * 0.48);
-        var x, e, a, v, g;
+        var x, e, a, v;
 
         // Wave 1: violet #A855F7, alpha 0.4, freq 1.5x, amp 0.5
         ctx.beginPath(); ctx.moveTo(0, H/2);
         for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*1.5+p1; v=Math.sin(x*0.1+p1*3)*smoothedAmplitude*4; ctx.lineTo(x, H/2+(Math.sin(a)*activeAmplitude*0.5+v)*e); }
-        g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#A855F7',0.4)); g.addColorStop(1,'transparent');
-        ctx.strokeStyle=g; ctx.lineWidth=1.5; ctx.stroke();
+        ctx.strokeStyle=gWave12; ctx.lineWidth=1.5; ctx.stroke();
 
         // Wave 2: violet #A855F7, alpha 0.4, freq 2.5x, amp 0.7
         ctx.beginPath(); ctx.moveTo(0, H/2);
         for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*2.5+p2; v=Math.sin(x*0.15-p2*4)*smoothedAmplitude*3; ctx.lineTo(x, H/2+(Math.sin(a)*activeAmplitude*0.7+v)*e); }
-        g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#A855F7',0.4)); g.addColorStop(1,'transparent');
-        ctx.strokeStyle=g; ctx.lineWidth=1.8; ctx.stroke();
+        ctx.strokeStyle=gWave12; ctx.lineWidth=1.8; ctx.stroke();
 
         // Wave 3: #F3E8FF forefront, alpha 0.9, freq 1.2x, amp 0.9
         ctx.beginPath(); ctx.moveTo(0, H/2);
         for (x=0; x<=W; x+=3) { e=env(x); a=(x/W)*2*Math.PI*1.2+(p1-p2)*0.5; v=Math.sin(x*0.08+p1*5)*smoothedAmplitude*5; ctx.lineTo(x, H/2+(Math.sin(a)*activeAmplitude*0.9+v)*e); }
-        g=ctx.createLinearGradient(0,0,W,0); g.addColorStop(0,'transparent'); g.addColorStop(0.5,hexAlpha('#F3E8FF',0.9)); g.addColorStop(1,'transparent');
-        ctx.strokeStyle=g; ctx.lineWidth=2.0; ctx.stroke();
+        ctx.strokeStyle=gWave3; ctx.lineWidth=2.0; ctx.stroke();
     }
 
     var observer = new IntersectionObserver(function(entries) {

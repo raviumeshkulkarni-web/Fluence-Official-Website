@@ -4,6 +4,7 @@ console.log("Fluence: script.js parsed successfully. Document readyState: " + do
 
 function initAllFeatures() {
     console.log("Fluence: Initializing website features...");
+    initStardust();
     initScrollWaveform();
     initHeroProductMotion();
     initDemoWaveform();
@@ -36,6 +37,146 @@ if (document.readyState === 'loading') {
 }
 
 /* =========================================================
+   NEW: Immersive Stardust Space Field
+   ========================================================= */
+function initStardust() {
+    const canvas = document.getElementById('stardust-canvas');
+    if (!canvas) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        canvas.style.display = 'none';
+        return;
+    }
+
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let stars = [];
+    const STAR_COUNT = window.innerWidth <= 768 ? 250 : 600;
+    
+    // Config
+    const BASE_SPEED = 0.25;
+    let mouseX = 0;
+    let mouseY = 0;
+    let isIntersecting = true;
+    let rafId = null;
+
+    function resize() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = Math.round(width * dpr);
+        canvas.height = Math.round(height * dpr);
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.scale(dpr, dpr);
+        initStars();
+    }
+
+    function initStars() {
+        stars = [];
+        for (let i = 0; i < STAR_COUNT; i++) {
+            stars.push({
+                x: (Math.random() - 0.5) * width * 2,
+                y: (Math.random() - 0.5) * height * 2,
+                z: Math.random() * width,
+                radius: Math.random() * 1.5 + 0.5, // Increased radius
+                alpha: Math.random() * 0.8 + 0.4,  // Increased minimum alpha
+                twinkleSpeed: Math.random() * 0.03 + 0.01,
+                twinklePhase: Math.random() * Math.PI * 2
+            });
+        }
+    }
+
+    window.addEventListener('resize', resize, { passive: true });
+    resize();
+
+    window.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX - width / 2) * 0.0005;
+        mouseY = (e.clientY - height / 2) * 0.0005;
+    }, { passive: true });
+
+    function draw() {
+        if (!isIntersecting) {
+            rafId = null;
+            return;
+        }
+
+        ctx.clearRect(0, 0, width, height);
+        
+        const centerX = width / 2;
+        const centerY = height / 2;
+        
+        for (let i = 0; i < stars.length; i++) {
+            let s = stars[i];
+            
+            // Move star towards the camera
+            s.z -= BASE_SPEED * (width / 500); 
+            
+            // Mouse parallax shift
+            s.x -= mouseX * (width / s.z);
+            s.y -= mouseY * (width / s.z);
+            
+            // Reset if passes camera
+            if (s.z <= 0) {
+                s.x = (Math.random() - 0.5) * width * 2;
+                s.y = (Math.random() - 0.5) * height * 2;
+                s.z = width;
+            }
+
+            // Calculate 2D position
+            let k = 200 / s.z;
+            let px = s.x * k + centerX;
+            let py = s.y * k + centerY;
+            
+            // Draw if within viewport
+            if (px >= 0 && px <= width && py >= 0 && py <= height) {
+                // Twinkle effect
+                s.twinklePhase += s.twinkleSpeed;
+                let currentAlpha = s.alpha * (0.5 + 0.5 * Math.sin(s.twinklePhase));
+                
+                // Fade out at edges to avoid popping in
+                let depthFade = Math.min(1, s.z / 100);
+                currentAlpha *= depthFade;
+
+                // Make nearer stars slightly larger
+                let size = s.radius * k * 1.5;
+
+                ctx.beginPath();
+                ctx.arc(px, py, size, 0, Math.PI * 2);
+                
+                // Pure white to subtle blueish tint
+                const colorVal = 200 + Math.random() * 55;
+                ctx.fillStyle = `rgba(${colorVal}, ${colorVal}, 255, ${currentAlpha})`;
+                ctx.fill();
+            }
+        }
+        
+        rafId = requestAnimationFrame(draw);
+    }
+
+    // Performance optimization: Stop when not visible
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            isIntersecting = entry.isIntersecting;
+            if (isIntersecting && !rafId) {
+                rafId = requestAnimationFrame(draw);
+            }
+        });
+    }, { rootMargin: '100px' });
+    observer.observe(document.body);
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            isIntersecting = false;
+        } else {
+            isIntersecting = true;
+            if (!rafId) rafId = requestAnimationFrame(draw);
+        }
+    });
+
+    draw();
+}
+
+/* =========================================================
    1. Premium 3D Immersive Aurora Nebula Background
    Full-page canvas — layered depth ribbons, glow orbs,
    particles, mouse parallax, scroll reactivity.
@@ -44,6 +185,11 @@ if (document.readyState === 'loading') {
 function initScrollWaveform() {
     var container = document.getElementById('scroll-waveform-canvas');
     if (!container) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        container.style.display = 'none';
+        return;
+    }
 
     // On tiny phones (<= 360px), disable for perf; 361px+ gets mobile mode
     var isMobile = window.innerWidth <= 768;
@@ -225,121 +371,17 @@ function initScrollWaveform() {
         mouseX = lerp(mouseX, targetMouseX, 0.05);
         mouseY = lerp(mouseY, targetMouseY, 0.05);
 
-        // Scroll velocity drives amplitude boost
+        // Scroll velocity drives speed boost for particles
         var rawV = Math.abs(scrollY - lastScrollY);
         lastScrollY = scrollY;
-        // Amplitude floor and decay
         var target = 0.2 + Math.min(rawV / 25, 0.8);
         smoothedAmplitude = smoothedAmplitude * 0.94 + target * 0.06;
-
-        // Phase speed varies with amplitude
-        var speed = 0.3 + smoothedAmplitude * 1.5;
-        phase = (phase + speed * dt * 2 * Math.PI) % (1000 * Math.PI);
 
         // Clear canvas
         ctx.clearRect(0, 0, W, H);
 
         // ── Draw Particles ──
         drawParticles(dt);
-
-        // ── Draw Fluid Waves ──
-        var waveCount = 3;
-        var colors = ['#A855F7', '#00f2fe', '#C084FC'];
-        var baseCenterY = [0.45, 0.55, 0.50];
-        
-        for (var i = 0; i < waveCount; i++) {
-            ctx.beginPath();
-            
-            var wavePhase = phase * (0.8 + i * 0.12);
-            var waveAmp = smoothedAmplitude * H * (0.16 - i * 0.03);
-            var waveFreq = (0.0018 + i * 0.0006);
-            
-            // Smoothly interpolate center Y toward mouse ClientY
-            var targetCenterY = H * baseCenterY[i];
-            if (mouseX > 0 && mouseX < 1) {
-                targetCenterY = targetCenterY * 0.85 + (mouseY * H) * 0.15;
-            }
-            
-            var env = function(x) { return Math.sin((x / W) * Math.PI); };
-            
-            ctx.moveTo(0, targetCenterY);
-            for (var x = 0; x <= W; x += 12) {
-                // Primary sine wave
-                var angle = x * waveFreq + wavePhase;
-                var yOffset = Math.sin(angle) * waveAmp;
-                
-                // Secondary modulation wave
-                var angle2 = x * (waveFreq * 1.8) - wavePhase * 0.6;
-                var yOffset2 = Math.cos(angle2) * (waveAmp * 0.35);
-                
-                // Edge envelope to fade out at screen borders
-                var e = env(x);
-                
-                // Mouse gravity attraction point
-                var mouseWorldX = mouseX * W;
-                var distToMouse = Math.abs(x - mouseWorldX);
-                var mouseInfluence = 0;
-                if (distToMouse < 250) {
-                    var influenceScale = (250 - distToMouse) / 250;
-                    mouseInfluence = Math.sin(x * 0.02 - phase) * (waveAmp * 0.4) * influenceScale;
-                }
-
-                var y = targetCenterY + (yOffset + yOffset2 + mouseInfluence) * e;
-                ctx.lineTo(x, y);
-            }
-            
-            if (i < 2) {
-                // Draw filled glow area below waves 1 and 2
-                ctx.lineTo(W, H);
-                ctx.lineTo(0, H);
-                ctx.closePath();
-                
-                var fillGrad = ctx.createLinearGradient(0, targetCenterY - waveAmp, 0, H);
-                fillGrad.addColorStop(0, hexAlpha(colors[i], 0.06 - i * 0.02));
-                fillGrad.addColorStop(1, 'rgba(0,0,0,0)');
-                
-                ctx.fillStyle = fillGrad;
-                ctx.fill();
-                
-                // Stroke the top line
-                ctx.beginPath();
-                ctx.moveTo(0, targetCenterY);
-                // Re-run path generation for line stroke to avoid closing it to bottom
-                for (var x = 0; x <= W; x += 12) {
-                    var angle = x * waveFreq + wavePhase;
-                    var yOffset = Math.sin(angle) * waveAmp;
-                    var angle2 = x * (waveFreq * 1.8) - wavePhase * 0.6;
-                    var yOffset2 = Math.cos(angle2) * (waveAmp * 0.35);
-                    var e = env(x);
-                    
-                    var mouseWorldX = mouseX * W;
-                    var distToMouse = Math.abs(x - mouseWorldX);
-                    var mouseInfluence = 0;
-                    if (distToMouse < 250) {
-                        var influenceScale = (250 - distToMouse) / 250;
-                        mouseInfluence = Math.sin(x * 0.02 - phase) * (waveAmp * 0.4) * influenceScale;
-                    }
-
-                    var y = targetCenterY + (yOffset + yOffset2 + mouseInfluence) * e;
-                    ctx.lineTo(x, y);
-                }
-            }
-            
-            ctx.strokeStyle = colors[i];
-            ctx.lineWidth = i === 2 ? 2.2 : 1.5;
-            ctx.globalAlpha = i === 2 ? 0.35 : 0.25;
-            
-            if (i === 2) {
-                ctx.shadowBlur = 18;
-                ctx.shadowColor = colors[i];
-            } else {
-                ctx.shadowBlur = 0;
-            }
-            
-            ctx.stroke();
-        }
-        ctx.shadowBlur = 0; // Reset
-        ctx.globalAlpha = 1.0;
 
         // ── Draw Vignette ──
         var vigTop = ctx.createLinearGradient(0, 0, 0, H * 0.18);
@@ -853,6 +895,11 @@ function initFeatureCardGlow() {
     const speed = 0.5; // scrolling speed in pixels per frame
     let isIntersecting = false;
     let rafId = null;
+    let halfWidth = marquee.scrollWidth / 2;
+
+    window.addEventListener('resize', () => {
+        halfWidth = marquee.scrollWidth / 2;
+    }, { passive: true });
 
     function startLoop() {
         if (!rafId && isIntersecting && !isDragging) {
@@ -910,7 +957,6 @@ function initFeatureCardGlow() {
         x = startScrollX + dx;
         
         // Wrap x immediately during dragging so wrapping is seamless
-        const halfWidth = marquee.scrollWidth / 2;
         if (halfWidth > 0) {
             while (x > 0) x -= halfWidth;
             while (x < -halfWidth) x += halfWidth;
@@ -936,7 +982,6 @@ function initFeatureCardGlow() {
             return;
         }
         x -= speed;
-        const halfWidth = marquee.scrollWidth / 2;
         if (halfWidth > 0 && x < -halfWidth) {
             x += halfWidth;
         }
@@ -1721,11 +1766,25 @@ function initScrollProgress() {
     const progressBar = document.getElementById('scroll-progress');
     if (!progressBar) return;
     
+    if (window.CSS && window.CSS.supports && window.CSS.supports('animation-timeline', 'scroll()')) {
+        progressBar.style.width = '100%';
+        return;
+    }
+    
+    progressBar.style.width = '100%';
+    progressBar.style.transformOrigin = '0 50%';
+    progressBar.style.transform = 'scaleX(0)';
+    
+    let docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    
+    window.addEventListener('resize', () => {
+        docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    }, { passive: true });
+    
     function updateProgress() {
         const scrollTop = window.scrollY;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
         const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-        progressBar.style.width = `${Math.min(progress, 100)}%`;
+        progressBar.style.transform = `scaleX(${Math.min(progress / 100, 1)})`;
     }
     
     window.addEventListener('scroll', updateProgress, { passive: true });
@@ -1886,6 +1945,11 @@ function initCursorMarquee() {
     const speed = 0.5; // scrolling speed in pixels per frame
     let isIntersecting = false;
     let rafId = null;
+    let halfWidth = marquee.scrollWidth / 2;
+
+    window.addEventListener('resize', () => {
+        halfWidth = marquee.scrollWidth / 2;
+    }, { passive: true });
 
     function startLoop() {
         if (!rafId && isIntersecting && !isDragging) {
@@ -1941,7 +2005,6 @@ function initCursorMarquee() {
         x = startScrollX + dx;
         
         // Wrap x immediately during dragging so wrapping is seamless
-        const halfWidth = marquee.scrollWidth / 2;
         if (halfWidth > 0) {
             while (x > 0) x -= halfWidth;
             while (x < -halfWidth) x += halfWidth;
@@ -1967,7 +2030,6 @@ function initCursorMarquee() {
             return;
         }
         x -= speed;
-        const halfWidth = marquee.scrollWidth / 2;
         if (halfWidth > 0 && x < -halfWidth) {
             x += halfWidth;
         }

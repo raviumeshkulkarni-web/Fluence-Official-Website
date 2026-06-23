@@ -68,6 +68,34 @@
     padding: 0;
 }
 
+/* Accessibility: visually hidden skip link */
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    z-index: 9999;
+}
+.skip-link:focus {
+    left: 16px;
+    top: 16px;
+    width: auto;
+    height: auto;
+    padding: 12px 24px;
+    background: var(--color-surface-elevated, #1a1a22);
+    color: var(--color-text-primary, #F4F4F5);
+    border: 1px solid var(--color-border-accent, rgba(168, 85, 247, 0.25));
+    border-radius: 8px;
+    font-family: var(--font-body, 'Hanken Grotesk', sans-serif);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    outline: none;
+    box-shadow: var(--shadow-glass, 0 8px 32px rgba(0,0,0,0.6));
+}
+
 @media (max-width: 768px) {
     html, body {
         overflow-x: clip;
@@ -554,44 +582,13 @@ main {
     mask-image: radial-gradient(ellipse 48% 48% at 50% 50%, black 50%, transparent 100%);
 }
 
-/* Hero Pulse Rings (SVG sound wave ripples) */
-.hero-pulse-rings {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 700px;
-    height: 700px;
-    pointer-events: none;
-    z-index: 1;
-    overflow: visible;
-}
+/* Hero Pulse Rings — removed for zen minimalism */
 
-.hero-pulse-rings circle {
-    fill: none;
-    stroke: var(--primary-amethyst);
-    stroke-width: 1;
-    transform-origin: center;
-    animation: pulse-ring-expand 5s ease-out infinite;
-    opacity: 0;
-}
+/* Float Shapes — removed for zen minimalism */
 
-.hero-pulse-rings circle:nth-child(1) { animation-delay: 0s;    r: 80px;  cx: 350; cy: 350; }
-.hero-pulse-rings circle:nth-child(2) { animation-delay: 1s;    r: 130px; cx: 350; cy: 350; stroke: rgba(0,242,254,0.7); }
-.hero-pulse-rings circle:nth-child(3) { animation-delay: 2s;    r: 185px; cx: 350; cy: 350; }
-.hero-pulse-rings circle:nth-child(4) { animation-delay: 3s;    r: 245px; cx: 350; cy: 350; stroke: rgba(0,242,254,0.5); }
-.hero-pulse-rings circle:nth-child(5) { animation-delay: 4s;    r: 310px; cx: 350; cy: 350; }
+/* Animated Gradient Background — removed for zen minimalism */
 
-@keyframes pulse-ring-expand {
-    0%   { opacity: 0.55; transform: scale(0.35); }
-    60%  { opacity: 0.15; }
-    100% { opacity: 0;    transform: scale(1.1); }
-}
-
-.hero > *:not(.hero-noise):not(.hero-pulse-rings):not(.float-shape) {
-    position: relative;
-    z-index: 2;
-}
+/* Page Transition Overlay — removed for zen minimalism */
 
 /* Hero badge group */
 .hero-badges {
@@ -3021,11 +3018,165 @@ footer {
     border-bottom-color: var(--text-white);
 }
 
+/* Premium Editorial Setup Layout */
+.setup-editorial-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    width: 100%;
+    align-items: center;
+}
+
+.setup-instructions {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.setup-instructions--centered {
+    max-width: 680px;
+    margin: 0 auto;
+    width: 100%;
+    gap: 28px;
+}
+
+.setup-instructions-step {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.setup-step-number {
+    font-family: var(--font-heading);
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--text-muted);
+    opacity: 0.3;
+    flex-shrink: 0;
+    width: 52px;
+    text-align: right;
+}
+
+.setup-step-body {
+    flex-grow: 1;
+    padding-top: 4px;
+}
+
+.setup-step-body h3 {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-white);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+}
+
+.setup-step-body p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+.setup-step-body code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--color-teal-light);
+    background: rgba(0, 242, 254, 0.06);
+    border: 1px solid rgba(0, 242, 254, 0.12);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.setup-step-body kbd {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-white);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.setup-step-body a {
+    color: var(--color-teal);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(0, 242, 254, 0.4);
+    transition: border-bottom-color 0.2s, color 0.2s;
+}
+
+.setup-step-body a:hover {
+    color: var(--text-white);
+    border-bottom-color: var(--text-white);
+}
+
+.setup-demo-frame {
+    position: relative;
+    width: 100%;
+}
+
+.setup-demo-frame::before {
+    content: '';
+    position: absolute;
+    inset: -20px;
+    background: radial-gradient(circle at center, rgba(168, 85, 247, 0.12) 0%, rgba(0, 242, 254, 0.06) 40%, transparent 70%);
+    filter: blur(40px);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.setup-demo-device {
+    width: 100%;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(12, 12, 16, 0.85);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.setup-demo-device img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.setup-demo-label {
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    background: var(--color-bg);
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    white-space: nowrap;
+}
+
 /* Extra Responsive Adjustments */
 @media (max-width: 1024px) {
     /* Stack setup layout vertically */
-    .setup-layout-grid {
+    .setup-layout-grid,
+    .setup-editorial-grid {
         grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .setup-instructions {
+        order: 2;
+    }
+    
+    .setup-demo-frame {
+        order: 1;
     }
 }
 
@@ -3041,6 +3192,15 @@ footer {
     }
     .faq-item summary {
         font-size: 15px;
+    }
+    
+    .setup-step-number {
+        font-size: 32px;
+        width: 40px;
+    }
+    
+    .setup-instructions-step {
+        gap: 16px;
     }
 }
 @media (max-width: 480px) {
@@ -5573,162 +5733,15 @@ select.wizard-input {
     }
 }
 
-/* ==========================================================================
-   ENHANCEMENT 1: Scroll Progress Bar
-   ========================================================================== */
-.scroll-progress-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 0%;
-    height: 3px;
-    background: linear-gradient(90deg, var(--color-violet), var(--color-teal));
-    z-index: 200;
-    transition: transform 0.1s linear;
-    box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
-}
+/* Scroll progress bar — removed for zen minimalism */
 
-@media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: scroll()) {
-        @keyframes grow-progress {
-            from { transform: scaleX(0); }
-            to { transform: scaleX(1); }
-        }
+/* Hero entrance animations — removed for zen minimalism */
 
-        .scroll-progress-bar {
-            width: 100% !important;
-            transform-origin: 0 50%;
-            animation: grow-progress auto linear;
-            animation-timeline: scroll();
-            transition: none !important;
-        }
-    }
-}
+/* Number counter animation — removed for zen minimalism */
 
-.scroll-progress-bar::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 60px;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6));
-    filter: blur(2px);
-}
+/* Magnetic buttons — removed for zen minimalism */
 
-/* ==========================================================================
-   ENHANCEMENT 2: Staggered Hero Entrance Animation
-   ========================================================================== */
-.hero-badge-animated {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: hero-stagger-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.hero-badges-animated {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: hero-stagger-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.05s forwards;
-}
-
-.hero-eyebrow-animated {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: hero-stagger-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
-}
-
-.hero-h1-animated {
-    opacity: 0;
-    transform: translateY(24px);
-    animation: hero-stagger-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
-}
-
-.hero-p-animated {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: hero-stagger-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards;
-}
-
-.hero-proof-animated {
-    opacity: 0;
-    transform: translateY(16px);
-    animation: hero-stagger-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
-}
-
-.hero-ctas-animated {
-    opacity: 0;
-    transform: translateY(16px);
-    animation: hero-stagger-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.55s forwards;
-}
-
-.hero-product-stage-animated {
-    opacity: 0;
-    transform: translateY(32px) scale(0.95);
-    animation: hero-stagger-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
-}
-
-@keyframes hero-stagger-in {
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-/* ==========================================================================
-   ENHANCEMENT 4: Number Counter Animation
-   ========================================================================== */
-.counter-wrapper {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0.05em;
-}
-
-.counter-value {
-    font-variant-numeric: tabular-nums;
-    display: inline-block;
-    overflow: hidden;
-}
-
-.counter-value.animating {
-    animation: counter-catch 0.1s steps(1) forwards;
-}
-
-@keyframes counter-catch {
-    from { opacity: 0.7; }
-    to { opacity: 1; }
-}
-
-.counter-suffix {
-    display: inline-block;
-}
-
-/* ==========================================================================
-   ENHANCEMENT 5: Magnetic Buttons
-   ========================================================================== */
-[data-magnetic] {
-    will-change: transform;
-}
-
-/* ==========================================================================
-   ENHANCEMENT 6: Text Split Animation (Word by Word Reveal)
-   ========================================================================== */
-.split-text {
-    display: inline;
-}
-
-.split-word {
-    display: inline-block;
-    opacity: 0;
-    filter: blur(8px);
-    transform: translateY(8px);
-    transition: opacity 0.5s ease, filter 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.split-word.revealed {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateY(0);
-}
+/* Text split animation — removed for zen minimalism */
 
 .text-gradient-animated {
     background: linear-gradient(135deg, var(--color-violet), var(--color-teal), var(--color-violet-light));
@@ -5744,223 +5757,21 @@ select.wizard-input {
     50% { background-position: 100% 50%; }
 }
 
-/* ==========================================================================
-   ENHANCEMENT 7: Parallax Scroll Layers
-   ========================================================================== */
-.parallax-layer {
-    will-change: transform;
-    transition: transform 0.1s linear;
-}
+/* Parallax layers — removed for zen minimalism */
 
-.parallax-layer-slow {
-    will-change: transform;
-    transition: transform 0.15s linear;
-}
+/* Enhanced hover micro-interactions — simplified for zen minimalism */
 
-.parallax-layer-fast {
-    will-change: transform;
-    transition: transform 0.08s linear;
-}
+/* Logo hover — simplified */
 
-/* ==========================================================================
-   ENHANCEMENT 8: Enhanced Hover Micro-interactions
-   ========================================================================== */
-
-/* Button press feedback */
-.btn-primary, .btn-secondary, .btn-nav-download {
-    position: relative;
-    overflow: hidden;
-}
-
-.btn-primary::before, .btn-secondary::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.btn-primary:hover::before, .btn-secondary:hover::before {
-    opacity: 1;
-}
-
-.btn-primary:active, .btn-secondary:active {
-    transform: scale(0.97);
-}
-
-.btn-nav-download:active {
-    transform: translateY(-1px) scale(0.98);
-}
-
-/* Logo hover effect */
 .logo-link:hover .logo-text {
     letter-spacing: -0.02em;
 }
 
-.logo-link:hover svg circle {
-    animation: logo-spin 0.8s ease;
-}
+/* Animated gradient background — removed for zen minimalism */
 
-@keyframes logo-spin {
-    0% { stroke-dashoffset: 0; }
-    100% { stroke-dashoffset: 100; }
-}
+/* Floating ambient elements — removed for zen minimalism */
 
-/* ==========================================================================
-   ENHANCEMENT 9: Animated Gradient Backgrounds
-   ========================================================================== */
-.gradient-bg-animate {
-    position: relative;
-}
-
-.gradient-bg-animate::before {
-    content: '';
-    position: absolute;
-    inset: -25%;
-    background: radial-gradient(circle at 30% 40%, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 70% 60%, rgba(0, 242, 254, 0.05) 0%, transparent 45%);
-    animation: gradient-orb 12s ease-in-out infinite;
-    z-index: -1;
-    pointer-events: none;
-    -webkit-mask-image: radial-gradient(ellipse 45% 45% at 50% 50%, black 20%, transparent 100%);
-    mask-image: radial-gradient(ellipse 45% 45% at 50% 50%, black 20%, transparent 100%);
-}
-
-@keyframes gradient-orb {
-    0%, 100% {
-        transform: translate(0, 0) scale(1);
-        opacity: 0.6;
-    }
-    25% {
-        transform: translate(5%, -3%) scale(1.05);
-        opacity: 0.8;
-    }
-    50% {
-        transform: translate(-3%, 5%) scale(0.95);
-        opacity: 0.5;
-    }
-    75% {
-        transform: translate(-5%, -2%) scale(1.02);
-        opacity: 0.7;
-    }
-}
-
-/* ==========================================================================
-   ENHANCEMENT 10: Floating Ambient Elements
-   ========================================================================== */
-.float-shape {
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
-    opacity: 0.15;
-    animation: float-bob 6s ease-in-out infinite;
-    grid-column: 1 / -1;
-    grid-row: 1 / -1;
-}
-
-.float-shape-1 {
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, transparent 70%);
-    top: 10%;
-    right: -100px;
-    animation-delay: 0s;
-}
-
-.float-shape-2 {
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(0, 242, 254, 0.2) 0%, transparent 70%);
-    bottom: 20%;
-    left: -60px;
-    animation-delay: -2s;
-}
-
-.float-shape-3 {
-    width: 150px;
-    height: 150px;
-    background: radial-gradient(circle, rgba(168, 85, 247, 0.25) 0%, transparent 70%);
-    top: 50%;
-    right: 10%;
-    animation-delay: -4s;
-}
-
-@keyframes float-bob {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    33% { transform: translateY(-15px) rotate(2deg); }
-    66% { transform: translateY(10px) rotate(-1deg); }
-}
-
-/* ==========================================================================
-   ENHANCEMENT 11: Page Transition Overlay
-   ========================================================================== */
-.page-transition-overlay {
-    position: fixed;
-    inset: 0;
-    background: var(--color-bg);
-    z-index: 10000;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-}
-
-.page-transition-overlay.active {
-    opacity: 1;
-    pointer-events: all;
-}
-
-/* ==========================================================================
-   ENHANCEMENT 12: Loading Skeleton Shimmer
-   ========================================================================== */
-.skeleton {
-    position: relative;
-    overflow: hidden;
-    background: var(--color-surface);
-    border-radius: 8px;
-}
-
-.skeleton::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.04) 50%,
-        transparent 100%
-    );
-    animation: skeleton-shimmer 1.5s ease-in-out infinite;
-}
-
-@keyframes skeleton-shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
-
-.skeleton-text {
-    height: 1em;
-    margin: 0.5em 0;
-}
-
-.skeleton-text.short { width: 60%; }
-.skeleton-text.medium { width: 80%; }
-.skeleton-text.full { width: 100%; }
-
-.skeleton-heading {
-    height: 2em;
-    width: 70%;
-    margin-bottom: 1em;
-}
-
-.skeleton-image {
-    width: 100%;
-    aspect-ratio: 16/9;
-}
-
-/* ==========================================================================
-   ENHANCEMENT 13: 3D Tilt Card Effect
-   ========================================================================== */
+/* 3D tilt card — removed for zen minimalism (keep perspective only) */
 .tilt-card {
     perspective: 1000px;
     transform-style: preserve-3d;
@@ -5971,76 +5782,9 @@ select.wizard-input {
     transform-style: preserve-3d;
 }
 
-.tilt-card:hover .tilt-card-inner {
-    transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
-}
+/* glass-panel-3d — removed for zen minimalism */
 
-.tilt-card-face {
-    backface-visibility: hidden;
-    transform-style: preserve-3d;
-}
-
-.tilt-card-back {
-    transform: rotateY(180deg);
-}
-
-/* ==========================================================================
-   Enhanced Glass Panel with 3D depth
-   ========================================================================== */
-.glass-panel-3d {
-    transform-style: preserve-3d;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
-}
-
-.glass-panel-3d::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.1) 0%,
-        transparent 50%
-    );
-    border-radius: inherit;
-    transform: translateZ(1px);
-    pointer-events: none;
-}
-
-.glass-panel-3d::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        225deg,
-        rgba(255, 255, 255, 0.05) 0%,
-        transparent 40%
-    );
-    border-radius: inherit;
-    transform: translateZ(-1px);
-    pointer-events: none;
-}
-
-/* ==========================================================================
-   Enhanced Reveal Animations with Stagger
-   ========================================================================== */
-.stagger-children > * {
-    opacity: 0;
-    transform: translateY(24px);
-}
-
-.stagger-children.animate > *:nth-child(1) { animation: stagger-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s forwards; }
-.stagger-children.animate > *:nth-child(2) { animation: stagger-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.12s forwards; }
-.stagger-children.animate > *:nth-child(3) { animation: stagger-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.19s forwards; }
-.stagger-children.animate > *:nth-child(4) { animation: stagger-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.26s forwards; }
-.stagger-children.animate > *:nth-child(5) { animation: stagger-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.33s forwards; }
-.stagger-children.animate > *:nth-child(6) { animation: stagger-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.40s forwards; }
-
-@keyframes stagger-in {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+/* Stagger children animation — removed for zen minimalism */
 
 /* ==========================================================================
    Reduced Motion Compliance for All Animations
@@ -6082,11 +5826,18 @@ select.wizard-input {
     }
 }
 
-/* ==========================================================================
-   ENHANCEMENT 3: 12 Animation Upgrades
-   ========================================================================== */
+/* Section divider shimmer — removed for zen minimalism */
 
-/* #2 — Image hover zoom on feature shots */
+/* Custom scrollbar — removed for zen minimalism */
+
+/* Fixed ambient background aurora orbs — removed (HTML elements deleted) */
+
+/* Functional: smooth scroll */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Functional: image hover zoom on feature shots */
 .feature-shot img {
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -6094,44 +5845,28 @@ select.wizard-input {
     transform: scale(1.05);
 }
 
-/* #3 — Toast slide-in for #save-status */
-#save-status {
+/* Functional: bar value text reveal */
+.bar-value {
     opacity: 0;
-    transform: translateY(-6px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateX(-4px);
+    transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
 }
-#save-status.is-visible {
+.bar-value.bar-value-visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
 }
 
-/* #4 — Active section nav highlight */
-.nav-item.is-active {
-    color: var(--color-primary);
-}
-.nav-item.is-active::after {
-    transform: scaleX(1);
-}
-
-/* #5 — FAQ accordion smooth open */
-.faq-item {
-    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, background 0.3s ease;
-}
-.faq-item[open] > .faq-content {
-    animation: faq-slide-down 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* #6 — Input focus ring (enhanced) */
+/* Functional: input focus ring */
 input:focus,
 textarea:focus,
 select:focus {
     outline: none;
-    border-color: var(--color-primary);
+    border-color: var(--color-primary, var(--primary-amethyst));
     box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* #7 — Back-to-top button */
+/* Functional: back-to-top button */
 .back-to-top {
     position: fixed;
     bottom: 32px;
@@ -6141,7 +5876,7 @@ select:focus {
     border-radius: 50%;
     background: rgba(168, 85, 247, 0.15);
     border: 1px solid rgba(168, 85, 247, 0.3);
-    color: var(--color-primary);
+    color: var(--color-primary, var(--primary-amethyst));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -6167,162 +5902,44 @@ select:focus {
     height: 18px;
 }
 
-/* #8 — Form input label float */
-.form-row label {
-    transition: color 0.2s ease;
+/* Functional: active nav highlight */
+.nav-item.is-active {
+    color: var(--color-primary, var(--primary-amethyst));
 }
-.form-row:focus-within label {
-    color: var(--color-primary);
+.nav-item.is-active::after {
+    transform: scaleX(1);
 }
 
-/* #9 — Footer link hover underline (already exists via .footer a, add transition) */
+/* Functional: FAQ accordion smooth open */
+.faq-item {
+    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, background 0.3s ease;
+}
+.faq-item[open] > .faq-content {
+    animation: faq-slide-down 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Functional: footer link hover */
 .footer a {
     transition: color 0.2s ease, opacity 0.2s ease;
 }
 
-/* #10 — Smooth scroll for anchor links */
-html {
-    scroll-behavior: smooth;
-}
-@media (prefers-reduced-motion: reduce) {
-    html {
-        scroll-behavior: auto;
-    }
-}
-
-/* #11 — Bar value text reveal (paired with bar fill animation) */
-.bar-value {
+/* Functional: toast slide-in for #save-status */
+#save-status {
     opacity: 0;
-    transform: translateX(-4px);
-    transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+    transform: translateY(-6px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
-.bar-value.bar-value-visible {
+#save-status.is-visible {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
 }
 
-/* #12 — Section divider shimmer */
-.section-divider {
-    position: relative;
-    overflow: hidden;
+/* Functional: form input label float */
+.form-row label {
+    transition: color 0.2s ease;
 }
-.section-divider::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(139, 92, 246, 0.6) 50%,
-        transparent 100%
-    );
-    width: 30%;
-    animation: divider-shimmer 6s ease-in-out infinite;
-}
-@keyframes divider-shimmer {
-    0%, 100% { transform: translateX(-100%); opacity: 0; }
-    10%      { opacity: 1; }
-    90%      { opacity: 1; }
-    50%      { transform: translateX(400%); }
-}
-
-/* ==========================================================================
-   ENHANCEMENT 5: A11y — skip link, keyboard focus, screen-reader utilities
-   ========================================================================== */
-
-/* Skip to main content link — appears only when focused via keyboard */
-.skip-link {
-    position: absolute;
-    top: -100px;
-    left: 16px;
-    padding: 10px 16px;
-    background: var(--color-primary);
-    color: #fff;
-    font-weight: 600;
-    border-radius: 8px;
-    z-index: 1000;
-    text-decoration: none;
-    transition: top 0.2s ease;
-}
-.skip-link:focus,
-.skip-link:focus-visible {
-    top: 16px;
-    outline: 2px solid #fff;
-    outline-offset: 2px;
-}
-
-/* Visible keyboard focus for interactive elements (skip mouse users) */
-:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 3px;
-    border-radius: 4px;
-}
-a:focus-visible,
-button:focus-visible,
-.nav-item:focus-visible,
-.btn-primary:focus-visible,
-.btn-secondary:focus-visible {
-    outline-offset: 4px;
-}
-
-/* Visually hidden but available to screen readers */
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
-
-/* Respect reduced motion globally for the a11y additions */
-@media (prefers-reduced-motion: reduce) {
-    .skip-link {
-        transition: none;
-    }
-}
-
-/* ==========================================================================
-   ENHANCEMENT 6: Global visual polish
-   ========================================================================== */
-
-/* Text selection color (consistent across all 4 pages) */
-::selection {
-    background: rgba(168, 85, 247, 0.35);
-    color: #fff;
-}
-::-moz-selection {
-    background: rgba(168, 85, 247, 0.35);
-    color: #fff;
-}
-
-/* Custom scrollbar (Webkit/Chromium) */
-::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-}
-::-webkit-scrollbar-track {
-    background: rgba(10, 10, 15, 0.5);
-}
-::-webkit-scrollbar-thumb {
-    background: rgba(168, 85, 247, 0.35);
-    border-radius: 5px;
-    border: 2px solid transparent;
-    background-clip: padding-box;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(168, 85, 247, 0.55);
-    background-clip: padding-box;
-    border: 2px solid transparent;
-}
-
-/* Fixed ambient background aurora orbs */
-.bg-ambient-aurora,
-.bg-ambient-aurora-grid {
-    display: none;
+.form-row:focus-within label {
+    color: var(--color-primary, var(--primary-amethyst));
 }
 
 /* Print styles */

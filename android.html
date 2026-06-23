@@ -19,20 +19,6 @@
 </head>
 <body>
 
-    <!-- Page Transition Overlay -->
-    <div class="page-transition-overlay" id="page-transition"></div>
-
-    <!-- Scroll Progress Bar -->
-    <div class="scroll-progress-bar" id="scroll-progress"></div>
-
-    <!-- Fixed ambient background aurora orbs -->
-    <div class="bg-ambient-aurora" aria-hidden="true">
-        <div class="bg-ambient-aurora-orb"></div>
-    </div>
-
-    <!-- Premium edge-to-edge mesh gradient -->
-    <div class="bg-ambient-aurora-grid" aria-hidden="true"></div>
-
     <!-- Immersive Stardust Space Field -->
     <canvas id="stardust-canvas" aria-hidden="true"></canvas>
 
@@ -94,10 +80,6 @@
     <main id="main-content">
         <!-- Dedicated Android Hero Section -->
         <section class="hero hero-bg gradient-bg-animate" id="hero-sec" style="padding-bottom: 40px;">
-            <div class="hero-noise"></div>
-            <div class="float-shape float-shape-1"></div>
-            <div class="float-shape float-shape-2"></div>
-
             <h1 class="hero-h1-animated">Tap the bubble. Speak into any <span class="text-gradient text-gradient-animated" style="--gradient-start: #a855f7; --gradient-end: #ff4b4b;">Android</span> text field.</h1>
             <p class="hero-p-animated">Fluence sits beside your keyboard as an accessibility service overlay, records offline or via Groq API, inserts text securely, and stores API keys inside Android's Hardware Keystore with zero telemetry.</p>
             <div class="hero-ctas hero-ctas-animated">
@@ -173,175 +155,45 @@
                 <p>Follow these steps to configure voice typing on your device</p>
             </div>
 
-            <!-- Side-by-side: Quick Install card (left) + Stepper (right) -->
-            <div class="setup-layout-grid">
-
-                <!-- Quick Install & Setup -->
-                <div class="quick-install-box">
-                    <h3>Installation Checklist</h3>
-                    <div class="quick-install-timeline">
-                        <!-- Step 1 -->
-                        <div class="install-step-item">
-                            <div class="install-step-icon-wrapper">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                            </div>
-                            <div class="install-step-content">
-                                <div class="install-step-header">
-                                    <span class="install-step-title">Download APK</span>
-                                    <span class="install-step-badge">Download</span>
-                                </div>
-                                <p class="install-step-desc">Get the latest <code class="premium-badge">.apk</code> package from the official <a href="https://github.com/raviumeshkulkarni-web/Fluence/releases/latest" target="_blank" rel="noopener">GitHub Releases</a>. You may need to authorize "Install from Unknown Sources" on your device.</p>
-                            </div>
-                        </div>
-
-                        <!-- Step 2 -->
-                        <div class="install-step-item">
-                            <div class="install-step-icon-wrapper">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
-                            </div>
-                            <div class="install-step-content">
-                                <div class="install-step-header">
-                                    <span class="install-step-title">Configure Cloud STT</span>
-                                    <span class="install-step-badge">API Key</span>
-                                </div>
-                                <p class="install-step-desc">Paste your Groq API Key inside settings. Cloud dictation utilizes Groq Whisper v3 to achieve instant, sub-second transcription speeds.</p>
-                            </div>
-                        </div>
-
-                        <!-- Step 3 -->
-                        <div class="install-step-item">
-                            <div class="install-step-icon-wrapper">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v6c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 11v6c0 1.66 4 3 9 3s9-1.34 9-3v-6"/></svg>
-                            </div>
-                            <div class="install-step-content">
-                                <div class="install-step-header">
-                                    <span class="install-step-title">Local Engine (Optional)</span>
-                                    <span class="install-step-badge">Offline</span>
-                                </div>
-                                <p class="install-step-desc">If you prefer 100% private offline operation, download the <code class="premium-badge">SenseVoice-Small</code> model weights (~230 MB) directly within settings.</p>
-                            </div>
-                        </div>
-
-                        <!-- Step 4 -->
-                        <div class="install-step-item">
-                            <div class="install-step-icon-wrapper">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                            </div>
-                            <div class="install-step-content">
-                                <div class="install-step-header">
-                                    <span class="install-step-title">Accessibility Service</span>
-                                    <span class="install-step-badge">Permissions</span>
-                                </div>
-                                <p class="install-step-desc">Under system <code class="premium-badge">Settings &rarr; Accessibility</code>, activate the <code class="premium-badge">Fluence Accessibility Service</code>. This is required to detect focus and inject text.</p>
-                            </div>
-                        </div>
-
-                        <!-- Step 5 -->
-                        <div class="install-step-item">
-                            <div class="install-step-icon-wrapper">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
-                            </div>
-                            <div class="install-step-content">
-                                <div class="install-step-header">
-                                    <span class="install-step-title">Overlay Permission</span>
-                                    <span class="install-step-badge">Overlay</span>
-                                </div>
-                                <p class="install-step-desc">Enable "Display over other apps" settings to let the floating voice dictation bubble stay visible and accessible over different keyboards.</p>
-                            </div>
-                        </div>
-
-                        <!-- Step 6 -->
-                        <div class="install-step-item">
-                            <div class="install-step-icon-wrapper">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><path d="M12 6a6 6 0 1 0 6 6 6 6 0 0 0-6-6zm0 10a4 4 0 1 1 4-4 4 4 0 0 1-4 4z"/></svg>
-                            </div>
-                            <div class="install-step-content">
-                                <div class="install-step-header">
-                                    <span class="install-step-title">Dictation Controls</span>
-                                    <span class="install-step-badge">Gestures</span>
-                                </div>
-                                <p class="install-step-desc">
-                                    <kbd class="premium-kbd">Single Tap</kbd> the floating bubble to trigger voice recording. <kbd class="premium-kbd">Long Press</kbd> the bubble to launch the AI rewrite/command input.
-                                </p>
-                            </div>
+            <!-- Clean numbered instructions - centered -->
+                <div class="setup-instructions setup-instructions--centered">
+                    <div class="setup-instructions-step">
+                        <span class="setup-step-number">01</span>
+                        <div class="setup-step-body">
+                            <h3>Download the APK</h3>
+                            <p>Get the latest <code>.apk</code> from <a href="https://github.com/raviumeshkulkarni-web/Fluence/releases/latest" target="_blank" rel="noopener">GitHub Releases</a>. Enable "Install from Unknown Sources" in your device settings if prompted.</p>
                         </div>
                     </div>
-                </div>
 
-                <!-- Setup Wizard Stepper -->
-                <div class="setup-stepper-container">
-                    <!-- Step 1 -->
-                    <div class="setup-step-row">
-                        <div class="setup-timeline-column">
-                            <div class="timeline-circle active" id="step-1-circle">
-                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                            </div>
-                            <div class="timeline-line"></div>
-                        </div>
-                        <div class="setup-card-wrapper">
-                            <div class="setup-card">
-                                <div class="setup-step-num">Step 1</div>
-                                <h3>API Configuration</h3>
-                                <p>Requires a Groq API Key to perform cloud transcription. Skip this step if you choose to download the on-device offline model.</p>
-                                <div class="setup-input-group">
-                                    <label class="setup-input-label" for="groq-key-input">Groq API Key (gsk_...)</label>
-                                    <div class="input-container">
-                                        <input type="password" class="setup-input-field" id="groq-key-input" placeholder="gsk_••••••••••••••••••••••••••••••••" value="gsk_key_demo_placeholder_value_secured_keystore">
-                                        <button class="input-action-btn" id="btn-toggle-key">Show</button>
-                                    </div>
-                                </div>
-                                <div class="setup-card-footer">
-                                    <span class="setup-status-message" id="save-status" style="opacity: 0;">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-cyan);"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                        Key saved securely
-                                    </span>
-                                    <button class="btn-setup-save" id="btn-save-key">Save</button>
-                                </div>
-                            </div>
+                    <div class="setup-instructions-step">
+                        <span class="setup-step-number">02</span>
+                        <div class="setup-step-body">
+                            <h3>Configure Cloud STT</h3>
+                            <p>Paste your Groq API key in settings. Cloud mode uses Groq Whisper v3 for sub-second transcription speeds. <strong>Skip if using offline mode.</strong></p>
                         </div>
                     </div>
-                    
-                    <!-- Step 2 -->
-                    <div class="setup-step-row">
-                        <div class="setup-timeline-column">
-                            <div class="timeline-circle active" id="step-2-circle">
-                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
-                            </div>
-                            <div class="timeline-line"></div>
-                        </div>
-                        <div class="setup-card-wrapper">
-                            <div class="setup-card">
-                                <div class="setup-step-num">Step 2</div>
-                                <h3>Record Audio Access</h3>
-                                <p>Grant microphone access when prompted to allow speech capture.</p>
-                                <div class="setup-card-footer">
-                                    <div></div>
-                                    <button class="btn-setup-status">Granted</button>
-                                </div>
-                            </div>
+
+                    <div class="setup-instructions-step">
+                        <span class="setup-step-number">03</span>
+                        <div class="setup-step-body">
+                            <h3>Enable Offline Mode (Optional)</h3>
+                            <p>For 100% private transcription, download <code>SenseVoice-Small</code> model (~230 MB) in settings. No internet required after setup.</p>
                         </div>
                     </div>
-                    
-                    <!-- Step 3 -->
-                    <div class="setup-step-row">
-                        <div class="setup-timeline-column">
-                            <div class="timeline-circle" id="step-3-circle">
-                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
-                            </div>
-                            <div class="timeline-line"></div>
+
+                    <div class="setup-instructions-step">
+                        <span class="setup-step-number">04</span>
+                        <div class="setup-step-body">
+                            <h3>Enable Accessibility Service</h3>
+                            <p>Grant access under <code>Settings → Accessibility → Fluence</code>. This allows text detection and injection across all apps.</p>
                         </div>
-                        <div class="setup-card-wrapper">
-                            <div class="setup-card">
-                                <div class="setup-step-num">Step 3</div>
-                                <h3>Enable Accessibility Service</h3>
-                                <p>Activate the accessibility service inside Android Settings so Fluence can detect active inputs and insert transcripts automatically.</p>
-                                <div class="setup-card-footer">
-                                    <div class="switch-container">
-                                        <span class="switch-label">Accessibility Service</span>
-                                        <div class="switch-el" id="switch-service"></div>
-                                    </div>
-                                </div>
-                            </div>
+                    </div>
+
+                    <div class="setup-instructions-step">
+                        <span class="setup-step-number">05</span>
+                        <div class="setup-step-body">
+                            <h3>Allow Overlay Permission</h3>
+                            <p>Enable "Display over other apps" so the floating voice bubble stays visible above keyboards and other applications.</p>
                         </div>
                     </div>
                 </div>
